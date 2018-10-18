@@ -1,0 +1,45 @@
+{
+  "name": "app-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --mode development ./src/index.tsx --open",
+    "dev": "webpack --mode development ./src/index.tsx --module-bind js=babel-loader",
+    "prod": "webpack --mode production ./src/index.tsx --module-bind js=babel-loader"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.4.14",
+    "@types/react-router-redux": "^5.0.16",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^1.0.0",
+    "history": "^4.7.2",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.2",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
+    "react-router-redux": "^4.0.8",
+    "redux-devtools-extension": "^2.13.5",
+    "ts-loader": "^5.1.0",
+    "typescript": "^3.0.3",
+    "webpack": "^4.18.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
+  },
+  "dependencies": {
+    "@types/react": "^16.4.14",
+    "@types/react-dom": "^16.0.7",
+    "@types/react-redux": "^6.0.8",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/redux": "^3.6.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1"
+  }
+}
