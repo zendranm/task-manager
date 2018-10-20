@@ -7,7 +7,6 @@ import AboutComponenet from './AboutComponenet';
 const App = () => {
   return (
     <div>
-      <p>React here! Can you believe it?</p>
       <Navigation />
       <Switch>
         <Route exact path="/" component={UserComponent} />

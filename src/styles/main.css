@@ -1,3 +1,60 @@
+/*Common styles*/
 body {
-  background-color: aquamarine;
+  margin: 0%;
+  background-color: #00e6ac;
+  color: white;
+}
+
+.container-fluid {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/*Links*/
+a:link {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+a:active {
+  text-decoration: none;
+  color: white;
+}
+
+/*Navigation*/
+.row-navigation {
+  background-color: #333333;
+}
+
+.col-navigation {
+  padding: 0px;
+}
+
+.div-navigation {
+  height: 40px;
+  text-decoration: none;
+  position: relative;
+}
+
+.div-navigation:hover {
+  background-color: #404040;
+}
+
+.div-navigation p {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
