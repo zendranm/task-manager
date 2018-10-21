@@ -1,39 +1,73 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faListUl, faCogs, faInfoCircle, faHome, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { userModel } from '../models/userModel';
 
-class Navigation extends React.Component {
+library.add(faListUl, faCogs, faInfoCircle, faHome, faUserTie);
+
+interface Props {
+  name: any;
+  age: any;
+  active: any;
+}
+
+class Navigation extends React.Component<Props> {
   render() {
     return (
       <div>
         <Grid fluid>
           <Row className="row-navigation">
-            <Col className="col-navigation" xl={3} lg={3} md={3} xs={3}>
+            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
               <Link to="/">
                 <div className="div-navigation">
-                  <p>Home</p>
+                  <p>
+                    <FontAwesomeIcon icon="home" size="1x" />
+                    &nbsp; Home
+                  </p>
                 </div>
               </Link>
             </Col>
-            <Col className="col-navigation" xl={3} lg={3} md={3} xs={3}>
+            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
               <Link to="/user">
                 <div className="div-navigation">
-                  <p>Your List</p>
+                  <p>
+                    <FontAwesomeIcon icon="list-ul" size="1x" />
+                    &nbsp; Your List
+                  </p>
                 </div>
               </Link>
             </Col>
-            <Col className="col-navigation" xl={3} lg={3} md={3} xs={3}>
+            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
               <Link to="/about">
                 <div className="div-navigation">
-                  <p>About</p>
+                  <p>
+                    <FontAwesomeIcon icon="info-circle" size="1x" />
+                    &nbsp; About
+                  </p>
                 </div>
               </Link>
             </Col>
-            <Col className="col-navigation" xl={3} lg={3} md={3} xs={3}>
+            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
               <Link to="/settings">
                 <div className="div-navigation">
-                  <p>Settings</p>
+                  <p>
+                    <FontAwesomeIcon icon="cogs" size="1x" />
+                    &nbsp; Settings
+                  </p>
+                </div>
+              </Link>
+            </Col>
+            <Col className="col-navigation" xl={4} lg={4} md={4} xs={4}>
+              <Link to="/settings">
+                <div className="div-navigation">
+                  <b>
+                    <FontAwesomeIcon icon="user-tie" size="1x" />
+                    &nbsp; {this.props.name}
+                  </b>
                 </div>
               </Link>
             </Col>
@@ -44,4 +78,12 @@ class Navigation extends React.Component {
   }
 }
 
-export default Navigation;
+function mapPropsToState(state: any): userModel {
+  return {
+    name: state.userReducer.name,
+    age: state.userReducer.age,
+    active: state.userReducer.active,
+  };
+}
+
+export default connect(mapPropsToState)(Navigation);

@@ -12,10 +12,7 @@ import './styles/main.css';
 
 const history = createHistory();
 const middleware = routerMiddleware(history);
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(middleware))
-);
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(middleware)));
 
 ReactDOM.render(
   <Provider store={store}>
