@@ -10,9 +10,10 @@ import { userModel } from '../models/userModel';
 library.add(faListUl, faCogs, faInfoCircle, faHome, faUserTie);
 
 interface Props {
-  name: any;
-  age: any;
-  active: any;
+  id: any;
+  firstName: any;
+  secondName: any;
+  lists: any;
 }
 
 class Navigation extends React.Component<Props> {
@@ -32,7 +33,7 @@ class Navigation extends React.Component<Props> {
               </Link>
             </Col>
             <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
-              <Link to="/user">
+              <Link to="/yourlists">
                 <div className="div-navigation">
                   <p>
                     <FontAwesomeIcon icon="list-ul" size="1x" />
@@ -62,11 +63,13 @@ class Navigation extends React.Component<Props> {
               </Link>
             </Col>
             <Col className="col-navigation" xl={4} lg={4} md={4} xs={4}>
-              <Link to="/settings">
+              <Link to="/user">
                 <div className="div-navigation">
                   <b>
                     <FontAwesomeIcon icon="user-tie" size="1x" />
-                    &nbsp; {this.props.name}
+                    &nbsp; {this.props.firstName}
+                    &nbsp;
+                    {this.props.secondName}
                   </b>
                 </div>
               </Link>
@@ -80,9 +83,10 @@ class Navigation extends React.Component<Props> {
 
 function mapPropsToState(state: any): userModel {
   return {
-    name: state.userReducer.name,
-    age: state.userReducer.age,
-    active: state.userReducer.active,
+    id: state.userReducer.id,
+    firstName: state.userReducer.firstName,
+    secondName: state.userReducer.secondName,
+    lists: state.userReducer.lists,
   };
 }
 

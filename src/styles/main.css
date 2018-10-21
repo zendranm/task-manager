@@ -1,7 +1,7 @@
 /*Common styles*/
 body {
   margin: 0%;
-  background-color: #00e6ac;
+  background-color: #1aa3ff;
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
 }
@@ -43,6 +43,7 @@ a:active {
 
 .div-navigation {
   height: 40px;
+  font-size: 20px;
   text-decoration: none;
   position: relative;
 }
@@ -65,4 +66,22 @@ a:active {
   position: absolute;
   right: 10%;
   transform: translate(0%, -50%);
+}
+
+/*Container*/
+.container {
+  padding: 0%;
+  color: black;
+  background-color: white;
+  width: auto;
+  max-width: 80vw;
+  min-height: 90vh;
+  margin-top: 20px;
+  padding: 0px;
+}
+
+/*ListIcon*/
+.listicon {
+  background-color: dimgrey;
+  margin: 10px;
 }

@@ -1,9 +1,9 @@
-export const changeName = (name: string) => ({
-  type: 'INPUT_NAME',
-  name,
+export const changeName = (firstName: string) => ({
+  type: 'INPUT__FIRST_NAME',
+  firstName,
 });
 
-export const changeAge = (age: number) => ({
-  type: 'INPUT_AGE',
-  age,
+export const changeAge = (secondName: number) => ({
+  type: 'INPUT_SECOND_NAME',
+  secondName,
 });

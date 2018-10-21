@@ -1,7 +1,15 @@
-import { userModel } from '../models/userModel';
+import { userModel } from './userModel';
+import { listModel } from './listModel';
 
 export const initialUser: userModel = {
-  name: 'Tom',
-  age: 22,
-  active: true,
+  id: 0,
+  firstName: 'Tom',
+  secondName: 'Hollow',
+  lists: [{ id: 0, authorId: 0, name: 'lala' }],
+};
+
+export const initialList: listModel = {
+  id: 0,
+  authorId: 0,
+  name: 'New List',
 };

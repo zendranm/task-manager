@@ -1,5 +1,8 @@
+import { listModel } from './listModel';
+
 export interface userModel {
-  name: String;
-  age: number;
-  active: Boolean;
+  id: number;
+  firstName: String;
+  secondName: String;
+  lists: Array<listModel>;
 }
