@@ -77,11 +77,27 @@ a:active {
   max-width: 80vw;
   min-height: 90vh;
   margin-top: 20px;
-  padding: 0px;
+  overflow: auto;
+}
+
+/*YourLists*/
+.yourlists {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 /*ListIcon*/
 .listicon {
   background-color: dimgrey;
-  margin: 10px;
+  width: 45%;
+  min-width: 450px;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.listicon:hover {
+  cursor: pointer;
 }

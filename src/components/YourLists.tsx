@@ -10,11 +10,11 @@ interface Props {
 class YourLists extends React.Component<Props> {
   render() {
     return (
-      <div>
+      <div className="yourlists">
         {this.props.lists.map((item: any) => (
-          <ListIcon key={item.id} name={item.name} />
+          <ListIcon key={item.id} isToAdd={false} name={item.name} />
         ))}
-        <ListIcon name="Add New" />
+        <ListIcon isToAdd={true} name="Add New" />
       </div>
     );
   }
