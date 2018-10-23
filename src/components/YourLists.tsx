@@ -4,6 +4,9 @@ import { userModel } from '../models/userModel';
 import ListIcon from './ListIcon';
 
 interface Props {
+  id: any;
+  firstName: any;
+  secondName: any;
   lists: any;
 }
 

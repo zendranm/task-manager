@@ -89,15 +89,17 @@ a:active {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 /*ListIcon*/
 .listicon {
   background-color: dimgrey;
-  width: calc((var(--container-width) / 2) - 3vw);
+  width: calc((var(--container-width) / 2) - 5vw);
   min-width: 350px;
   margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
   height: 80px;
   padding: 10px;
 }
