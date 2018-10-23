@@ -1,4 +1,8 @@
 /*Common styles*/
+:root {
+  --container-width: 70vw;
+}
+
 body {
   margin: 0%;
   background-color: #1aa3ff;
@@ -74,7 +78,7 @@ a:active {
   color: black;
   background-color: white;
   width: auto;
-  max-width: 80vw;
+  max-width: var(--container-width);
   min-height: 90vh;
   margin-top: 20px;
   overflow: auto;
@@ -85,17 +89,17 @@ a:active {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 /*ListIcon*/
 .listicon {
   background-color: dimgrey;
-  width: 45%;
-  min-width: 450px;
+  width: calc((var(--container-width) / 2) - 3vw);
+  min-width: 350px;
   margin-top: 20px;
-  margin-right: 20px;
-  margin-left: 20px;
+  height: 80px;
+  padding: 10px;
 }
 
 .listicon:hover {

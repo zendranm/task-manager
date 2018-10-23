@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 interface Props {
   isToAdd: Boolean;
@@ -22,7 +23,11 @@ class ListIcon extends React.Component<Props, State> {
         {this.props.isToAdd ? (
           <div>
             {this.state.isBeingModified ? (
-              <div className="listicon">Add something here !!!!!!!</div>
+              <div className="listicon">
+                New list:
+                <br />
+                <input type="text" />
+              </div>
             ) : (
               <div
                 className="listicon"
@@ -46,4 +51,10 @@ class ListIcon extends React.Component<Props, State> {
   }
 }
 
-export default ListIcon;
+function mapPropsToState(state: any) {
+  return {
+    lists: state.userReducer.lists,
+  };
+}
+
+export default connect(mapPropsToState)(ListIcon);
