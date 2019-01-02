@@ -12,12 +12,16 @@ interface Props {
 
 class YourLists extends React.Component<Props> {
   render() {
+    console.log(this.props.lists);
     return (
       <div className="yourlists">
         {this.props.lists.map((item: any) => (
           <ListIcon key={item.id} isToAdd={false} name={item.name} />
         ))}
         <ListIcon isToAdd={true} name="Add New" />
+        {this.props.lists.map((item: any) => {
+          <h1>{item.name}</h1>;
+        })}
       </div>
     );
   }
