@@ -26,12 +26,14 @@ class User extends React.Component<Props> {
         <br />
         Is Active:
         {this.props.id ? <h2>Active</h2> : <h2>Unactive</h2>}
+        <br />
+        Id: {this.props.id}
       </div>
     );
   }
 }
 
-function mapPropsToState(state: any): userModel {
+function mapStateToProps(state: any): userModel {
   return {
     id: state.userReducer.id,
     firstName: state.userReducer.firstName,
@@ -52,6 +54,6 @@ function mapDispatchToProps(dispatch: any) {
 }
 
 export default connect(
-  mapPropsToState,
+  mapStateToProps,
   mapDispatchToProps
 )(User);

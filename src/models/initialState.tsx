@@ -2,7 +2,7 @@ import { userModel } from './userModel';
 import { listModel } from './listModel';
 
 export const initialUser: userModel = {
-  id: 0,
+  id: 99,
   firstName: 'Tom',
   secondName: 'Hollow',
   lists: [

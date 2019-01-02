@@ -9,6 +9,7 @@ interface Props {
   name: String;
   onAddNewList: any;
   lists: Array<any>;
+  userId: Number;
 }
 
 interface State {
@@ -27,11 +28,11 @@ class ListIcon extends React.Component<Props, State> {
   }
 
   onAddList(e: any) {
-    let l = { id: this.props.lists.length, authorId: 6, name: this.state.newListName };
-    let a = this.props.lists.slice();
-    a.push(l);
-    console.log(a);
-    this.props.onAddNewList(a);
+    let newItem = { id: this.props.lists.length, authorId: this.props.userId, name: this.state.newListName };
+    let newList = this.props.lists.slice();
+    newList.push(newItem);
+    this.props.onAddNewList(newList);
+    this.setState({ isBeingModified: false, newListName: 'Some new name' });
   }
 
   render() {
@@ -43,7 +44,11 @@ class ListIcon extends React.Component<Props, State> {
               <div className="listicon">
                 New list:
                 <br />
-                <input type="text" onChange={e => this.setState({ newListName: e.target.value })} />
+                <input
+                  type="text"
+                  onChange={e => this.setState({ newListName: e.target.value })}
+                  placeholder="Some new name"
+                />
                 <br />
                 <button onClick={this.onAddList}>Add</button>
               </div>
@@ -70,9 +75,10 @@ class ListIcon extends React.Component<Props, State> {
   }
 }
 
-function mapPropsToState(state: any) {
+function mapStateToProps(state: any) {
   return {
     lists: state.userReducer.lists,
+    userId: state.userReducer.id,
   };
 }
 
@@ -88,6 +94,6 @@ function mapDispatchToProps(dispatch: any) {
 }
 
 export default connect(
-  mapPropsToState,
+  mapStateToProps,
   mapDispatchToProps
 )(ListIcon);

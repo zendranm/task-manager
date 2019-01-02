@@ -12,7 +12,6 @@ interface Props {
 
 class YourLists extends React.Component<Props> {
   render() {
-    console.log(this.props.lists);
     return (
       <div className="yourlists">
         {this.props.lists.map((item: any) => (
