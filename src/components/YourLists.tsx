@@ -21,6 +21,7 @@ class YourLists extends React.Component<Props> {
         {this.props.lists.map((item: any) => {
           <h1>{item.name}</h1>;
         })}
+        <div className="emptyicon" />
       </div>
     );
   }

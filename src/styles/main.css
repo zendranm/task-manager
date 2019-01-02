@@ -6,6 +6,7 @@
 body {
   margin: 0%;
   background-color: #1aa3ff;
+  background: url('./wood.jpg');
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
 }
@@ -77,6 +78,7 @@ a:active {
   padding: 0%;
   color: black;
   background-color: white;
+  opacity: 0.5;
   width: auto;
   max-width: var(--container-width);
   min-height: 90vh;
@@ -89,18 +91,26 @@ a:active {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-evenly;
 }
 
 /*ListIcon*/
 .listicon {
   background-color: dimgrey;
-  width: calc((var(--container-width) / 2) - 5vw);
+  width: calc((var(--container-width) / 2) - 3vw);
   min-width: 350px;
   margin-top: 20px;
-  margin-right: 20px;
-  margin-left: 20px;
   height: 80px;
+  padding: 10px;
+}
+
+/*EmptyIcon*/
+.emptyicon {
+  background-color: transparent;
+  width: calc((var(--container-width) / 2) - 3vw);
+  min-width: 350px;
+  margin-top: 20px;
+  height: 1px;
   padding: 10px;
 }
 
