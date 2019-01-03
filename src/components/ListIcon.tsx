@@ -89,7 +89,9 @@ class ListIcon extends React.Component<Props, State> {
         ) : (
           <div className="listicon">
             {this.props.name}
-            <FontAwesomeIcon icon="trash-alt" size="1x" color="OrangeRed" />
+            <div className="deleteicon">
+              <FontAwesomeIcon icon="trash-alt" size="1x" />
+            </div>
           </div>
         )}
       </div>

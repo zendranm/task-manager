@@ -110,7 +110,12 @@ a:active {
   padding: 10px;
 }
 
-/*ListIcon*/
+/*DeleteIcon*/
+.deleteicon:hover {
+  color: orangered;
+}
+
+/*NewListIcon*/
 .newlisticon {
   background: url('./paper.jpg');
   background-size: cover;
@@ -135,4 +140,5 @@ a:active {
 
 .listicon:hover {
   cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
