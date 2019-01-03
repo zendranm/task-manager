@@ -5,7 +5,7 @@ import { userModel } from '../models/userModel';
 
 interface Props {
   onNameChange: any;
-  onAgeChange: any;
+  onSecondNameChange: any;
   id: any;
   firstName: any;
   secondName: any;
@@ -20,9 +20,9 @@ class User extends React.Component<Props> {
         <br />
         User Name: {this.props.firstName}
         <br />
-        <input type="text" onChange={this.props.onAgeChange} />
+        <input type="text" onChange={this.props.onSecondNameChange} />
         <br />
-        User Age: {this.props.secondName}
+        User Surname: {this.props.secondName}
         <br />
         Is Active:
         {this.props.id ? <h2>Active</h2> : <h2>Unactive</h2>}
@@ -47,7 +47,7 @@ function mapDispatchToProps(dispatch: any) {
     onNameChange: (event: any) => {
       dispatch(changeName(event.target.value));
     },
-    onAgeChange: (event: any) => {
+    onSecondNameChange: (event: any) => {
       dispatch(changeAge(event.target.value));
     },
   };

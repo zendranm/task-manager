@@ -6,9 +6,9 @@ export const initialUser: userModel = {
   firstName: 'Tom',
   secondName: 'Hollow',
   lists: [
-    { id: 0, authorId: 0, name: 'aaa' },
-    { id: 1, authorId: 1, name: 'bbb' },
-    { id: 2, authorId: 2, name: 'ccc' },
+    { id: 0, authorId: 0, name: 'Home' },
+    { id: 1, authorId: 1, name: 'School' },
+    { id: 2, authorId: 2, name: 'Schoping' },
   ],
 };
 

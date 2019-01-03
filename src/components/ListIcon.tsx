@@ -2,6 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { addNewList } from '../actions/userActions';
 import { changeName } from '../actions/userActions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faTrashAlt);
 
 interface Props {
   onNameChange: any;
@@ -18,6 +23,7 @@ interface State {
 }
 
 class ListIcon extends React.Component<Props, State> {
+  node: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -26,6 +32,20 @@ class ListIcon extends React.Component<Props, State> {
     };
     this.onAddList = this.onAddList.bind(this);
   }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleOutsideClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleOutsideClick, false);
+  }
+
+  handleOutsideClick = (e: any) => {
+    if (!this.node.contains(e.target)) {
+      this.setState({ isBeingModified: false });
+    }
+  };
 
   onAddList(e: any) {
     let newItem = { id: this.props.lists.length, authorId: this.props.userId, name: this.state.newListName };
@@ -37,11 +57,11 @@ class ListIcon extends React.Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <div ref={node => (this.node = node)}>
         {this.props.isToAdd ? (
           <div>
             {this.state.isBeingModified ? (
-              <div className="listicon">
+              <div className="newlisticon">
                 New list:
                 <br />
                 <input
@@ -49,7 +69,6 @@ class ListIcon extends React.Component<Props, State> {
                   onChange={e => this.setState({ newListName: e.target.value })}
                   placeholder="Some new name"
                 />
-                <br />
                 <button onClick={this.onAddList}>Add</button>
               </div>
             ) : (
@@ -68,7 +87,10 @@ class ListIcon extends React.Component<Props, State> {
             )}
           </div>
         ) : (
-          <div className="listicon">{this.props.name}</div>
+          <div className="listicon">
+            {this.props.name}
+            <FontAwesomeIcon icon="trash-alt" size="1x" color="OrangeRed" />
+          </div>
         )}
       </div>
     );
