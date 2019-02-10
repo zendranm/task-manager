@@ -14,3 +14,8 @@ export const addNewList = (newList: Array<listModel>) => ({
   type: 'ADD_NEW_LIST',
   newList,
 });
+
+export const changeLastListId = (newId: Number) => ({
+  type: 'CHANGE_LAST_LIST_ID',
+  newId,
+});

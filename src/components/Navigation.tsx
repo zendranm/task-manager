@@ -87,6 +87,7 @@ function mapPropsToState(state: any): userModel {
     firstName: state.userReducer.firstName,
     secondName: state.userReducer.secondName,
     lists: state.userReducer.lists,
+    lastListId: state.userReducer.lastListId,
   };
 }
 

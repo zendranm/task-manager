@@ -8,6 +8,8 @@ const userReducer = (state = initialUser, action: any) => {
       return { ...state, secondName: action.secondName };
     case 'ADD_NEW_LIST':
       return { ...state, lists: action.newList };
+    case 'CHANGE_LAST_LIST_ID':
+      return { ...state, lastListId: action.newId };
     default:
       return state;
   }
