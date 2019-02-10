@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { userModel } from '../models/userModel';
 import ListIcon from './ListIcon';
 
+import fire from '../../firebase';
+
 interface Props {
   id: any;
   firstName: any;
@@ -12,6 +14,14 @@ interface Props {
 
 class YourLists extends React.Component<Props> {
   render() {
+    let db = fire.firestore();
+    db.collection('Users')
+      .get()
+      .then((querySnapshot: any) => {
+        querySnapshot.forEach((doc: any) => {
+          console.log(doc.data());
+        });
+      });
     return (
       <div className="yourlists">
         {this.props.lists.map((item: any) => (
