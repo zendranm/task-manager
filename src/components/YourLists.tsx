@@ -4,17 +4,26 @@ import { userModel } from '../models/userModel';
 import ListIcon from './ListIcon';
 import { addNewList, changeLastListId } from '../actions/userActions';
 import fire from '../../firebase';
+import { ScaleLoader } from 'react-spinners';
 
 interface Props {
-  id: any;
-  firstName: any;
-  secondName: any;
   lists: any;
   onAddNewList: any;
   onChangeLastListId: any;
 }
 
-class YourLists extends React.Component<Props> {
+interface State {
+  isDataReady: boolean;
+}
+
+class YourLists extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      isDataReady: false,
+    };
+  }
+
   async componentDidMount() {
     let newList: any = new Array();
 
@@ -24,7 +33,7 @@ class YourLists extends React.Component<Props> {
       .get()
       .then((querySnapshot: any) => {
         querySnapshot.forEach((doc: any) => {
-          newList.push({ id: doc.data().ID, authorId: 99, name: doc.data().Name });
+          newList.push({ id: doc.data().ID, name: doc.data().Name });
         });
       });
     this.props.onAddNewList(newList);
@@ -37,21 +46,30 @@ class YourLists extends React.Component<Props> {
       .then((querySnapshot: any) => {
         querySnapshot.forEach((doc: any) => {
           this.props.onChangeLastListId(doc.data().ID);
+          this.setState({ isDataReady: true });
         });
       });
   }
 
   render() {
     return (
-      <div className="yourlists">
-        {this.props.lists.map((item: any) => (
-          <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} />
-        ))}
-        <ListIcon listId={-1} isToAdd={true} name="Add New" />
-        {this.props.lists.map((item: any) => {
-          <h1>{item.name}</h1>;
-        })}
-        <div className="emptyicon" />
+      <div className="listcontainer">
+        {this.state.isDataReady ? (
+          <div className="yourlists">
+            {this.props.lists.map((item: any) => (
+              <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} />
+            ))}
+            <ListIcon listId={-1} isToAdd={true} name="Add New" />
+            {this.props.lists.map((item: any) => {
+              <h1>{item.name}</h1>;
+            })}
+            <div className="emptyicon" />)
+          </div>
+        ) : (
+          <div className="loader">
+            <ScaleLoader height={135} width={10} margin={'10px'} radius={2} color={'#333333'} loading={true} />
+          </div>
+        )}
       </div>
     );
   }
@@ -59,7 +77,6 @@ class YourLists extends React.Component<Props> {
 
 function mapPropsToState(state: any): userModel {
   return {
-    id: state.userReducer.id,
     firstName: state.userReducer.firstName,
     secondName: state.userReducer.secondName,
     lists: state.userReducer.lists,

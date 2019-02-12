@@ -10,10 +10,8 @@ import { userModel } from '../models/userModel';
 library.add(faListUl, faCogs, faInfoCircle, faHome, faUserTie);
 
 interface Props {
-  id: any;
-  firstName: any;
-  secondName: any;
-  lists: any;
+  firstName: string;
+  secondName: string;
 }
 
 class Navigation extends React.Component<Props> {
@@ -83,7 +81,6 @@ class Navigation extends React.Component<Props> {
 
 function mapPropsToState(state: any): userModel {
   return {
-    id: state.userReducer.id,
     firstName: state.userReducer.firstName,
     secondName: state.userReducer.secondName,
     lists: state.userReducer.lists,

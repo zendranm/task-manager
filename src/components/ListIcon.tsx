@@ -10,20 +10,20 @@ import fire from '../../firebase';
 library.add(faTrashAlt);
 
 interface Props {
-  onNameChange: any;
-  isToAdd: Boolean;
-  name: String;
-  onAddNewList: any;
+  isToAdd: boolean;
+  name: string;
   lists: Array<any>;
-  userId: Number;
-  listId: Number;
+  userId: number;
+  listId: number;
   lastListId: number;
+  onNameChange: any;
+  onAddNewList: any;
   onChangeLastListId: any;
 }
 
 interface State {
-  isBeingModified: Boolean;
-  newListName: String;
+  isBeingModified: boolean;
+  newListName: string;
 }
 
 class ListIcon extends React.Component<Props, State> {
@@ -52,7 +52,7 @@ class ListIcon extends React.Component<Props, State> {
     }
   };
 
-  async onAddList(e: any) {
+  onAddList(e: any) {
     let db = fire.firestore();
     db.collection('Lists').add({
       ID: this.props.lastListId + 1,
@@ -65,8 +65,7 @@ class ListIcon extends React.Component<Props, State> {
     this.props.onAddNewList(newList);
     this.setState({ isBeingModified: false, newListName: 'Some new name' });
 
-    let tmp = this.props.lastListId;
-    this.props.onChangeLastListId(tmp + 1);
+    this.props.onChangeLastListId(this.props.lastListId + 1);
   }
 
   onDeleteList(e: any) {

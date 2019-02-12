@@ -6,7 +6,6 @@ import { userModel } from '../models/userModel';
 interface Props {
   onNameChange: any;
   onSecondNameChange: any;
-  id: any;
   firstName: any;
   secondName: any;
   lists: any;
@@ -23,11 +22,6 @@ class User extends React.Component<Props> {
         <input type="text" onChange={this.props.onSecondNameChange} />
         <br />
         User Surname: {this.props.secondName}
-        <br />
-        Is Active:
-        {this.props.id ? <h2>Active</h2> : <h2>Unactive</h2>}
-        <br />
-        Id: {this.props.id}
       </div>
     );
   }
@@ -35,7 +29,6 @@ class User extends React.Component<Props> {
 
 function mapStateToProps(state: any): userModel {
   return {
-    id: state.userReducer.id,
     firstName: state.userReducer.firstName,
     secondName: state.userReducer.secondName,
     lists: state.userReducer.lists,
