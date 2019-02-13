@@ -19,6 +19,7 @@ interface Props {
   onNameChange: any;
   onAddNewList: any;
   onChangeLastListId: any;
+  history: any;
 }
 
 interface State {
@@ -69,7 +70,7 @@ class ListIcon extends React.Component<Props, State> {
     this.props.onChangeLastListId(this.props.lastListId + 1);
   }
 
-  onDeleteList(e: any) {
+  onDeleteList() {
     let db = fire.firestore();
     let item = db.collection('Lists').where('ID', '==', this.props.listId);
 
@@ -140,7 +141,7 @@ class ListIcon extends React.Component<Props, State> {
         ) : (
           <div className="listicon">
             {this.props.name}
-            <div className="deleteicon" onClick={this.onDeleteList}>
+            <div className="deleteicon" onClick={() => this.onDeleteList()}>
               <FontAwesomeIcon icon="trash-alt" size="1x" />
             </div>
           </div>

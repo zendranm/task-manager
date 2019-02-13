@@ -10,6 +10,7 @@ interface Props {
   lists: any;
   onAddNewList: any;
   onChangeLastListId: any;
+  history: any;
 }
 
 interface State {
@@ -57,9 +58,9 @@ class YourLists extends React.Component<Props, State> {
         {this.state.isDataReady ? (
           <div className="yourlists">
             {this.props.lists.map((item: any) => (
-              <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} />
+              <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} history={this.props.history} />
             ))}
-            <ListIcon listId={-1} isToAdd={true} name="Add New" />
+            <ListIcon listId={-1} isToAdd={true} name="Add New" history={this.props.history} />
             {this.props.lists.map((item: any) => {
               <h1>{item.name}</h1>;
             })}

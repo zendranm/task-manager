@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import YourLists from './YourLists';
 import User from './User';
 import About from './About';
+import YourTasks from './YourTasks';
 
 class Container extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class Container extends React.Component {
           <Route exact path="/yourlists" component={YourLists} />
           <Route path="/user" component={User} />
           <Route path="/about" component={About} />
+          <Route exact path="/yourtasks" component={YourTasks} />
         </Switch>
       </div>
     );
