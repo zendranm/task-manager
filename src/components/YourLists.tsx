@@ -63,7 +63,7 @@ class YourLists extends React.Component<Props, State> {
             {this.props.lists.map((item: any) => {
               <h1>{item.name}</h1>;
             })}
-            <div className="emptyicon" />)
+            <div className="emptyicon" />
           </div>
         ) : (
           <div className="loader">

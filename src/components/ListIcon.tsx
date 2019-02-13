@@ -36,6 +36,7 @@ class ListIcon extends React.Component<Props, State> {
     };
     this.onAddList = this.onAddList.bind(this);
     this.onDeleteList = this.onDeleteList.bind(this);
+    this.onEnterClick = this.onEnterClick.bind(this);
   }
 
   componentDidMount() {
@@ -84,7 +85,23 @@ class ListIcon extends React.Component<Props, State> {
     this.props.onAddNewList(newList);
   }
 
+  onEnterClick(input: any, button: any) {
+    input.addEventListener('keyup', function(event: any) {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+        button.click();
+      }
+    });
+  }
+
   render() {
+    var input = document.getElementById('inputtext');
+    var button = document.getElementById('addbutton');
+
+    if (input != null && button != null) {
+      this.onEnterClick(input, button);
+    }
+
     return (
       <div ref={node => (this.node = node)}>
         {this.props.isToAdd ? (
@@ -94,11 +111,16 @@ class ListIcon extends React.Component<Props, State> {
                 New list:
                 <br />
                 <input
+                  id="inputtext"
+                  className="inputtext"
                   type="text"
                   onChange={e => this.setState({ newListName: e.target.value })}
                   placeholder="Some new name"
+                  autoFocus
                 />
-                <button onClick={this.onAddList}>Add</button>
+                <button id="addbutton" className="confirmbutton" onClick={this.onAddList}>
+                  Add
+                </button>
               </div>
             ) : (
               <div
