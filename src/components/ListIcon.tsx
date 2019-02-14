@@ -4,10 +4,10 @@ import { addNewList, changeLastListId } from '../actions/userActions';
 import { changeName } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faCog } from '@fortawesome/free-solid-svg-icons';
 import fire from '../../firebase';
 
-library.add(faTrashAlt);
+library.add(faTrashAlt, faCog);
 
 interface Props {
   isToAdd: boolean;
@@ -140,9 +140,21 @@ class ListIcon extends React.Component<Props, State> {
           </div>
         ) : (
           <div className="listicon">
-            {this.props.name}
-            <div className="deleteicon" onClick={() => this.onDeleteList()}>
-              <FontAwesomeIcon icon="trash-alt" size="1x" />
+            <div
+              className="namecontainer"
+              onClick={() => {
+                this.props.history.push('/yourtasks');
+              }}
+            >
+              {this.props.name}
+            </div>
+            <div className="iconcontainer">
+              <div className="settingsicon">
+                <FontAwesomeIcon icon="cog" size="1x" />
+              </div>
+              <div className="deleteicon" onClick={() => this.onDeleteList()}>
+                <FontAwesomeIcon icon="trash-alt" size="1x" />
+              </div>
             </div>
           </div>
         )}

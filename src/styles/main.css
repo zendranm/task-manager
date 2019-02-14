@@ -106,13 +106,40 @@ a:active {
   width: calc((var(--container-width) / 2) - 3vw);
   min-width: 350px;
   margin-top: 20px;
-  height: 80px;
+  height: 100px;
+}
+
+.namecontainer {
+  width: 100%;
+  padding: 10px;
+}
+
+.iconcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   padding: 10px;
 }
 
 /*DeleteIcon*/
+.deleteicon {
+  transition: 0.3s ease;
+}
+
 .deleteicon:hover {
   color: orangered;
+  transform: scale(1.2, 1.2);
+}
+
+/*SettingsIcon*/
+.settingsicon {
+  transition: 0.3s ease;
+}
+
+.settingsicon:hover {
+  color: #4caf50;
+  transform: scale(1.2, 1.2);
 }
 
 /*NewListIcon*/
@@ -136,7 +163,6 @@ a:active {
   min-width: 350px;
   margin-top: 20px;
   height: 1px;
-  padding: 10px;
 }
 
 /*Loader*/
