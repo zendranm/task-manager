@@ -109,19 +109,21 @@ class ListIcon extends React.Component<Props, State> {
           <div>
             {this.state.isBeingModified ? (
               <div className="newlisticon">
-                New list:
-                <br />
-                <input
-                  id="inputtext"
-                  className="inputtext"
-                  type="text"
-                  onChange={e => this.setState({ newListName: e.target.value })}
-                  placeholder="Some new name"
-                  autoFocus
-                />
-                <button id="addbutton" className="confirmbutton" onClick={this.onAddList}>
-                  Add
-                </button>
+                <div className="namecontainer">
+                  New list:
+                  <br />
+                  <input
+                    id="inputtext"
+                    className="inputtext"
+                    type="text"
+                    onChange={e => this.setState({ newListName: e.target.value })}
+                    placeholder="Some new name"
+                    autoFocus
+                  />
+                  <button id="addbutton" className="confirmbutton" onClick={this.onAddList}>
+                    Add
+                  </button>
+                </div>
               </div>
             ) : (
               <div
@@ -134,7 +136,7 @@ class ListIcon extends React.Component<Props, State> {
                   });
                 }}
               >
-                {this.props.name}
+                <div className="namecontainer">{this.props.name}</div>
               </div>
             )}
           </div>
@@ -143,7 +145,7 @@ class ListIcon extends React.Component<Props, State> {
             <div
               className="namecontainer"
               onClick={() => {
-                this.props.history.push('/yourtasks');
+                this.props.history.push('/yourlists/' + this.props.name);
               }}
             >
               {this.props.name}

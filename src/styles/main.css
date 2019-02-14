@@ -148,11 +148,10 @@ a:active {
   background-size: cover;
   font-family: 'Gochi Hand', cursive;
   font-size: 30px;
-  width: calc((var(--container-width) / 2) - 3vw);
+  width: calc(((var(--container-width) / 2) - 3vw));
   min-width: 350px;
   margin-top: 20px;
-  height: 80px;
-  padding: 10px;
+  height: 100px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 

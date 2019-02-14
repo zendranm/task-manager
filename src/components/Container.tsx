@@ -12,9 +12,9 @@ class Container extends React.Component {
         <Switch>
           <Route exact path="/" component={YourLists} />
           <Route exact path="/yourlists" component={YourLists} />
-          <Route path="/user" component={User} />
-          <Route path="/about" component={About} />
-          <Route exact path="/yourtasks" component={YourTasks} />
+          <Route exact path="/user" component={User} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/yourlists/:name" component={YourTasks} />
         </Switch>
       </div>
     );
