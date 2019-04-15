@@ -1,5 +1,5 @@
 import * as React from 'react';
-import fire from '../../firebase';
+import { getAllTasks } from '../queries/queries';
 
 interface Props {
   match: any;
@@ -7,23 +7,7 @@ interface Props {
 
 class YourTasks extends React.Component<Props> {
   async componentDidMount() {
-    let db = fire.firestore();
-    await db
-      .collection('Lists')
-      .where('Name', '==', this.props.match.params.name)
-      .get()
-      .then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          doc.ref
-            .collection('Tasks')
-            .get()
-            .then((querySnapshot: any) => {
-              querySnapshot.forEach((doc: any) => {
-                console.log(doc.data());
-              });
-            });
-        });
-      });
+    getAllTasks(this.props.match.params.name);
   }
 
   render() {
@@ -37,7 +21,7 @@ class YourTasks extends React.Component<Props> {
         <br />
         3.Dodać alerty przy usuwaninu czy na pewno
         <br />
-        4.Przenieść metody odpytujące baze do jednego pliku
+        4.[DONE] Przenieść metody odpytujące baze do jednego pliku
         <br />
         5.Uporządkować CSSy
         <br />

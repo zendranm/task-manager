@@ -5,7 +5,7 @@ import { changeName } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrashAlt, faCog } from '@fortawesome/free-solid-svg-icons';
-import fire from '../../firebase';
+import { addList, deleteList } from '../queries/queries';
 
 library.add(faTrashAlt, faCog);
 
@@ -55,31 +55,17 @@ class ListIcon extends React.Component<Props, State> {
   };
 
   onAddList(e: any) {
-    let db = fire.firestore();
-    db.collection('Lists').add({
-      ID: this.props.lastListId + 1,
-      Name: this.state.newListName,
-    });
-
+    addList(this.props.lastListId, this.state.newListName);
     let newItem = { id: this.props.lastListId + 1, authorId: this.props.userId, name: this.state.newListName };
     let newList = this.props.lists.slice();
     newList.push(newItem);
     this.props.onAddNewList(newList);
     this.setState({ isBeingModified: false, newListName: 'Some new name' });
-
     this.props.onChangeLastListId(this.props.lastListId + 1);
   }
 
   onDeleteList() {
-    let db = fire.firestore();
-    let item = db.collection('Lists').where('ID', '==', this.props.listId);
-
-    item.get().then(function(querySnapshot: any) {
-      querySnapshot.forEach(function(doc: any) {
-        doc.ref.delete();
-      });
-    });
-
+    deleteList(this.props.listId);
     let newList = this.props.lists.slice();
     let ref = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { userModel } from '../models/userModel';
 import ListIcon from './ListIcon';
 import { addNewList, changeLastListId } from '../actions/userActions';
-import fire from '../../firebase';
 import { ScaleLoader } from 'react-spinners';
+import { getAllLists, getLastId } from '../queries/queries';
 
 interface Props {
   lists: any;
@@ -27,29 +27,12 @@ class YourLists extends React.Component<Props, State> {
 
   async componentDidMount() {
     let newList: any = new Array();
-
-    let db = fire.firestore();
-    await db
-      .collection('Lists')
-      .get()
-      .then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          newList.push({ id: doc.data().ID, name: doc.data().Name });
-        });
-      });
+    getAllLists(newList);
     this.props.onAddNewList(newList);
 
-    await db
-      .collection('Lists')
-      .orderBy('ID', 'desc')
-      .limit(1)
-      .get()
-      .then((querySnapshot: any) => {
-        querySnapshot.forEach((doc: any) => {
-          this.props.onChangeLastListId(doc.data().ID);
-          this.setState({ isDataReady: true });
-        });
-      });
+    let tmp = false;
+    tmp = await getLastId(this.props.onChangeLastListId, tmp);
+    this.setState({ isDataReady: tmp });
   }
 
   render() {
