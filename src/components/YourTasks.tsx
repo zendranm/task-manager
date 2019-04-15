@@ -31,15 +31,17 @@ class YourTasks extends React.Component<Props> {
       <div>
         {this.props.match.params.name} <br />
         Todo: <br />
-        1.Sortować listy przy wczytywaniu po dacie dodania albo parametrze jakimś
+        1.[DONE] Sortować listy przy wczytywaniu po dacie dodania albo parametrze jakimś
         <br />
-        2.Dodać do bazy zadań taski
+        2.[DONE] Dodać do bazy zadań taski
         <br />
         3.Dodać alerty przy usuwaninu czy na pewno
         <br />
         4.Przenieść metody odpytujące baze do jednego pliku
         <br />
         5.Uporządkować CSSy
+        <br />
+        6.Zaimplementować wyświetlanie zadań w liście
       </div>
     );
   }
