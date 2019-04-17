@@ -23,9 +23,7 @@ class YourTasks extends React.Component<Props, State> {
   async componentDidMount() {
     let newList: any = new Array();
     newList = await getAllTasks(this.props.match.params.name);
-    this.setState({ taskList: newList });
-    console.log(this.state.taskList);
-    this.setState({ isDataReady: true });
+    this.setState({ taskList: newList, isDataReady: true });
   }
 
   render() {

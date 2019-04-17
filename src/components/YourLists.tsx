@@ -27,12 +27,10 @@ class YourLists extends React.Component<Props, State> {
 
   async componentDidMount() {
     let newList: any = new Array();
-    getAllLists(newList);
+    newList = await getAllLists();
     this.props.onAddNewList(newList);
-
-    let tmp = false;
-    tmp = await getLastId(this.props.onChangeLastListId, tmp);
-    this.setState({ isDataReady: tmp });
+    await getLastId(this.props.onChangeLastListId);
+    this.setState({ isDataReady: true });
   }
 
   render() {
