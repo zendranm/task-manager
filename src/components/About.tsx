@@ -4,6 +4,19 @@ class About extends React.Component {
   render() {
     return (
       <div>
+        Todo: <br />
+        1.[DONE] Sortować listy przy wczytywaniu po dacie dodania albo parametrze jakimś
+        <br />
+        2.[DONE] Dodać do bazy zadań taski
+        <br />
+        3.Dodać alerty przy usuwaninu czy na pewno
+        <br />
+        4.[DONE] Przenieść metody odpytujące baze do jednego pliku
+        <br />
+        5.Uporządkować CSSy
+        <br />
+        6.Zaimplementować wyświetlanie zadań w liście
+        <br />
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet, purus id luctus facilisis, arcu
         nibh congue mauris, et mollis quam dui ut libero. Pellentesque non purus id nisl mollis sagittis. Quisque
         eleifend ligula non leo rutrum ultrices. Vestibulum dapibus est at turpis luctus rutrum. Fusce in nisl tellus.

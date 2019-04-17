@@ -1,31 +1,46 @@
 import * as React from 'react';
 import { getAllTasks } from '../queries/queries';
+import TaskIcon from './TaskIcon';
 
 interface Props {
   match: any;
 }
 
-class YourTasks extends React.Component<Props> {
+interface State {
+  taskList: any;
+  isDataReady: boolean;
+}
+
+class YourTasks extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      taskList: null,
+      isDataReady: false,
+    };
+  }
+
   async componentDidMount() {
-    getAllTasks(this.props.match.params.name);
+    let newList: any = new Array();
+    newList = await getAllTasks(this.props.match.params.name);
+    this.setState({ taskList: newList });
+    console.log(this.state.taskList);
+    this.setState({ isDataReady: true });
   }
 
   render() {
     return (
       <div>
         {this.props.match.params.name} <br />
-        Todo: <br />
-        1.[DONE] Sortować listy przy wczytywaniu po dacie dodania albo parametrze jakimś
-        <br />
-        2.[DONE] Dodać do bazy zadań taski
-        <br />
-        3.Dodać alerty przy usuwaninu czy na pewno
-        <br />
-        4.[DONE] Przenieść metody odpytujące baze do jednego pliku
-        <br />
-        5.Uporządkować CSSy
-        <br />
-        6.Zaimplementować wyświetlanie zadań w liście
+        {this.state.isDataReady ? (
+          <div>
+            {this.state.taskList.map((item: any) => (
+              <TaskIcon key={item.id} id={item.id} name={item.name} status={true} />
+            ))}
+          </div>
+        ) : (
+          <div>Not ready</div>
+        )}
       </div>
     );
   }
