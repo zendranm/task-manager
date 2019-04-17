@@ -201,3 +201,50 @@ a:active {
   font-size: 18px;
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+.Title {
+  padding: 10px;
+  text-align: center;
+}
+
+.TaskNavBar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-bottom: 2px;
+}
+
+.TaskNavOption {
+  width: calc(var(--container-width) / 3);
+  padding: 10px;
+  background-color: rgb(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+.TaskNavOption:hover {
+  background-color: rgb(255, 255, 255, 0.9);
+}
+
+.TaskIcon {
+  background-color: rgb(255, 255, 255, 0.6);
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+input[type='text'] {
+  width: calc(var(--container-width) - 10px);
+  border: none;
+  border-radius: 5px;
+  height: 30px;
+  padding: 5px;
+  background-color: rgb(255, 255, 255, 0.6);
+}
+
+input[type='text']:focus {
+  background-color: rgb(255, 255, 255);
+}
+
+.AddTaskInput {
+  margin-bottom: 2px;
+  text-align: center;
+}

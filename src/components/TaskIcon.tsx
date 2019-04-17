@@ -9,9 +9,7 @@ interface Props {
 class TaskIcon extends React.Component<Props> {
   render() {
     return (
-      <div>
-        {this.props.id} <br />
-        {this.props.name} <br />
+      <div className="TaskIcon">
         {this.props.name} <br />
       </div>
     );

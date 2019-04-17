@@ -15,7 +15,7 @@ class About extends React.Component {
         <br />
         5.Uporządkować CSSy
         <br />
-        6.Zaimplementować wyświetlanie zadań w liście
+        6.[DONE] Zaimplementować wyświetlanie zadań w liście
         <br />
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet, purus id luctus facilisis, arcu
         nibh congue mauris, et mollis quam dui ut libero. Pellentesque non purus id nisl mollis sagittis. Quisque

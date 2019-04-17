@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { getAllTasks } from '../queries/queries';
 import TaskIcon from './TaskIcon';
+import { ScaleLoader } from 'react-spinners';
 
 interface Props {
   match: any;
@@ -29,15 +30,26 @@ class YourTasks extends React.Component<Props, State> {
   render() {
     return (
       <div>
-        {this.props.match.params.name} <br />
         {this.state.isDataReady ? (
           <div>
-            {this.state.taskList.map((item: any) => (
-              <TaskIcon key={item.id} id={item.id} name={item.name} status={true} />
-            ))}
+            <div className="TaskNavBar">
+              <div className="TaskNavOption">Priority</div>
+              <div className="TaskNavOption">To Do</div>
+              <div className="TaskNavOption">Done</div>
+            </div>
+            <div className="AddTaskInput">
+              <input type="text" />
+            </div>
+            <div>
+              {this.state.taskList.map((item: any) => (
+                <TaskIcon key={item.id} id={item.id} name={item.name} status={true} />
+              ))}
+            </div>
           </div>
         ) : (
-          <div>Not ready</div>
+          <div className="loader">
+            <ScaleLoader height={135} width={10} margin={'10px'} radius={2} color={'#333333'} loading={true} />
+          </div>
         )}
       </div>
     );
