@@ -232,7 +232,7 @@ a:active {
 }
 
 input[type='text'] {
-  width: calc(var(--container-width) - 10px);
+  width: calc(var(--container-width) - 100px);
   border: none;
   border-radius: 5px;
   height: 30px;
@@ -246,5 +246,4 @@ input[type='text']:focus {
 
 .AddTaskInput {
   margin-bottom: 2px;
-  text-align: center;
 }

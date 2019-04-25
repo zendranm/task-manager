@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getAllTasks } from '../queries/queries';
+import { getAllTasks, addTask } from '../queries/queries';
 import TaskIcon from './TaskIcon';
 import { ScaleLoader } from 'react-spinners';
 
@@ -10,6 +10,8 @@ interface Props {
 interface State {
   taskList: any;
   isDataReady: boolean;
+  lastTaskId: number;
+  taskName: string;
 }
 
 class YourTasks extends React.Component<Props, State> {
@@ -18,13 +20,22 @@ class YourTasks extends React.Component<Props, State> {
     this.state = {
       taskList: null,
       isDataReady: false,
+      lastTaskId: 0,
+      taskName: '',
     };
+    this.onAddTask = this.onAddTask.bind(this);
   }
 
   async componentDidMount() {
     let newList: any = new Array();
     newList = await getAllTasks(this.props.match.params.name);
-    this.setState({ taskList: newList, isDataReady: true });
+    this.setState({ taskList: newList, isDataReady: true, lastTaskId: newList[0].id });
+  }
+
+  onAddTask() {
+    let newTask = { ID: this.state.lastTaskId + 1, Name: this.state.taskName, Priority: false, Status: true };
+    addTask(newTask, this.props.match.params.name);
+    this.setState(state => ({ lastTaskId: state.lastTaskId + 1 }));
   }
 
   render() {
@@ -38,7 +49,14 @@ class YourTasks extends React.Component<Props, State> {
               <div className="TaskNavOption">Done</div>
             </div>
             <div className="AddTaskInput">
-              <input type="text" />
+              <input
+                type="text"
+                placeholder="Type your task..."
+                onChange={e => this.setState({ taskName: e.target.value })}
+              />
+              <button id="addbutton" className="confirmbutton" onClick={this.onAddTask}>
+                Add
+              </button>
             </div>
             <div>
               {this.state.taskList.map((item: any) => (

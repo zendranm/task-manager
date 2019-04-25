@@ -62,6 +62,7 @@ export async function getAllTasks(name: string) {
       for (const item of querySnapshot.docs) {
         await item.ref
           .collection('Tasks')
+          .orderBy('ID', 'desc')
           .get()
           .then((querySnapshot: any) => {
             for (const item of querySnapshot.docs) {
@@ -71,4 +72,22 @@ export async function getAllTasks(name: string) {
       }
     });
   return newList;
+}
+
+export function addTask(newTask: any, ListName: string) {
+  let db = fire.firestore();
+
+  db.collection('Lists')
+    .where('Name', '==', ListName)
+    .get()
+    .then(async (querySnapshot: any) => {
+      for (const item of querySnapshot.docs) {
+        await item.ref.collection('Tasks').add({
+          ID: newTask.ID,
+          Name: newTask.Name,
+          Priority: newTask.Priority,
+          Status: newTask.Status,
+        });
+      }
+    });
 }
