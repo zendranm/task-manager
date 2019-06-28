@@ -1,0 +1,28 @@
+@import './Variables.sass';
+
+.navigation-bar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  background-color: $dark-gray;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.navigation-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.navigation-div {
+  padding: 10px;
+  padding-right: 30px;
+  padding-left: 30px;
+}
+
+.navigation-div:hover {
+  background-color: #404040;
+}

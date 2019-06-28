@@ -1,13 +1,13 @@
+import '../styles/Navigation.scss';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Grid, Row, Col } from 'react-flexbox-grid';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListUl, faCogs, faInfoCircle, faHome, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faListUl, faInfoCircle, faHome, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { userModel } from '../models/userModel';
 
-library.add(faListUl, faCogs, faInfoCircle, faHome, faUserTie);
+library.add(faListUl, faInfoCircle, faHome, faUserTie);
 
 interface Props {
   firstName: string;
@@ -18,62 +18,36 @@ class Navigation extends React.Component<Props> {
   render() {
     return (
       <div>
-        <Grid fluid>
-          <Row className="row-navigation">
-            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
-              <Link to="/">
-                <div className="div-navigation">
-                  <p>
-                    <FontAwesomeIcon icon="home" size="1x" />
-                    &nbsp; Home
-                  </p>
-                </div>
-              </Link>
-            </Col>
-            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
-              <Link to="/yourlists">
-                <div className="div-navigation">
-                  <p>
-                    <FontAwesomeIcon icon="list-ul" size="1x" />
-                    &nbsp; Your List
-                  </p>
-                </div>
-              </Link>
-            </Col>
-            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
-              <Link to="/about">
-                <div className="div-navigation">
-                  <p>
-                    <FontAwesomeIcon icon="info-circle" size="1x" />
-                    &nbsp; About
-                  </p>
-                </div>
-              </Link>
-            </Col>
-            <Col className="col-navigation" xl={2} lg={2} md={2} xs={2}>
-              <Link to="/settings">
-                <div className="div-navigation">
-                  <p>
-                    <FontAwesomeIcon icon="cogs" size="1x" />
-                    &nbsp; Settings
-                  </p>
-                </div>
-              </Link>
-            </Col>
-            <Col className="col-navigation" xl={4} lg={4} md={4} xs={4}>
-              <Link to="/user">
-                <div className="div-navigation">
-                  <b>
-                    <FontAwesomeIcon icon="user-tie" size="1x" />
-                    &nbsp; {this.props.firstName}
-                    &nbsp;
-                    {this.props.secondName}
-                  </b>
-                </div>
-              </Link>
-            </Col>
-          </Row>
-        </Grid>
+        <div className="navigation-bar">
+          <div className="navigation-options">
+            <Link to="/">
+              <div className="navigation-div">
+                <FontAwesomeIcon icon="home" size="1x" />
+                &nbsp; Home
+              </div>
+            </Link>
+            <Link to="/yourlists">
+              <div className="navigation-div">
+                <FontAwesomeIcon icon="list-ul" size="1x" />
+                &nbsp; Your List
+              </div>
+            </Link>
+            <Link to="/about">
+              <div className="navigation-div">
+                <FontAwesomeIcon icon="info-circle" size="1x" />
+                &nbsp; About
+              </div>
+            </Link>
+          </div>
+          <Link to="/user">
+            <div className="navigation-div">
+              <FontAwesomeIcon icon="user-tie" size="1x" />
+              &nbsp; {this.props.firstName}
+              &nbsp;
+              {this.props.secondName}
+            </div>
+          </Link>
+        </div>
       </div>
     );
   }

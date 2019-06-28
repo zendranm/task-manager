@@ -6,7 +6,6 @@
 body {
   margin: 0%;
   background-color: #1aa3ff;
-  background: url('./wood.jpg');
   background-size: cover;
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
@@ -96,7 +95,7 @@ a:active {
 
 /*ListIcon*/
 .listicon {
-  background: url('./paper.jpg');
+  background-color: aliceblue;
   background-size: cover;
   display: flex;
   flex-direction: row;
@@ -144,7 +143,7 @@ a:active {
 
 /*NewListIcon*/
 .newlisticon {
-  background: url('./paper.jpg');
+  background-color: aliceblue;
   background-size: cover;
   font-family: 'Gochi Hand', cursive;
   font-size: 30px;
