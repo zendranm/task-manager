@@ -1,15 +1,21 @@
 @import './Variables.sass';
 @import './Navigation.scss';
+@import './Home.scss';
+
+html {
+  height: 100%;
+}
 
 body {
   margin: 0%;
   background-color: $normal-blue;
-  background-size: cover;
+  background: linear-gradient(30deg, $very-light-gray 55%, $normal-gray);
+  background-repeat: no-repeat;
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: $dark-gray;
 }
 
-/*Links*/
+//Links
 a:link {
   text-decoration: none;
   color: white;
@@ -28,4 +34,41 @@ a:hover {
 a:active {
   text-decoration: none;
   color: white;
+}
+
+//Inputs
+input[type='text'],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+input[type='email'],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+
+input[type='password'],
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 15px;
 }
