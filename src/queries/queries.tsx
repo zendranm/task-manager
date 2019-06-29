@@ -1,8 +1,7 @@
-import fire from '../../firebase';
+import { db } from '../firebase/firebase';
 
 export async function getAllLists() {
   let newList: any = new Array();
-  let db = fire.firestore();
 
   await db
     .collection('Lists')
@@ -16,7 +15,7 @@ export async function getAllLists() {
 }
 
 export async function getLastId(onChangeLastListId: any) {
-  let db = fire.firestore();
+  // let db = fire.firestore();
 
   await db
     .collection('Lists')
@@ -31,7 +30,7 @@ export async function getLastId(onChangeLastListId: any) {
 }
 
 export function addList(lastListId: number, newListName: string) {
-  let db = fire.firestore();
+  // let db = fire.firestore();
 
   db.collection('Lists').add({
     ID: lastListId + 1,
@@ -40,7 +39,7 @@ export function addList(lastListId: number, newListName: string) {
 }
 
 export function deleteList(listId: number) {
-  let db = fire.firestore();
+  // let db = fire.firestore();
   let item = db.collection('Lists').where('ID', '==', listId);
 
   item.get().then(function(querySnapshot: any) {
@@ -52,7 +51,7 @@ export function deleteList(listId: number) {
 
 export async function getAllTasks(name: string) {
   let newList: any = new Array();
-  let db = fire.firestore();
+  // let db = fire.firestore();
 
   await db
     .collection('Lists')
@@ -75,7 +74,7 @@ export async function getAllTasks(name: string) {
 }
 
 export function addTask(newTask: any, ListName: string) {
-  let db = fire.firestore();
+  // let db = fire.firestore();
 
   db.collection('Lists')
     .where('Name', '==', ListName)

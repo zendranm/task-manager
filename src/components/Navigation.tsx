@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListUl, faInfoCircle, faHome, faUserTie } from '@fortawesome/free-solid-svg-icons';
-import { userModel } from '../models/userModel';
 
 library.add(faListUl, faInfoCircle, faHome, faUserTie);
 
 interface Props {
   firstName: string;
   secondName: string;
+  authUser: any;
 }
 
 class Navigation extends React.Component<Props> {
@@ -39,21 +39,30 @@ class Navigation extends React.Component<Props> {
               </div>
             </Link>
           </div>
-          <Link to="/user">
-            <div className="navigation-div">
-              <FontAwesomeIcon icon="user-tie" size="1x" />
-              &nbsp; {this.props.firstName}
-              &nbsp;
-              {this.props.secondName}
-            </div>
-          </Link>
+          {this.props.authUser != null ? (
+            <Link to="/user">
+              <div className="navigation-div">
+                <FontAwesomeIcon icon="user-tie" size="1x" />
+                &nbsp; {this.props.firstName}
+                &nbsp;
+                {this.props.secondName}
+              </div>
+            </Link>
+          ) : (
+            <Link to="/signin">
+              <div className="navigation-div">
+                <FontAwesomeIcon icon="user-tie" size="1x" />
+                &nbsp; Sign In
+              </div>
+            </Link>
+          )}
         </div>
       </div>
     );
   }
 }
 
-function mapPropsToState(state: any): userModel {
+function mapPropsToState(state: any) {
   return {
     firstName: state.userReducer.firstName,
     secondName: state.userReducer.secondName,
