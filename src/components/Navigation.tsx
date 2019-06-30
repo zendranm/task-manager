@@ -1,21 +1,28 @@
 import '../styles/Navigation.scss';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { logOut } from '../actions/userActions';
+import { signOut } from '../queries/auth';
 
 library.add(faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt);
 
 interface Props {
+  history: any;
   username: string;
   isLogged: boolean;
   signOut: () => void;
 }
 
 class Navigation extends React.Component<Props> {
+  constructor(props: any) {
+    super(props);
+  }
+
   render() {
     return (
       <div className="navigation">
@@ -23,24 +30,24 @@ class Navigation extends React.Component<Props> {
           <div className="navigation-options">
             {this.props.isLogged == true ? (
               <Link to="/yourlists">
-                <div className="navigation-div">
+                <button className="navigation-button">
                   <FontAwesomeIcon icon="list-ul" size="1x" />
                   &nbsp; Your List
-                </div>
+                </button>
               </Link>
             ) : (
               <Link to="/">
-                <div className="navigation-div">
+                <button className="navigation-button">
                   <FontAwesomeIcon icon="home" size="1x" />
                   &nbsp; Home
-                </div>
+                </button>
               </Link>
             )}
             <Link to="/about">
-              <div className="navigation-div">
+              <button className="navigation-button">
                 <FontAwesomeIcon icon="info-circle" size="1x" />
                 &nbsp; About
-              </div>
+              </button>
             </Link>
           </div>
 
@@ -52,17 +59,23 @@ class Navigation extends React.Component<Props> {
                   &nbsp; {this.props.username}
                 </button>
               </Link>
-              <button className="navigation-button" onClick={this.props.signOut}>
+              <button
+                className="navigation-button"
+                onClick={() => {
+                  signOut();
+                  // this.props.history.push('/');
+                }}
+              >
                 <FontAwesomeIcon icon="sign-out-alt" size="1x" />
                 &nbsp; Log Out
               </button>
             </div>
           ) : (
             <Link to="/signin">
-              <div className="navigation-div">
+              <button className="navigation-button">
                 <FontAwesomeIcon icon="user-tie" size="1x" />
                 &nbsp; Sign In
-              </div>
+              </button>
             </Link>
           )}
         </div>
@@ -87,4 +100,4 @@ function mapDispatchToProps(dispatch: any) {
 export default connect(
   mapPropsToState,
   mapDispatchToProps
-)(Navigation);
+)(withRouter(Navigation));

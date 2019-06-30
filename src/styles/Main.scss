@@ -3,10 +3,6 @@
 @import './Home.scss';
 @import './Signin.scss';
 
-html {
-  height: 100%;
-}
-
 body {
   margin: 0%;
   background-color: $normal-blue;
@@ -14,6 +10,7 @@ body {
   background-repeat: no-repeat;
   font-family: 'Source Sans Pro', sans-serif;
   color: $dark-gray;
+  min-height: 100vh;
 }
 
 //Links

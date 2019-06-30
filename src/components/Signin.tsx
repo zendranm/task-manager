@@ -22,6 +22,8 @@ class Signin extends React.Component<Props, State> {
 
   onSignInClick() {
     signIn(this.state.email, this.state.password);
+    this.props.history.push('/yourlists');
+    this.setState({ email: '', password: '' });
   }
 
   render() {

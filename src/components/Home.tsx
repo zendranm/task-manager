@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { createUser } from '../queries/auth';
+import { withRouter } from 'react-router';
 
-interface Props {}
+interface Props {
+  history: any;
+}
 
 interface State {
   username: string;
@@ -10,7 +13,7 @@ interface State {
 }
 
 class Home extends React.Component<Props, State> {
-  constructor(props: Props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       username: '',
@@ -22,6 +25,8 @@ class Home extends React.Component<Props, State> {
 
   onSubmitClick() {
     createUser(this.state.email, this.state.password);
+    this.props.history.push('/yourlists');
+    this.setState({ username: '', email: '', password: '' });
   }
 
   render() {
@@ -51,4 +56,4 @@ class Home extends React.Component<Props, State> {
   }
 }
 
-export default Home;
+export default withRouter(Home);
