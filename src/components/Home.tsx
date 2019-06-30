@@ -23,10 +23,15 @@ class Home extends React.Component<Props, State> {
     this.onSubmitClick = this.onSubmitClick.bind(this);
   }
 
-  onSubmitClick() {
-    createUser(this.state.email, this.state.password);
-    this.props.history.push('/yourlists');
-    this.setState({ username: '', email: '', password: '' });
+  async onSubmitClick() {
+    const confirmation = await createUser(this.state.email, this.state.password);
+
+    if (confirmation == null) {
+      console.log('error');
+    } else {
+      //Tu dodać wczytywanie do stora emaila (confirmation) i imienia
+      this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
+    }
   }
 
   render() {

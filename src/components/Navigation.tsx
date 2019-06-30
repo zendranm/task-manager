@@ -5,10 +5,17 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faListUl,
+  faInfoCircle,
+  faHome,
+  faUserTie,
+  faSignOutAlt,
+  faSignInAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import { signOut } from '../queries/auth';
 
-library.add(faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt);
+library.add(faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt, faSignInAlt);
 
 interface Props {
   history: any;
@@ -72,7 +79,7 @@ class Navigation extends React.Component<Props> {
           ) : (
             <Link to="/signin">
               <button className="navigation-button">
-                <FontAwesomeIcon icon="user-tie" size="1x" />
+                <FontAwesomeIcon icon="sign-in-alt" size="1x" />
                 &nbsp; Sign In
               </button>
             </Link>

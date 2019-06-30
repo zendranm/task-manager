@@ -20,10 +20,15 @@ class Signin extends React.Component<Props, State> {
     this.onSignInClick = this.onSignInClick.bind(this);
   }
 
-  onSignInClick() {
-    signIn(this.state.email, this.state.password);
-    this.props.history.push('/yourlists');
-    this.setState({ email: '', password: '' });
+  async onSignInClick() {
+    const confirmation = await signIn(this.state.email, this.state.password);
+
+    if (confirmation == null) {
+      console.log('error');
+    } else {
+      //Tu dodać wczytywanie do stora emaila (confirmation) i imienia
+      this.setState({ email: '', password: '' }, () => this.props.history.push('/yourlists'));
+    }
   }
 
   render() {
