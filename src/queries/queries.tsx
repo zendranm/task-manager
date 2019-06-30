@@ -1,4 +1,4 @@
-import { db } from '../firebase/firebase';
+import { db } from '../firebase';
 
 export async function getAllLists() {
   let newList: any = new Array();

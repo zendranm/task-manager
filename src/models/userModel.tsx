@@ -1,8 +1,9 @@
 import { listModel } from './listModel';
 
 export interface userModel {
-  firstName: String;
-  secondName: String;
-  lastListId: number;
+  username: String;
+  email: String;
+  isLogged: boolean;
   lists: Array<listModel>;
+  lastListId: number;
 }

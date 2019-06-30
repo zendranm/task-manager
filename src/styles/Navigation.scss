@@ -1,28 +1,46 @@
 @import './Variables.sass';
+.navigation {
+  font-family: 'Source Sans Pro', sans-serif !important;
 
-.navigation-bar {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  background-color: $dark-gray;
-  font-size: 20px;
-  text-decoration: none;
-}
+  &-bar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    background-color: $dark-gray;
+    font-size: 20px;
+    text-decoration: none;
+  }
 
-.navigation-options {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-}
+  &-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
 
-.navigation-div {
-  padding: 10px;
-  padding-right: 30px;
-  padding-left: 30px;
-}
+  &-div {
+    padding: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    color: white;
+  }
 
-.navigation-div:hover {
-  background-color: #404040;
+  &-button {
+    border: none;
+    outline: none;
+    background-color: $dark-gray;
+    padding: 10px;
+    padding-right: 30px;
+    padding-left: 30px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: 'Source Sans Pro', sans-serif !important;
+  }
+
+  &-div:hover {
+    background-color: #404040;
+  }
 }

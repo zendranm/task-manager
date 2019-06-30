@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { changeName, changeAge } from '../actions/userActions';
-import { userModel } from '../models/userModel';
 
 interface Props {
   onNameChange: any;
   onSecondNameChange: any;
-  firstName: any;
-  secondName: any;
-  lists: any;
+  username: any;
+  email: any;
 }
 
 class User extends React.Component<Props> {
@@ -17,22 +15,20 @@ class User extends React.Component<Props> {
       <div>
         <input type="text" onChange={this.props.onNameChange} />
         <br />
-        User Name: {this.props.firstName}
+        Username: {this.props.username}
         <br />
         <input type="text" onChange={this.props.onSecondNameChange} />
         <br />
-        User Surname: {this.props.secondName}
+        Email: {this.props.email}
       </div>
     );
   }
 }
 
-function mapStateToProps(state: any): userModel {
+function mapStateToProps(state: any) {
   return {
-    firstName: state.userReducer.firstName,
-    secondName: state.userReducer.secondName,
-    lists: state.userReducer.lists,
-    lastListId: state.userReducer.lastListId,
+    username: state.userReducer.username,
+    email: state.userReducer.email,
   };
 }
 

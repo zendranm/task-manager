@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { userModel } from '../models/userModel';
 import ListIcon from './ListIcon';
 import { addNewList, changeLastListId } from '../actions/userActions';
 import { ScaleLoader } from 'react-spinners';
@@ -57,10 +56,8 @@ class YourLists extends React.Component<Props, State> {
   }
 }
 
-function mapPropsToState(state: any): userModel {
+function mapPropsToState(state: any) {
   return {
-    firstName: state.userReducer.firstName,
-    secondName: state.userReducer.secondName,
     lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,
   };

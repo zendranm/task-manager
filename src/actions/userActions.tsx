@@ -1,13 +1,15 @@
 import { listModel } from '../models/listModel';
+import { signOut } from '../queries/auth';
+import { Dispatch } from 'redux';
 
-export const changeName = (firstName: string) => ({
-  type: 'INPUT_FIRST_NAME',
-  firstName,
+export const changeName = (username: string) => ({
+  type: 'CHANGE_USERNAME',
+  username,
 });
 
-export const changeAge = (secondName: number) => ({
-  type: 'INPUT_SECOND_NAME',
-  secondName,
+export const changeAge = (email: string) => ({
+  type: 'CHANGE_EMAIL',
+  email,
 });
 
 export const addNewList = (newList: Array<listModel>) => ({
@@ -19,3 +21,15 @@ export const changeLastListId = (newId: Number) => ({
   type: 'CHANGE_LAST_LIST_ID',
   newId,
 });
+
+export const changeIsLogged = (isLogged: boolean) => ({
+  type: 'CHANGE_IS_LOGGED',
+  isLogged,
+});
+
+export function logOut() {
+  return (dispatch: Dispatch) => {
+    signOut();
+    dispatch(changeIsLogged(false));
+  };
+}

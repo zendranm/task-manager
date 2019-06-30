@@ -2,10 +2,11 @@ import { userModel } from './userModel';
 import { listModel } from './listModel';
 
 export const initialUser: userModel = {
-  firstName: 'Tom',
-  secondName: 'Hollow',
+  username: 'Tom',
+  email: 'Hollow',
   lists: [],
   lastListId: 0,
+  isLogged: false,
 };
 
 export const initialList: listModel = {
