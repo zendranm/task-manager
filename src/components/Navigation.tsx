@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { logOut } from '../actions/userActions';
 import { signOut } from '../queries/auth';
 
 library.add(faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt);
@@ -63,7 +62,7 @@ class Navigation extends React.Component<Props> {
                 className="navigation-button"
                 onClick={() => {
                   signOut();
-                  // this.props.history.push('/');
+                  this.props.history.push('/');
                 }}
               >
                 <FontAwesomeIcon icon="sign-out-alt" size="1x" />
@@ -91,13 +90,4 @@ function mapPropsToState(state: any) {
   };
 }
 
-function mapDispatchToProps(dispatch: any) {
-  return {
-    signOut: () => dispatch(logOut()),
-  };
-}
-
-export default connect(
-  mapPropsToState,
-  mapDispatchToProps
-)(withRouter(Navigation));
+export default connect(mapPropsToState)(withRouter(Navigation));

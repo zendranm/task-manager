@@ -1,6 +1,4 @@
 import { listModel } from '../models/listModel';
-import { signOut } from '../queries/auth';
-import { Dispatch } from 'redux';
 
 export const changeName = (username: string) => ({
   type: 'CHANGE_USERNAME',
@@ -26,10 +24,3 @@ export const changeIsLogged = (isLogged: boolean) => ({
   type: 'CHANGE_IS_LOGGED',
   isLogged,
 });
-
-export function logOut() {
-  return (dispatch: Dispatch) => {
-    signOut();
-    dispatch(changeIsLogged(false));
-  };
-}
