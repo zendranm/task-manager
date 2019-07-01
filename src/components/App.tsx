@@ -19,21 +19,9 @@ const withAuth = (
   return connect((state: any) => ({ isLogged: state.userReducer.isLogged }))(Protected);
 };
 
-const withAuth2 = (
-  Component: React.ComponentClass<any, any> | React.StatelessComponent<any>
-): React.ComponentClass<any, any> | React.StatelessComponent<any> => {
-  function Protected({ isLogged, ...rest }: any) {
-    return !isLogged ? <Component {...rest} /> : <Redirect to={{ pathname: '/yourlists' }} />;
-  }
-
-  return connect((state: any) => ({ isLogged: state.userReducer.isLogged }))(Protected);
-};
-
 const ProtectedUser = withAuth(User);
 const ProtectedYourLists = withAuth(YourLists);
 const ProtectedYourTasks = withAuth(YourTasks);
-
-const ProtectedSignin = withAuth2(Signin);
 
 class App extends React.Component {
   render() {
@@ -42,7 +30,7 @@ class App extends React.Component {
         <Navigation />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/signin" component={ProtectedSignin} />
+          <Route exact path="/signin" component={Signin} />
           <Route exact path="/user" component={ProtectedUser} />
           <Route exact path="/yourlists" component={ProtectedYourLists} />
           <Route exact path="/yourlists/:name" component={ProtectedYourTasks} />

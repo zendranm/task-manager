@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
 
 interface Props {
   history: any;
+  isLogged: boolean;
 }
 
 interface State {
@@ -15,6 +17,11 @@ interface State {
 class Home extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
+
+    if (props.isLogged == true) {
+      this.props.history.push('/yourlists');
+    }
+
     this.state = {
       username: '',
       email: '',
@@ -61,4 +68,10 @@ class Home extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(Home);
+function mapPropsToState(state: any) {
+  return {
+    isLogged: state.userReducer.isLogged,
+  };
+}
+
+export default connect(mapPropsToState)(withRouter(Home));

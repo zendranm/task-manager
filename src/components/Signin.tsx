@@ -1,8 +1,11 @@
 import * as React from 'react';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import { signIn } from '../queries/auth';
 
 interface Props {
   history: any;
+  isLogged: boolean;
 }
 
 interface State {
@@ -13,6 +16,12 @@ interface State {
 class Signin extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
+
+    if (props.isLogged == true) {
+      console.log('Przekieruj');
+      this.props.history.push('/yourlists');
+    }
+
     this.state = {
       email: '',
       password: '',
@@ -45,5 +54,11 @@ class Signin extends React.Component<Props, State> {
     );
   }
 }
-import { withRouter } from 'react-router';
-export default withRouter(Signin);
+
+function mapPropsToState(state: any) {
+  return {
+    isLogged: state.userReducer.isLogged,
+  };
+}
+
+export default connect(mapPropsToState)(withRouter(Signin));
