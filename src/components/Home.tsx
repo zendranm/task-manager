@@ -2,10 +2,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
+import { createNewUser } from '../queries/queries';
+import { changeUsername, changeEmail } from '../actions/userActions';
 
 interface Props {
   history: any;
   isLogged: boolean;
+  onUsernameChange: any;
+  onEmailChange: any;
 }
 
 interface State {
@@ -36,7 +40,9 @@ class Home extends React.Component<Props, State> {
     if (confirmation == null) {
       console.log('error');
     } else {
-      //Tu dodać wczytywanie do stora emaila (confirmation) i imienia
+      createNewUser(this.state.username, this.state.email);
+      this.props.onUsernameChange(this.state.username);
+      this.props.onEmailChange(this.state.email);
       this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -51,9 +57,9 @@ class Home extends React.Component<Props, State> {
         </div>
         <div className="home-right-box">
           <div className="home-label">Username</div>
-          <input type="text" onChange={(e: any) => this.setState({ username: e.target.value })} />
+          <input type="text" name="username-form" onChange={(e: any) => this.setState({ username: e.target.value })} />
           <div className="home-label">Email</div>
-          <input type="email" onChange={(e: any) => this.setState({ email: e.target.value })} />
+          <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
           <div className="home-label">Password</div>
           <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
           <div className="home-button-submit" onClick={this.onSubmitClick}>
@@ -68,10 +74,24 @@ class Home extends React.Component<Props, State> {
   }
 }
 
-function mapPropsToState(state: any) {
+function mapStateToProps(state: any) {
   return {
     isLogged: state.userReducer.isLogged,
   };
 }
 
-export default connect(mapPropsToState)(withRouter(Home));
+function mapDispatchToProps(dispatch: any) {
+  return {
+    onUsernameChange: (value: string) => {
+      dispatch(changeUsername(value));
+    },
+    onEmailChange: (value: string) => {
+      dispatch(changeEmail(value));
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Home));

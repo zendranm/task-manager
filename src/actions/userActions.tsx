@@ -1,11 +1,11 @@
 import { listModel } from '../models/listModel';
 
-export const changeName = (username: string) => ({
+export const changeUsername = (username: string) => ({
   type: 'CHANGE_USERNAME',
   username,
 });
 
-export const changeAge = (email: string) => ({
+export const changeEmail = (email: string) => ({
   type: 'CHANGE_EMAIL',
   email,
 });

@@ -2,10 +2,13 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { signIn } from '../queries/auth';
+import { changeUsername, changeEmail } from '../actions/userActions';
 
 interface Props {
   history: any;
   isLogged: boolean;
+  onUsernameChange: any;
+  onEmailChange: any;
 }
 
 interface State {
@@ -18,7 +21,6 @@ class Signin extends React.Component<Props, State> {
     super(props);
 
     if (props.isLogged == true) {
-      console.log('Przekieruj');
       this.props.history.push('/yourlists');
     }
 
@@ -30,12 +32,13 @@ class Signin extends React.Component<Props, State> {
   }
 
   async onSignInClick() {
-    const confirmation = await signIn(this.state.email, this.state.password);
+    const confirmation: any = await signIn(this.state.email, this.state.password);
 
     if (confirmation == null) {
       console.log('error');
     } else {
-      //Tu dodać wczytywanie do stora emaila (confirmation) i imienia
+      this.props.onUsernameChange(confirmation.username);
+      this.props.onEmailChange(this.state.email);
       this.setState({ email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -44,7 +47,7 @@ class Signin extends React.Component<Props, State> {
     return (
       <div className="signin-container">
         <div className="signin-label">Email</div>
-        <input type="email" onChange={(e: any) => this.setState({ email: e.target.value })} />
+        <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
         <div className="signin-label">Password</div>
         <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
         <div className="signin-button-submit" onClick={this.onSignInClick}>
@@ -61,4 +64,18 @@ function mapPropsToState(state: any) {
   };
 }
 
-export default connect(mapPropsToState)(withRouter(Signin));
+function mapDispatchToProps(dispatch: any) {
+  return {
+    onUsernameChange: (value: string) => {
+      dispatch(changeUsername(value));
+    },
+    onEmailChange: (value: string) => {
+      dispatch(changeEmail(value));
+    },
+  };
+}
+
+export default connect(
+  mapPropsToState,
+  mapDispatchToProps
+)(withRouter(Signin));

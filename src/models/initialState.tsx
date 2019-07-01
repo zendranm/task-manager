@@ -2,8 +2,8 @@ import { userModel } from './userModel';
 import { listModel } from './listModel';
 
 export const initialUser: userModel = {
-  username: 'Tom',
-  email: 'Hollow',
+  username: '',
+  email: '',
   lists: [],
   lastListId: 0,
   isLogged: false,

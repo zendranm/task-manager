@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { changeName, changeAge } from '../actions/userActions';
+import { changeUsername, changeEmail } from '../actions/userActions';
 
 interface Props {
   onNameChange: any;
-  onSecondNameChange: any;
+  aa: any;
   username: any;
   email: any;
 }
@@ -17,7 +17,7 @@ class User extends React.Component<Props> {
         <br />
         Username: {this.props.username}
         <br />
-        <input type="text" onChange={this.props.onSecondNameChange} />
+        <input type="text" onChange={this.props.aa} />
         <br />
         Email: {this.props.email}
       </div>
@@ -35,10 +35,10 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     onNameChange: (event: any) => {
-      dispatch(changeName(event.target.value));
+      dispatch(changeUsername(event.target.value));
     },
-    onSecondNameChange: (event: any) => {
-      dispatch(changeAge(event.target.value));
+    aa: (event: any) => {
+      dispatch(changeEmail(event.target.value));
     },
   };
 }
