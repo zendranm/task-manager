@@ -9,38 +9,48 @@ import User from './User';
 import About from './About';
 import YourTasks from './YourTasks';
 
-interface Props {
-  isLogged: boolean;
-}
+const withAuth = (
+  Component: React.ComponentClass<any, any> | React.StatelessComponent<any>
+): React.ComponentClass<any, any> | React.StatelessComponent<any> => {
+  function Protected({ isLogged, ...rest }: any) {
+    return isLogged ? <Component {...rest} /> : <Redirect to={{ pathname: '/signin' }} />;
+  }
 
-const PrivateRoute = ({ component, isAuthenticated, ...rest }: any) => {
-  const routeComponent = (props: any) =>
-    isAuthenticated ? React.createElement(component, props) : <Redirect to={{ pathname: '/signin' }} />;
-  return <Route {...rest} render={routeComponent} />;
+  return connect((state: any) => ({ isLogged: state.userReducer.isLogged }))(Protected);
 };
 
-class App extends React.Component<Props> {
+const withAuth2 = (
+  Component: React.ComponentClass<any, any> | React.StatelessComponent<any>
+): React.ComponentClass<any, any> | React.StatelessComponent<any> => {
+  function Protected({ isLogged, ...rest }: any) {
+    return !isLogged ? <Component {...rest} /> : <Redirect to={{ pathname: '/yourlists' }} />;
+  }
+
+  return connect((state: any) => ({ isLogged: state.userReducer.isLogged }))(Protected);
+};
+
+const ProtectedUser = withAuth(User);
+const ProtectedYourLists = withAuth(YourLists);
+const ProtectedYourTasks = withAuth(YourTasks);
+
+const ProtectedSignin = withAuth2(Signin);
+
+class App extends React.Component {
   render() {
     return (
       <div>
         <Navigation />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/signin" component={Signin} />
-          <PrivateRoute path="/yourlists" isAuthenticated={this.props.isLogged} component={YourLists} />
-          <Route exact path="/user" component={User} />
+          <Route exact path="/signin" component={ProtectedSignin} />
+          <Route exact path="/user" component={ProtectedUser} />
+          <Route exact path="/yourlists" component={ProtectedYourLists} />
+          <Route exact path="/yourlists/:name" component={ProtectedYourTasks} />
           <Route exact path="/about" component={About} />
-          <Route exact path="/yourlists/:name" component={YourTasks} />
         </Switch>
       </div>
     );
   }
 }
 
-function mapPropsToState(state: any) {
-  return {
-    isLogged: state.userReducer.isLogged,
-  };
-}
-
-export default connect(mapPropsToState)(App);
+export default App;
