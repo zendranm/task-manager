@@ -2,13 +2,12 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { signIn } from '../queries/auth';
-import { changeUsername, changeEmail } from '../actions/userActions';
+import { changeUsername } from '../actions/userActions';
 
 interface Props {
   history: any;
   isLogged: boolean;
   onUsernameChange: any;
-  onEmailChange: any;
 }
 
 interface State {
@@ -38,7 +37,6 @@ class Signin extends React.Component<Props, State> {
       console.log('error');
     } else {
       this.props.onUsernameChange(confirmation.username);
-      this.props.onEmailChange(this.state.email);
       this.setState({ email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -58,7 +56,7 @@ class Signin extends React.Component<Props, State> {
   }
 }
 
-function mapPropsToState(state: any) {
+function mapStateToProps(state: any) {
   return {
     isLogged: state.userReducer.isLogged,
   };
@@ -69,13 +67,10 @@ function mapDispatchToProps(dispatch: any) {
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));
     },
-    onEmailChange: (value: string) => {
-      dispatch(changeEmail(value));
-    },
   };
 }
 
 export default connect(
-  mapPropsToState,
+  mapStateToProps,
   mapDispatchToProps
 )(withRouter(Signin));

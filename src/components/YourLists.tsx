@@ -56,7 +56,7 @@ class YourLists extends React.Component<Props, State> {
   }
 }
 
-function mapPropsToState(state: any) {
+function mapStateToProps(state: any) {
   return {
     lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,
@@ -75,6 +75,6 @@ function mapDispatchToProps(dispatch: any) {
 }
 
 export default connect(
-  mapPropsToState,
+  mapStateToProps,
   mapDispatchToProps
 )(YourLists);

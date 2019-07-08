@@ -9,11 +9,25 @@ export async function createUser(email: string, password: string) {
       .then(async (response: any) => {
         resp = response.user.email;
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => console.log('createUser error: ' + error));
     return resp;
   } catch {
     return null;
   }
+}
+
+export async function getUserData(email: string) {
+  let resp = null;
+
+  await db
+    .collection('Users')
+    .where('email', '==', email)
+    .get()
+    .then(function(querySnapshot: any) {
+      resp = querySnapshot.docs[0].data();
+    });
+
+  return resp;
 }
 
 export async function signIn(email: string, password: string) {
@@ -23,15 +37,9 @@ export async function signIn(email: string, password: string) {
     await auth
       .signInWithEmailAndPassword(email, password)
       .then(async (response: any) => {
-        await db
-          .collection('Users')
-          .where('email', '==', response.user.email)
-          .get()
-          .then(function(querySnapshot: any) {
-            resp = querySnapshot.docs[0].data();
-          });
+        resp = await getUserData(response.user.email);
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => console.log('signIn error: ' + error));
     return resp;
   } catch {
     return null;

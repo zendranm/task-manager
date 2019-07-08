@@ -2,6 +2,7 @@ import '../styles/Navigation.scss';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { changeUsername } from '../actions/userActions';
 import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,6 +23,7 @@ interface Props {
   username: string;
   isLogged: boolean;
   signOut: () => void;
+  onUsernameChange: any;
 }
 
 class Navigation extends React.Component<Props> {
@@ -69,6 +71,7 @@ class Navigation extends React.Component<Props> {
                 className="navigation-button"
                 onClick={() => {
                   signOut();
+                  this.props.onUsernameChange('');
                   this.props.history.push('/');
                 }}
               >
@@ -90,11 +93,22 @@ class Navigation extends React.Component<Props> {
   }
 }
 
-function mapPropsToState(state: any) {
+function mapStateToProps(state: any) {
   return {
     username: state.userReducer.username,
     isLogged: state.userReducer.isLogged,
   };
 }
 
-export default connect(mapPropsToState)(withRouter(Navigation));
+function mapDispatchToProps(dispatch: any) {
+  return {
+    onUsernameChange: (value: string) => {
+      dispatch(changeUsername(value));
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Navigation));

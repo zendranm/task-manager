@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
 import { createNewUser } from '../queries/queries';
-import { changeUsername, changeEmail } from '../actions/userActions';
+import { changeUsername } from '../actions/userActions';
 
 interface Props {
   history: any;
   isLogged: boolean;
   onUsernameChange: any;
-  onEmailChange: any;
 }
 
 interface State {
@@ -42,7 +41,6 @@ class Home extends React.Component<Props, State> {
     } else {
       createNewUser(this.state.username, this.state.email);
       this.props.onUsernameChange(this.state.username);
-      this.props.onEmailChange(this.state.email);
       this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -84,9 +82,6 @@ function mapDispatchToProps(dispatch: any) {
   return {
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));
-    },
-    onEmailChange: (value: string) => {
-      dispatch(changeEmail(value));
     },
   };
 }
