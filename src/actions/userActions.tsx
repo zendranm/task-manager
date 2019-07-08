@@ -10,9 +10,9 @@ export const changeEmail = (email: string) => ({
   email,
 });
 
-export const addNewList = (newList: Array<listModel>) => ({
-  type: 'ADD_NEW_LIST',
-  newList,
+export const changeLists = (lists: Array<listModel>) => ({
+  type: 'CHANGE_LISTS',
+  lists,
 });
 
 export const changeLastListId = (newId: Number) => ({

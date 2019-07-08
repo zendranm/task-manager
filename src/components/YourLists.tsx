@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import ListIcon from './ListIcon';
-import { addNewList, changeLastListId } from '../actions/userActions';
-import { ScaleLoader } from 'react-spinners';
+import { changeLists, changeLastListId } from '../actions/userActions';
 import { getAllLists, getLastId } from '../queries/queries';
 
 interface Props {
@@ -47,9 +46,7 @@ class YourLists extends React.Component<Props, State> {
             <div className="emptyicon" />
           </div>
         ) : (
-          <div className="loader">
-            <ScaleLoader height={135} width={10} margin={'10px'} radius={2} color={'#333333'} loading={true} />
-          </div>
+          <div />
         )}
       </div>
     );
@@ -66,7 +63,7 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     onAddNewList: (event: any) => {
-      dispatch(addNewList(event));
+      dispatch(changeLists(event));
     },
     onChangeLastListId: (event: any) => {
       dispatch(changeLastListId(event));

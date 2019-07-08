@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { addNewList, changeLastListId } from '../actions/userActions';
+import { changeLists, changeLastListId } from '../actions/userActions';
 import { changeUsername } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -162,7 +162,7 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: any) {
   return {
     onAddNewList: (event: any) => {
-      dispatch(addNewList(event));
+      dispatch(changeLists(event));
     },
     onNameChange: (event: any) => {
       dispatch(changeUsername(event));
