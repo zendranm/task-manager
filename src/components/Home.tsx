@@ -60,9 +60,9 @@ class Home extends React.Component<Props, State> {
           <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
           <div className="home-label">Password</div>
           <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
-          <div className="home-button-submit" onClick={this.onSubmitClick}>
+          <button className="home-button-submit" onClick={this.onSubmitClick}>
             Sign Up
-          </div>
+          </button>
           <div className="home-terms-label">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus enim magna.
           </div>

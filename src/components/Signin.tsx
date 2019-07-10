@@ -48,9 +48,9 @@ class Signin extends React.Component<Props, State> {
         <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
         <div className="signin-label">Password</div>
         <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
-        <div className="signin-button-submit" onClick={this.onSignInClick}>
+        <button className="signin-button-submit" onClick={this.onSignInClick}>
           Sign In
-        </div>
+        </button>
       </div>
     );
   }

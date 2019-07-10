@@ -2,7 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import ListIcon from './ListIcon';
 import { changeLists, changeLastListId } from '../actions/userActions';
-import { getAllLists, getLastId } from '../queries/queries';
+import { getAllLists } from '../queries/queries';
+// import {  getLastId } from '../queries/queries';
 
 interface Props {
   lists: any;
@@ -27,7 +28,7 @@ class YourLists extends React.Component<Props, State> {
     let newList: any = new Array();
     newList = await getAllLists();
     this.props.onAddNewList(newList);
-    await getLastId(this.props.onChangeLastListId);
+    // await getLastId(this.props.onChangeLastListId);
     this.setState({ isDataReady: true });
   }
 
