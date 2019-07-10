@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import ListIcon from './ListIcon';
+// import ListIcon from './ListIcon';
 import { changeLists, changeLastListId } from '../actions/userActions';
-import { getAllLists } from '../queries/queries';
+// import { getAllLists } from '../queries/queries';
 // import {  getLastId } from '../queries/queries';
 
 interface Props {
-  lists: any;
+  // lists: any;
   onAddNewList: any;
   onChangeLastListId: any;
   history: any;
@@ -25,17 +25,18 @@ class YourLists extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    let newList: any = new Array();
-    newList = await getAllLists();
-    this.props.onAddNewList(newList);
+    // let newList: any = new Array();
+    // newList = await getAllLists();
+    // this.props.onAddNewList(newList);
     // await getLastId(this.props.onChangeLastListId);
-    this.setState({ isDataReady: true });
+    // this.setState({ isDataReady: true });
+    console.log('Mounted');
   }
 
   render() {
     return (
       <div className="listcontainer">
-        {this.state.isDataReady ? (
+        {/* {this.state.isDataReady ? (
           <div className="yourlists">
             {this.props.lists.map((item: any) => (
               <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} history={this.props.history} />
@@ -48,7 +49,7 @@ class YourLists extends React.Component<Props, State> {
           </div>
         ) : (
           <div />
-        )}
+        )} */}
       </div>
     );
   }
@@ -56,7 +57,7 @@ class YourLists extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
-    lists: state.userReducer.lists,
+    // lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,
   };
 }
