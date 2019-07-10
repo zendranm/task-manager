@@ -1,0 +1,9 @@
+.listicon {
+  &-empty {
+    background-color: transparent;
+    width: calc((var(--container-width) / 2) - 3vw);
+    min-width: 350px;
+    margin-top: 20px;
+    height: 1px;
+  }
+}

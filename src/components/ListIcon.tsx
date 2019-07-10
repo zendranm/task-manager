@@ -94,7 +94,7 @@ class ListIcon extends React.Component<Props, State> {
         {this.props.isToAdd ? (
           <div>
             {this.state.isBeingModified ? (
-              <div className="newlisticon">
+              <div className="yourlists-newlisticon">
                 <div className="namecontainer">
                   New list:
                   <br />
@@ -113,7 +113,7 @@ class ListIcon extends React.Component<Props, State> {
               </div>
             ) : (
               <div
-                className="listicon"
+                className="yourlists-listicon"
                 onClick={() => {
                   this.setState(() => {
                     return {
@@ -127,7 +127,7 @@ class ListIcon extends React.Component<Props, State> {
             )}
           </div>
         ) : (
-          <div className="listicon">
+          <div className="yourlists-listicon">
             <div
               className="namecontainer"
               onClick={() => {

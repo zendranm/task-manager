@@ -4,7 +4,7 @@ import ListIcon from './ListIcon';
 import { changeLists, changeLastListId } from '../actions/userActions';
 import { getAllLists } from '../queries/queries';
 import { getLastId } from '../queries/queries';
-
+import { ScaleLoader } from 'react-spinners';
 import { withRouter } from 'react-router';
 
 interface Props {
@@ -36,9 +36,9 @@ class YourLists extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="listcontainer">
+      <div>
         {this.state.isDataReady ? (
-          <div className="yourlists">
+          <div className="yourlists-container">
             {this.props.lists.map((item: any) => (
               <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} history={this.props.history} />
             ))}
@@ -46,10 +46,12 @@ class YourLists extends React.Component<Props, State> {
             {this.props.lists.map((item: any) => {
               <h1>{item.name}</h1>;
             })}
-            <div className="emptyicon" />
+            <div className="yourlists-emptyicon" />
           </div>
         ) : (
-          <div />
+          <div className="spinner">
+            <ScaleLoader height={135} width={10} margin={'10px'} radius={2} color={'#333333'} loading={true} />
+          </div>
         )}
       </div>
     );

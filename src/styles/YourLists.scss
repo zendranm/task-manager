@@ -1,0 +1,42 @@
+.yourlists {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  &-listicon {
+    background-color: aliceblue;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: 'Gochi Hand', cursive;
+    font-size: 30px;
+    width: calc((var(--container-width) / 2) - 3vw);
+    min-width: 350px;
+    margin-top: 20px;
+    height: 100px;
+  }
+
+  &-newlisticon {
+    background-color: aliceblue;
+    background-size: cover;
+    font-family: 'Gochi Hand', cursive;
+    font-size: 30px;
+    width: calc(((var(--container-width) / 2) - 3vw));
+    min-width: 350px;
+    margin-top: 20px;
+    height: 100px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  &-emptyicon {
+    background-color: transparent;
+    width: calc((var(--container-width) / 2) - 3vw);
+    min-width: 350px;
+    margin-top: 20px;
+    height: 1px;
+  }
+}
