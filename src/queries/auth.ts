@@ -46,6 +46,6 @@ export async function signIn(email: string, password: string) {
   }
 }
 
-export function signOut() {
-  auth.signOut();
+export async function signOut() {
+  await auth.signOut();
 }

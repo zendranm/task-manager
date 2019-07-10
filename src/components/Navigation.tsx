@@ -25,6 +25,7 @@ interface Props {
   signOut: () => void;
   onUsernameChange: any;
   onChangeLists: any;
+  onChangeIsLogged: any;
 }
 
 class Navigation extends React.Component<Props> {
@@ -70,8 +71,8 @@ class Navigation extends React.Component<Props> {
               </Link>
               <button
                 className="navigation-flex navigation-button"
-                onClick={() => {
-                  signOut();
+                onClick={async () => {
+                  await signOut();
                   this.props.onUsernameChange('');
                   this.props.onChangeLists(null);
                   this.props.history.push('/');
