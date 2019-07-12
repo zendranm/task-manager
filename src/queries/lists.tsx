@@ -44,14 +44,14 @@ export async function getLastId(email: string, onChangeLastListId: any) {
     });
 }
 
-export function addList(email: string, lastListId: number, newListName: string) {
+export function addList(email: string, newListId: number, newListName: string) {
   db.collection('Users')
     .where('email', '==', email)
     .get()
     .then((querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
         item.ref.collection('Lists').add({
-          id: lastListId + 1,
+          id: newListId,
           name: newListName,
         });
       }

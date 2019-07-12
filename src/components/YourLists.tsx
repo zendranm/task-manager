@@ -8,9 +8,9 @@ import { ScaleLoader } from 'react-spinners';
 
 interface Props {
   email: string;
-  lists: any;
-  onAddNewList: any;
-  onChangeLastListId: any;
+  lists: Array<any>;
+  onAddNewList: (value: Array<any>) => void;
+  onChangeLastListId: () => void;
 }
 
 interface State {
@@ -26,7 +26,7 @@ class YourLists extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    let newList: any = new Array();
+    let newList: Array<any> = new Array();
     newList = await getAllLists(this.props.email);
     this.props.onAddNewList(newList);
     await getLastId(this.props.email, this.props.onChangeLastListId);
@@ -68,11 +68,11 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    onAddNewList: (event: any) => {
-      dispatch(changeLists(event));
+    onAddNewList: (value: Array<any>) => {
+      dispatch(changeLists(value));
     },
-    onChangeLastListId: (event: any) => {
-      dispatch(changeLastListId(event));
+    onChangeLastListId: (value: number) => {
+      dispatch(changeLastListId(value));
     },
   };
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { changeLists, changeLastListId } from '../actions/userActions';
-import { changeUsername } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrashAlt, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -11,17 +10,15 @@ import { withRouter } from 'react-router';
 library.add(faTrashAlt, faPencilAlt, faPlus);
 
 interface Props {
+  listId: number;
   isToAdd: boolean;
   name: string;
-  lists: Array<any>;
-  userId: number;
-  listId: number;
-  lastListId: number;
-  onNameChange: any;
-  onAddNewList: any;
-  onChangeLastListId: any;
-  history: any;
   email: string;
+  lists: Array<any>;
+  lastListId: number;
+  onAddNewList: (value: Array<any>) => void;
+  onChangeLastListId: (value: number) => void;
+  history: any;
 }
 
 interface State {
@@ -35,7 +32,7 @@ class ListIcon extends React.Component<Props, State> {
     super(props);
     this.state = {
       isBeingModified: false,
-      newListName: 'Some new name',
+      newListName: 'List name...',
     };
     this.onAddList = this.onAddList.bind(this);
     this.onDeleteList = this.onDeleteList.bind(this);
@@ -56,20 +53,20 @@ class ListIcon extends React.Component<Props, State> {
     }
   };
 
-  onAddList(e: any) {
-    addList(this.props.email, this.props.lastListId, this.state.newListName);
-    let newItem = { id: this.props.lastListId + 1, authorId: this.props.userId, name: this.state.newListName };
+  onAddList() {
+    addList(this.props.email, this.props.lastListId + 1, this.state.newListName);
+    const newItem = { id: this.props.lastListId + 1, name: this.state.newListName };
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
     this.props.onAddNewList(newList);
-    this.setState({ isBeingModified: false, newListName: 'Some new name' });
+    this.setState({ isBeingModified: false, newListName: 'List name...' });
     this.props.onChangeLastListId(this.props.lastListId + 1);
   }
 
   onDeleteList() {
     deleteList(this.props.email, this.props.listId);
     let newList = this.props.lists.slice();
-    let ref = newList.find(item => item.id === this.props.listId);
+    const ref = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);
     this.props.onAddNewList(newList);
   }
@@ -154,21 +151,17 @@ function mapStateToProps(state: any) {
   return {
     email: state.userReducer.email,
     lists: state.userReducer.lists,
-    userId: state.userReducer.id,
     lastListId: state.userReducer.lastListId,
   };
 }
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    onAddNewList: (event: any) => {
-      dispatch(changeLists(event));
+    onAddNewList: (value: Array<any>) => {
+      dispatch(changeLists(value));
     },
-    onNameChange: (event: any) => {
-      dispatch(changeUsername(event));
-    },
-    onChangeLastListId: (event: any) => {
-      dispatch(changeLastListId(event));
+    onChangeLastListId: (value: number) => {
+      dispatch(changeLastListId(value));
     },
   };
 }

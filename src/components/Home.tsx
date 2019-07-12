@@ -8,7 +8,7 @@ import { changeUsername } from '../actions/userActions';
 interface Props {
   history: any;
   isLogged: boolean;
-  onUsernameChange: any;
+  onUsernameChange: (value: any) => void;
 }
 
 interface State {

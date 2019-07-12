@@ -23,9 +23,9 @@ interface Props {
   username: string;
   isLogged: boolean;
   signOut: () => void;
-  onUsernameChange: any;
-  onChangeLists: any;
-  onChangeIsLogged: any;
+  onUsernameChange: (value: string) => void;
+  onChangeLists: (value: null) => void;
+  onChangeIsLogged: () => void;
 }
 
 class Navigation extends React.Component<Props> {
