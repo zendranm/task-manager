@@ -8,6 +8,7 @@ import { ScaleLoader } from 'react-spinners';
 import { withRouter } from 'react-router';
 
 interface Props {
+  email: string;
   lists: any;
   onAddNewList: any;
   onChangeLastListId: any;
@@ -28,9 +29,9 @@ class YourLists extends React.Component<Props, State> {
 
   async componentDidMount() {
     let newList: any = new Array();
-    newList = await getAllLists();
+    newList = await getAllLists(this.props.email);
     this.props.onAddNewList(newList);
-    await getLastId(this.props.onChangeLastListId);
+    await getLastId(this.props.email, this.props.onChangeLastListId);
     this.setState({ isDataReady: true });
   }
 
@@ -60,6 +61,7 @@ class YourLists extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
+    email: state.userReducer.email,
     lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,
   };

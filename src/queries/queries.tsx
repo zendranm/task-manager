@@ -7,53 +7,81 @@ export async function createNewUser(username: string, email: string) {
   });
 }
 
-export async function getAllLists() {
+export async function getAllLists(email: string) {
   let newList: any = new Array();
 
   await db
-    .collection('Lists')
+    .collection('Users')
+    .where('email', '==', email)
     .get()
-    .then((querySnapshot: any) => {
+    .then(async (querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
-        newList.push({ id: item.data().ID, name: item.data().Name });
+        await item.ref
+          .collection('Lists')
+          .orderBy('id', 'asc')
+          .get()
+          .then((querySnapshot: any) => {
+            for (const item of querySnapshot.docs) {
+              newList.push({ id: item.data().id, name: item.data().name });
+            }
+          });
       }
     });
   return newList;
 }
 
-export async function getLastId(onChangeLastListId: any) {
-  // let db = fire.firestore();
-
+export async function getLastId(email: string, onChangeLastListId: any) {
   await db
-    .collection('Lists')
-    .orderBy('ID', 'desc')
-    .limit(1)
+    .collection('Users')
+    .where('email', '==', email)
     .get()
-    .then((querySnapshot: any) => {
+    .then(async (querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
-        onChangeLastListId(item.data().ID);
+        await item.ref
+          .collection('Lists')
+          .orderBy('id', 'desc')
+          .limit(1)
+          .get()
+          .then((querySnapshot: any) => {
+            for (const item of querySnapshot.docs) {
+              onChangeLastListId(item.data().id);
+            }
+          });
       }
     });
 }
 
-export function addList(lastListId: number, newListName: string) {
-  // let db = fire.firestore();
-
-  db.collection('Lists').add({
-    ID: lastListId + 1,
-    Name: newListName,
-  });
+export function addList(email: string, lastListId: number, newListName: string) {
+  db.collection('Users')
+    .where('email', '==', email)
+    .get()
+    .then((querySnapshot: any) => {
+      for (const item of querySnapshot.docs) {
+        item.ref.collection('Lists').add({
+          id: lastListId + 1,
+          name: newListName,
+        });
+      }
+    });
 }
 
-export function deleteList(listId: number) {
-  // let db = fire.firestore();
-  let item = db.collection('Lists').where('ID', '==', listId);
-
-  item.get().then(function(querySnapshot: any) {
-    querySnapshot.forEach(function(doc: any) {
-      doc.ref.delete();
+export function deleteList(email: string, listId: number) {
+  db.collection('Users')
+    .where('email', '==', email)
+    .get()
+    .then((querySnapshot: any) => {
+      for (const item of querySnapshot.docs) {
+        item.ref
+          .collection('Lists')
+          .where('id', '==', listId)
+          .get()
+          .then(function(querySnapshot: any) {
+            querySnapshot.forEach(function(doc: any) {
+              doc.ref.delete();
+            });
+          });
+      }
     });
-  });
 }
 
 export async function getAllTasks(name: string) {

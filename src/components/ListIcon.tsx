@@ -20,6 +20,7 @@ interface Props {
   onAddNewList: any;
   onChangeLastListId: any;
   history: any;
+  email: string;
 }
 
 interface State {
@@ -55,7 +56,7 @@ class ListIcon extends React.Component<Props, State> {
   };
 
   onAddList(e: any) {
-    addList(this.props.lastListId, this.state.newListName);
+    addList(this.props.email, this.props.lastListId, this.state.newListName);
     let newItem = { id: this.props.lastListId + 1, authorId: this.props.userId, name: this.state.newListName };
     let newList = this.props.lists.slice();
     newList.push(newItem);
@@ -65,7 +66,7 @@ class ListIcon extends React.Component<Props, State> {
   }
 
   onDeleteList() {
-    deleteList(this.props.listId);
+    deleteList(this.props.email, this.props.listId);
     let newList = this.props.lists.slice();
     let ref = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);
@@ -153,6 +154,7 @@ class ListIcon extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
+    email: state.userReducer.email,
     lists: state.userReducer.lists,
     userId: state.userReducer.id,
     lastListId: state.userReducer.lastListId,
