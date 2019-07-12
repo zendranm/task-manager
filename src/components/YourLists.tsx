@@ -2,8 +2,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import ListIcon from './ListIcon';
 import { changeLists, changeLastListId } from '../actions/userActions';
-import { getAllLists } from '../queries/queries';
-import { getLastId } from '../queries/queries';
+import { getAllLists } from '../queries/lists';
+import { getLastId } from '../queries/lists';
 import { ScaleLoader } from 'react-spinners';
 import { withRouter } from 'react-router';
 
@@ -40,14 +40,15 @@ class YourLists extends React.Component<Props, State> {
       <div>
         {this.state.isDataReady ? (
           <div className="yourlists-container">
+            <ListIcon listId={-1} isToAdd={true} name="Add New" history={this.props.history} />
+
             {this.props.lists.map((item: any) => (
               <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} history={this.props.history} />
             ))}
-            <ListIcon listId={-1} isToAdd={true} name="Add New" history={this.props.history} />
-            {this.props.lists.map((item: any) => {
-              <h1>{item.name}</h1>;
-            })}
-            <div className="yourlists-emptyicon" />
+
+            <div className="listicon empty" />
+            <div className="listicon empty" />
+            <div className="listicon empty" />
           </div>
         ) : (
           <div className="spinner">

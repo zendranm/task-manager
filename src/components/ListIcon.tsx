@@ -5,7 +5,7 @@ import { changeUsername } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrashAlt, faCog } from '@fortawesome/free-solid-svg-icons';
-import { addList, deleteList } from '../queries/queries';
+import { addList, deleteList } from '../queries/lists';
 
 library.add(faTrashAlt, faCog);
 
@@ -95,7 +95,7 @@ class ListIcon extends React.Component<Props, State> {
         {this.props.isToAdd ? (
           <div>
             {this.state.isBeingModified ? (
-              <div className="yourlists-newlisticon">
+              <div className="listicon new">
                 <div className="namecontainer">
                   New list:
                   <br />
@@ -114,7 +114,7 @@ class ListIcon extends React.Component<Props, State> {
               </div>
             ) : (
               <div
-                className="yourlists-listicon"
+                className="listicon new"
                 onClick={() => {
                   this.setState(() => {
                     return {
@@ -128,7 +128,7 @@ class ListIcon extends React.Component<Props, State> {
             )}
           </div>
         ) : (
-          <div className="yourlists-listicon">
+          <div className="listicon normal">
             <div
               className="namecontainer"
               onClick={() => {

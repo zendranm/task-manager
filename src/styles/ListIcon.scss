@@ -1,9 +1,28 @@
 .listicon {
-  &-empty {
+  width: calc((100vw / 4) - 3vw);
+  min-width: 300px;
+  height: 100px;
+  margin: 10px;
+  margin-top: 20px;
+  font-size: 30px;
+  background-color: white;
+  border-radius: 4px;
+
+  &.normal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  &.new {
+    background: linear-gradient(20deg, $normal-purple 15%, $normal-blue);
+    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  &.empty {
     background-color: transparent;
-    width: calc((var(--container-width) / 2) - 3vw);
-    min-width: 350px;
-    margin-top: 20px;
     height: 1px;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 }

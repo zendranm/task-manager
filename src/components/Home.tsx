@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
-import { createNewUser } from '../queries/queries';
+import { createNewUser } from '../queries/users';
 import { changeUsername } from '../actions/userActions';
 
 interface Props {

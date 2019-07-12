@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getAllTasks, addTask } from '../queries/queries';
+import { getAllTasks, addTask } from '../queries/tasks';
 import TaskIcon from './TaskIcon';
 import { ScaleLoader } from 'react-spinners';
 
