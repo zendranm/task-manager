@@ -1,28 +1,71 @@
 .listicon {
   width: calc((100vw / 4) - 3vw);
   min-width: 300px;
-  height: 100px;
+  height: 80px;
   margin: 10px;
   margin-top: 20px;
   font-size: 30px;
-  background-color: white;
   border-radius: 4px;
+  background-color: white;
 
   &.normal {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 10px;
   }
-  &.new {
+
+  &.new-button {
     background: linear-gradient(20deg, $normal-purple 15%, $normal-blue);
-    // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-size: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
   }
+
+  &.new-form {
+    background: linear-gradient(20deg, $normal-purple 15%, $normal-blue);
+    font-size: 20px;
+    padding: 10px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &.empty {
     background-color: transparent;
     height: 1px;
+    padding: 10px;
+  }
+
+  &.empty:hover {
+    box-shadow: none;
+    cursor: default;
   }
 
   &:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+  }
+
+  &-button {
+    background-color: white;
+    border: none;
+    outline: none;
+    padding-right: 30px;
+    padding-left: 30px;
+    color: $dark-gray;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+    font-family: 'Source Sans Pro', sans-serif;
+    border-radius: 4px;
+    height: 40.6px;
+    margin: 8px;
   }
 }

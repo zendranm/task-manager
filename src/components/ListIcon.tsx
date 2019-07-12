@@ -4,10 +4,11 @@ import { changeLists, changeLastListId } from '../actions/userActions';
 import { changeUsername } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTrashAlt, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { addList, deleteList } from '../queries/lists';
+import { withRouter } from 'react-router';
 
-library.add(faTrashAlt, faCog);
+library.add(faTrashAlt, faPencilAlt, faPlus);
 
 interface Props {
   isToAdd: boolean;
@@ -30,7 +31,7 @@ interface State {
 
 class ListIcon extends React.Component<Props, State> {
   node: any;
-  constructor(props: Props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       isBeingModified: false,
@@ -59,7 +60,7 @@ class ListIcon extends React.Component<Props, State> {
     addList(this.props.email, this.props.lastListId, this.state.newListName);
     let newItem = { id: this.props.lastListId + 1, authorId: this.props.userId, name: this.state.newListName };
     let newList = this.props.lists.slice();
-    newList.push(newItem);
+    newList.unshift(newItem);
     this.props.onAddNewList(newList);
     this.setState({ isBeingModified: false, newListName: 'Some new name' });
     this.props.onChangeLastListId(this.props.lastListId + 1);
@@ -95,26 +96,22 @@ class ListIcon extends React.Component<Props, State> {
         {this.props.isToAdd ? (
           <div>
             {this.state.isBeingModified ? (
-              <div className="listicon new">
-                <div className="namecontainer">
-                  New list:
-                  <br />
-                  <input
-                    id="inputtext"
-                    className="inputtext"
-                    type="text"
-                    onChange={e => this.setState({ newListName: e.target.value })}
-                    placeholder="Some new name"
-                    autoFocus
-                  />
-                  <button id="addbutton" className="confirmbutton" onClick={this.onAddList}>
-                    Add
-                  </button>
-                </div>
+              <div className="listicon new-form">
+                <input
+                  id="inputtext"
+                  className="inputtext"
+                  type="text"
+                  onChange={e => this.setState({ newListName: e.target.value })}
+                  placeholder="List name..."
+                  autoFocus
+                />
+                <button id="addbutton" className="listicon-button" onClick={this.onAddList}>
+                  Add
+                </button>
               </div>
             ) : (
               <div
-                className="listicon new"
+                className="listicon new-button"
                 onClick={() => {
                   this.setState(() => {
                     return {
@@ -123,7 +120,8 @@ class ListIcon extends React.Component<Props, State> {
                   });
                 }}
               >
-                <div className="namecontainer">{this.props.name}</div>
+                <FontAwesomeIcon icon="plus" size="2x" />
+                <div>{this.props.name}</div>
               </div>
             )}
           </div>
@@ -139,7 +137,7 @@ class ListIcon extends React.Component<Props, State> {
             </div>
             <div className="iconcontainer">
               <div className="settingsicon">
-                <FontAwesomeIcon icon="cog" size="1x" />
+                <FontAwesomeIcon icon="pencil-alt" size="1x" />
               </div>
               <div className="deleteicon" onClick={() => this.onDeleteList()}>
                 <FontAwesomeIcon icon="trash-alt" size="1x" />
@@ -178,4 +176,4 @@ function mapDispatchToProps(dispatch: any) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ListIcon);
+)(withRouter(ListIcon));

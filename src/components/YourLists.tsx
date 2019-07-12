@@ -5,14 +5,12 @@ import { changeLists, changeLastListId } from '../actions/userActions';
 import { getAllLists } from '../queries/lists';
 import { getLastId } from '../queries/lists';
 import { ScaleLoader } from 'react-spinners';
-import { withRouter } from 'react-router';
 
 interface Props {
   email: string;
   lists: any;
   onAddNewList: any;
   onChangeLastListId: any;
-  history: any;
 }
 
 interface State {
@@ -40,10 +38,10 @@ class YourLists extends React.Component<Props, State> {
       <div>
         {this.state.isDataReady ? (
           <div className="yourlists-container">
-            <ListIcon listId={-1} isToAdd={true} name="Add New" history={this.props.history} />
+            <ListIcon listId={-1} isToAdd={true} name="Add New" />
 
             {this.props.lists.map((item: any) => (
-              <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} history={this.props.history} />
+              <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} />
             ))}
 
             <div className="listicon empty" />
@@ -82,4 +80,4 @@ function mapDispatchToProps(dispatch: any) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(YourLists));
+)(YourLists);
