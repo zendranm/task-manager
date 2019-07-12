@@ -77,11 +77,11 @@ class ListIcon extends React.Component<Props, State> {
   }
 
   onDeleteList() {
-    deleteList(this.props.email, this.props.listId);
     let newList = this.props.lists.slice();
     const ref = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);
     this.props.onAddNewList(newList);
+    deleteList(this.props.email, this.props.listId);
   }
 
   onEnterClick(input: any, button: any) {
