@@ -4,7 +4,7 @@ import { changeLists, changeLastListId } from '../actions/userActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrashAlt, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { addList, deleteList } from '../queries/lists';
+import { addList, deleteList, updateList } from '../queries/lists';
 import { withRouter } from 'react-router';
 import ProgressBar from './ProgressBar';
 
@@ -23,6 +23,7 @@ interface Props {
 }
 
 interface State {
+  isBeingCreated: boolean;
   isBeingModified: boolean;
   newListName: string;
 }
@@ -32,10 +33,12 @@ class ListIcon extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
+      isBeingCreated: false,
       isBeingModified: false,
       newListName: 'List name...',
     };
     this.onAddList = this.onAddList.bind(this);
+    this.onRenameList = this.onRenameList.bind(this);
     this.onDeleteList = this.onDeleteList.bind(this);
     this.onEnterClick = this.onEnterClick.bind(this);
   }
@@ -50,7 +53,7 @@ class ListIcon extends React.Component<Props, State> {
 
   handleOutsideClick = (e: any) => {
     if (!this.node.contains(e.target)) {
-      this.setState({ isBeingModified: false });
+      this.setState({ isBeingCreated: false });
     }
   };
 
@@ -60,8 +63,17 @@ class ListIcon extends React.Component<Props, State> {
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
     this.props.onAddNewList(newList);
-    this.setState({ isBeingModified: false, newListName: 'List name...' });
+    this.setState({ isBeingCreated: false, newListName: 'List name...' });
     this.props.onChangeLastListId(this.props.lastListId + 1);
+  }
+
+  onRenameList() {
+    updateList(this.props.email, this.props.listId, this.state.newListName);
+    let newList = this.props.lists.slice();
+    let ref = newList.find(item => item.id === this.props.listId);
+    ref.name = this.state.newListName;
+    this.props.onAddNewList(newList);
+    this.setState({ isBeingModified: false, newListName: 'List name...' });
   }
 
   onDeleteList() {
@@ -93,7 +105,7 @@ class ListIcon extends React.Component<Props, State> {
       <div ref={node => (this.node = node)}>
         {this.props.isToAdd ? (
           <div>
-            {this.state.isBeingModified ? (
+            {this.state.isBeingCreated ? (
               <div className="listicon new-form">
                 <input
                   id="inputtext"
@@ -102,7 +114,7 @@ class ListIcon extends React.Component<Props, State> {
                   placeholder="List name..."
                   autoFocus
                 />
-                <button id="addbutton" className="listicon-button" onClick={this.onAddList}>
+                <button id="addbutton" className="listicon-button-add" onClick={this.onAddList}>
                   Add
                 </button>
               </div>
@@ -112,7 +124,7 @@ class ListIcon extends React.Component<Props, State> {
                 onClick={() => {
                   this.setState(() => {
                     return {
-                      isBeingModified: true,
+                      isBeingCreated: true,
                     };
                   });
                 }}
@@ -123,24 +135,50 @@ class ListIcon extends React.Component<Props, State> {
             )}
           </div>
         ) : (
-          <div className="listicon normal">
-            <div
-              className="listicon-leftbox"
-              onClick={() => {
-                this.props.history.push('/yourlists/' + this.props.name);
-              }}
-            >
-              <div className="listicon-listname">{this.props.name}</div>
-              <ProgressBar percentage={75} />
-            </div>
-            <div className="listicon-rightbox">
-              <div className="listicon-pencilicon">
-                <FontAwesomeIcon icon="pencil-alt" size="1x" />
+          <div>
+            {this.state.isBeingModified ? (
+              <div className="listicon rename-form">
+                <input
+                  id="inputtext"
+                  type="text"
+                  onChange={e => this.setState({ newListName: e.target.value })}
+                  placeholder="List name..."
+                  autoFocus
+                />
+                <button id="addbutton" className="listicon-button-rename" onClick={this.onRenameList}>
+                  Rename
+                </button>
               </div>
-              <div className="listicon-deleteicon" onClick={() => this.onDeleteList()}>
-                <FontAwesomeIcon icon="trash-alt" size="1x" />
+            ) : (
+              <div className="listicon normal">
+                <div
+                  className="listicon-leftbox"
+                  onClick={() => {
+                    this.props.history.push('/yourlists/' + this.props.name);
+                  }}
+                >
+                  <div className="listicon-listname">{this.props.name}</div>
+                  <ProgressBar percentage={75} />
+                </div>
+                <div className="listicon-rightbox">
+                  <div
+                    className="listicon-pencilicon"
+                    onClick={() => {
+                      this.setState(() => {
+                        return {
+                          isBeingModified: true,
+                        };
+                      });
+                    }}
+                  >
+                    <FontAwesomeIcon icon="pencil-alt" size="1x" />
+                  </div>
+                  <div className="listicon-deleteicon" onClick={() => this.onDeleteList()}>
+                    <FontAwesomeIcon icon="trash-alt" size="1x" />
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>

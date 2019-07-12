@@ -58,6 +58,26 @@ export function addList(email: string, newListId: number, newListName: string) {
     });
 }
 
+export async function updateList(email: string, listId: number, newName: string) {
+  await db
+    .collection('Users')
+    .where('email', '==', email)
+    .get()
+    .then(async (querySnapshot: any) => {
+      for (const item of querySnapshot.docs) {
+        await item.ref
+          .collection('Lists')
+          .where('id', '==', listId)
+          .get()
+          .then((querySnapshot: any) => {
+            querySnapshot.docs[0].ref.update({
+              name: newName,
+            });
+          });
+      }
+    });
+}
+
 export function deleteList(email: string, listId: number) {
   db.collection('Users')
     .where('email', '==', email)
@@ -68,10 +88,8 @@ export function deleteList(email: string, listId: number) {
           .collection('Lists')
           .where('id', '==', listId)
           .get()
-          .then(function(querySnapshot: any) {
-            querySnapshot.forEach(function(doc: any) {
-              doc.ref.delete();
-            });
+          .then((querySnapshot: any) => {
+            querySnapshot.docs[0].ref.delete();
           });
       }
     });
