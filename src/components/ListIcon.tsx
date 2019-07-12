@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTrashAlt, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { addList, deleteList } from '../queries/lists';
 import { withRouter } from 'react-router';
+import ProgressBar from './ProgressBar';
 
 library.add(faTrashAlt, faPencilAlt, faPlus);
 
@@ -96,7 +97,6 @@ class ListIcon extends React.Component<Props, State> {
               <div className="listicon new-form">
                 <input
                   id="inputtext"
-                  className="inputtext"
                   type="text"
                   onChange={e => this.setState({ newListName: e.target.value })}
                   placeholder="List name..."
@@ -125,18 +125,19 @@ class ListIcon extends React.Component<Props, State> {
         ) : (
           <div className="listicon normal">
             <div
-              className="namecontainer"
+              className="listicon-leftbox"
               onClick={() => {
                 this.props.history.push('/yourlists/' + this.props.name);
               }}
             >
-              {this.props.name}
+              <div className="listicon-listname">{this.props.name}</div>
+              <ProgressBar percentage={75} />
             </div>
-            <div className="iconcontainer">
-              <div className="settingsicon">
+            <div className="listicon-rightbox">
+              <div className="listicon-pencilicon">
                 <FontAwesomeIcon icon="pencil-alt" size="1x" />
               </div>
-              <div className="deleteicon" onClick={() => this.onDeleteList()}>
+              <div className="listicon-deleteicon" onClick={() => this.onDeleteList()}>
                 <FontAwesomeIcon icon="trash-alt" size="1x" />
               </div>
             </div>

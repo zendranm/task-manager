@@ -15,6 +15,26 @@
     padding: 10px;
   }
 
+  &-leftbox {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &-rightbox {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &-listname {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   &.new-button {
     background: linear-gradient(20deg, $normal-purple 15%, $normal-blue);
     font-size: 20px;
@@ -61,12 +81,30 @@
     padding-left: 30px;
     color: $dark-gray;
     cursor: pointer;
-    font-size: 20px;
     text-decoration: none;
     font-family: 'Source Sans Pro', sans-serif;
+    font-size: 20px;
     border-radius: 4px;
     height: 40.6px;
     margin: 8px;
     margin-right: 0px;
+  }
+
+  &-pencilicon {
+    transition: 0.3s ease;
+  }
+
+  &-pencilicon:hover {
+    color: $dark-blue;
+    transform: scale(1.2, 1.2);
+  }
+
+  &-deleteicon {
+    transition: 0.3s ease;
+  }
+
+  &-deleteicon:hover {
+    color: $dark-purple;
+    transform: scale(1.2, 1.2);
   }
 }

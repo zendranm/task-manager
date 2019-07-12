@@ -1,0 +1,16 @@
+.progressbar {
+  &-frame {
+    position: relative;
+    height: 15px;
+    width: 100%;
+    border-radius: 50px;
+    border: 1px solid $dark-gray;
+  }
+
+  &-bar {
+    background: linear-gradient(20deg, $normal-purple 15%, $normal-blue);
+    height: 100%;
+    border-radius: inherit;
+    transition: width 0.2s ease-in;
+  }
+}

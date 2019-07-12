@@ -5,10 +5,10 @@
 @import './Spinner.scss';
 @import './YourLists.scss';
 @import './ListIcon.scss';
+@import './ProgressBar.scss';
 
 body {
   margin: 0%;
-  background-color: $normal-blue;
   background: linear-gradient(30deg, $very-light-gray 55%, $normal-gray);
   background-repeat: no-repeat;
   font-family: 'Source Sans Pro', sans-serif;
