@@ -22,20 +22,27 @@ export async function getAllLists(email: string) {
 }
 
 export async function getLastId(email: string, onChangeLastListId: any) {
-  await db
-    .collection('Users')
-    .where('email', '==', email)
-    .get()
-    .then(async (querySnapshot: any) => {
-      await querySnapshot.docs[0].ref
-        .collection('Lists')
-        .orderBy('id', 'desc')
-        .limit(1)
-        .get()
-        .then((querySnapshot: any) => {
-          onChangeLastListId(querySnapshot.docs[0].data().id);
-        });
-    });
+  try {
+    await db
+      .collection('Users')
+      .where('email', '==', email)
+      .get()
+      .then(async (querySnapshot: any) => {
+        await querySnapshot.docs[0].ref
+          .collection('Lists')
+          .orderBy('id', 'desc')
+          .limit(1)
+          .get()
+          .then((querySnapshot: any) => {
+            if (querySnapshot.docs.length != 0) {
+              onChangeLastListId(querySnapshot.docs[0].data().id);
+            }
+          });
+      })
+      .catch((error: any) => console.log('getLastId error: ' + error));
+  } finally {
+    return null;
+  }
 }
 
 export function addList(email: string, newListId: number, newListName: string) {
