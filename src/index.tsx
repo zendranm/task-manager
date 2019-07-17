@@ -31,6 +31,8 @@ auth.onAuthStateChanged((authUser: any) => {
   }
 });
 
+// persistor.purge();
+
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>

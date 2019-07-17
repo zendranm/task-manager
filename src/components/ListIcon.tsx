@@ -14,6 +14,7 @@ interface Props {
   listId: number;
   isToAdd: boolean;
   name: string;
+  id: string;
   email: string;
   lists: Array<any>;
   lastListId: number;
@@ -58,7 +59,7 @@ class ListIcon extends React.Component<Props, State> {
   };
 
   onAddList() {
-    addList(this.props.email, this.props.lastListId + 1, this.state.newListName);
+    addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
     const newItem = { id: this.props.lastListId + 1, name: this.state.newListName };
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
@@ -68,7 +69,7 @@ class ListIcon extends React.Component<Props, State> {
   }
 
   onRenameList() {
-    updateList(this.props.email, this.props.listId, this.state.newListName);
+    updateList(this.props.id, this.props.listId, this.state.newListName);
     let newList = this.props.lists.slice();
     let ref = newList.find(item => item.id === this.props.listId);
     ref.name = this.state.newListName;
@@ -81,7 +82,7 @@ class ListIcon extends React.Component<Props, State> {
     const ref = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);
     this.props.onAddNewList(newList);
-    deleteList(this.props.email, this.props.listId);
+    deleteList(this.props.id, this.props.listId);
   }
 
   onEnterClick(input: any, button: any) {
@@ -188,6 +189,7 @@ class ListIcon extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
+    id: state.userReducer.id,
     email: state.userReducer.email,
     lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,

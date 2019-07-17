@@ -2,6 +2,7 @@ import { userModel } from './userModel';
 import { listModel } from './listModel';
 
 export const initialUser: userModel = {
+  id: '',
   username: '',
   email: '',
   lists: [],

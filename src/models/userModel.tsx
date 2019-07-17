@@ -1,6 +1,7 @@
 import { listModel } from './listModel';
 
 export interface userModel {
+  id: string;
   username: String;
   email: String;
   isLogged: boolean;

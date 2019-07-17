@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
 import { createNewUser } from '../queries/users';
-import { changeUsername } from '../actions/userActions';
+import { changeUsername, changeId } from '../actions/userActions';
 
 interface Props {
+  id: string;
   history: any;
   isLogged: boolean;
   onUsernameChange: (value: any) => void;
+  onIdChange: (value: any) => void;
 }
 
 interface State {
@@ -39,7 +41,8 @@ class Home extends React.Component<Props, State> {
     if (confirmation == null) {
       console.log('error');
     } else {
-      createNewUser(this.state.username, this.state.email);
+      const userInfo = await createNewUser(this.state.username, this.state.email);
+      this.props.onIdChange(userInfo.id);
       this.props.onUsernameChange(this.state.username);
       this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
@@ -74,12 +77,16 @@ class Home extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
+    id: state.userReducer.id,
     isLogged: state.userReducer.isLogged,
   };
 }
 
 function mapDispatchToProps(dispatch: any) {
   return {
+    onIdChange: (value: string) => {
+      dispatch(changeId(value));
+    },
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));
     },

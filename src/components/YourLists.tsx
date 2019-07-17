@@ -7,6 +7,7 @@ import { getLastId } from '../queries/lists';
 import { ScaleLoader } from 'react-spinners';
 
 interface Props {
+  id: string;
   email: string;
   lists: Array<any>;
   onAddNewList: (value: Array<any>) => void;
@@ -27,7 +28,7 @@ class YourLists extends React.Component<Props, State> {
 
   async componentDidMount() {
     let newList: Array<any> = new Array();
-    newList = await getAllLists(this.props.email);
+    newList = await getAllLists(this.props.id);
     this.props.onAddNewList(newList);
     await getLastId(this.props.email, this.props.onChangeLastListId);
     this.setState({ isDataReady: true });
@@ -60,6 +61,7 @@ class YourLists extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
+    id: state.userReducer.id,
     email: state.userReducer.email,
     lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,

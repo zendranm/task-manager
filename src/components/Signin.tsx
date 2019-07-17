@@ -2,12 +2,14 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { signIn } from '../queries/auth';
-import { changeUsername } from '../actions/userActions';
+import { changeUsername, changeId } from '../actions/userActions';
 
 interface Props {
+  id: string;
   history: any;
   isLogged: boolean;
   onUsernameChange: (value: string) => void;
+  onIdChange: (value: string) => void;
 }
 
 interface State {
@@ -37,6 +39,7 @@ class Signin extends React.Component<Props, State> {
       console.log('error');
     } else {
       this.props.onUsernameChange(confirmation.username);
+      this.props.onIdChange(confirmation.id);
       this.setState({ email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -58,12 +61,16 @@ class Signin extends React.Component<Props, State> {
 
 function mapStateToProps(state: any) {
   return {
+    id: state.userReducer.id,
     isLogged: state.userReducer.isLogged,
   };
 }
 
 function mapDispatchToProps(dispatch: any) {
   return {
+    onIdChange: (value: string) => {
+      dispatch(changeId(value));
+    },
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));
     },

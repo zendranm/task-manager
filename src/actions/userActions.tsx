@@ -1,5 +1,10 @@
 import { listModel } from '../models/listModel';
 
+export const changeId = (id: string) => ({
+  type: 'CHANGE_ID',
+  id,
+});
+
 export const changeUsername = (username: string) => ({
   type: 'CHANGE_USERNAME',
   username,

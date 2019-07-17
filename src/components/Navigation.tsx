@@ -2,7 +2,7 @@ import '../styles/Navigation.scss';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { changeUsername, changeLists } from '../actions/userActions';
+import { changeUsername, changeLists, changeId } from '../actions/userActions';
 import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,9 +20,11 @@ library.add(faListUl, faInfoCircle, faHome, faUserTie, faSignOutAlt, faSignInAlt
 
 interface Props {
   history: any;
+  id: string;
   username: string;
   isLogged: boolean;
   signOut: () => void;
+  onIdChange: (value: string) => void;
   onUsernameChange: (value: string) => void;
   onChangeLists: (value: null) => void;
   onChangeIsLogged: () => void;
@@ -73,6 +75,7 @@ class Navigation extends React.Component<Props> {
                 className="navigation-flex navigation-button"
                 onClick={async () => {
                   await signOut();
+                  this.props.onIdChange('');
                   this.props.onUsernameChange('');
                   this.props.onChangeLists(null);
                   this.props.history.push('/');
@@ -105,6 +108,9 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
+    onIdChange: (value: string) => {
+      dispatch(changeId(value));
+    },
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));
     },

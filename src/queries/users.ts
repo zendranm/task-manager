@@ -1,8 +1,15 @@
 import { db } from '../firebase';
 
-export function createNewUser(username: string, email: string) {
-  db.collection('Users').add({
-    username: username,
-    email: email,
-  });
+export async function createNewUser(username: string, email: string) {
+  let userInfo = { id: '' };
+  await db
+    .collection('Users')
+    .add({
+      username: username,
+      email: email,
+    })
+    .then((response: any) => {
+      userInfo = { id: response.id };
+    });
+  return userInfo;
 }

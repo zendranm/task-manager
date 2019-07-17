@@ -1,8 +1,10 @@
 import { initialUser } from '../models/initialState';
 
 const userReducer = (state = initialUser, action: any) => {
-  const { email, username, lists, newId, isLogged } = action;
+  const { id, email, username, lists, newId, isLogged } = action;
   switch (action.type) {
+    case 'CHANGE_ID':
+      return { ...state, id: id };
     case 'CHANGE_USERNAME':
       return { ...state, username: username };
     case 'CHANGE_EMAIL':

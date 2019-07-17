@@ -24,7 +24,11 @@ export async function getUserData(email: string) {
     .where('email', '==', email)
     .get()
     .then(function(querySnapshot: any) {
-      resp = querySnapshot.docs[0].data();
+      resp = {
+        id: querySnapshot.docs[0].id,
+        email: querySnapshot.docs[0].data().email,
+        username: querySnapshot.docs[0].data().username,
+      };
     });
 
   return resp;
