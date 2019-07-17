@@ -24,10 +24,8 @@ const persistor = persistStore(store);
 auth.onAuthStateChanged((authUser: any) => {
   if (authUser != null) {
     store.dispatch({ type: 'CHANGE_IS_LOGGED', isLogged: true });
-    store.dispatch({ type: 'CHANGE_EMAIL', email: authUser.email });
   } else {
     store.dispatch({ type: 'CHANGE_IS_LOGGED', isLogged: false });
-    store.dispatch({ type: 'CHANGE_EMAIL', email: '' });
   }
 });
 

@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
 import { createNewUser } from '../queries/users';
-import { changeUsername, changeId } from '../actions/userActions';
+import { changeUsername, changeId, changeEmail } from '../actions/userActions';
 
 interface Props {
   id: string;
   history: any;
   isLogged: boolean;
-  onUsernameChange: (value: any) => void;
-  onIdChange: (value: any) => void;
+  onChangeUsername: (value: string) => void;
+  onChangeId: (value: string) => void;
+  onChangeEmail: (value: string) => void;
 }
 
 interface State {
@@ -42,8 +43,9 @@ class Home extends React.Component<Props, State> {
       console.log('error');
     } else {
       const userInfo = await createNewUser(this.state.username, this.state.email);
-      this.props.onIdChange(userInfo.id);
-      this.props.onUsernameChange(this.state.username);
+      this.props.onChangeId(userInfo.id);
+      this.props.onChangeEmail(this.state.email);
+      this.props.onChangeUsername(this.state.username);
       this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -84,10 +86,13 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    onIdChange: (value: string) => {
+    onChangeId: (value: string) => {
       dispatch(changeId(value));
     },
-    onUsernameChange: (value: string) => {
+    onChangeEmail: (value: string) => {
+      dispatch(changeEmail(value));
+    },
+    onChangeUsername: (value: string) => {
       dispatch(changeUsername(value));
     },
   };

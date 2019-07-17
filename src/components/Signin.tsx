@@ -2,7 +2,7 @@ import * as React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { signIn } from '../queries/auth';
-import { changeUsername, changeId } from '../actions/userActions';
+import { changeUsername, changeId, changeEmail } from '../actions/userActions';
 
 interface Props {
   id: string;
@@ -10,6 +10,7 @@ interface Props {
   isLogged: boolean;
   onUsernameChange: (value: string) => void;
   onIdChange: (value: string) => void;
+  onEmailChange: (value: string) => void;
 }
 
 interface State {
@@ -40,6 +41,7 @@ class Signin extends React.Component<Props, State> {
     } else {
       this.props.onUsernameChange(confirmation.username);
       this.props.onIdChange(confirmation.id);
+      this.props.onEmailChange(confirmation.email);
       this.setState({ email: '', password: '' }, () => this.props.history.push('/yourlists'));
     }
   }
@@ -70,6 +72,9 @@ function mapDispatchToProps(dispatch: any) {
   return {
     onIdChange: (value: string) => {
       dispatch(changeId(value));
+    },
+    onEmailChange: (value: string) => {
+      dispatch(changeEmail(value));
     },
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));

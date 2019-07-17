@@ -2,7 +2,7 @@ import '../styles/Navigation.scss';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { changeUsername, changeLists, changeId } from '../actions/userActions';
+import { changeUsername, changeLists, changeId, changeEmail, changeLastListId } from '../actions/userActions';
 import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -28,6 +28,8 @@ interface Props {
   onUsernameChange: (value: string) => void;
   onChangeLists: (value: null) => void;
   onChangeIsLogged: () => void;
+  onEmailChange: (value: string) => void;
+  onChangeLastListId: (value: number) => void;
 }
 
 class Navigation extends React.Component<Props> {
@@ -76,8 +78,10 @@ class Navigation extends React.Component<Props> {
                 onClick={async () => {
                   await signOut();
                   this.props.onIdChange('');
+                  this.props.onEmailChange('');
                   this.props.onUsernameChange('');
                   this.props.onChangeLists(null);
+                  this.props.onChangeLastListId(0);
                   this.props.history.push('/');
                 }}
               >
@@ -111,11 +115,17 @@ function mapDispatchToProps(dispatch: any) {
     onIdChange: (value: string) => {
       dispatch(changeId(value));
     },
+    onEmailChange: (value: string) => {
+      dispatch(changeEmail(value));
+    },
     onUsernameChange: (value: string) => {
       dispatch(changeUsername(value));
     },
     onChangeLists: (value: Array<any>) => {
       dispatch(changeLists(value));
+    },
+    onChangeLastListId: (value: number) => {
+      dispatch(changeLastListId(value));
     },
   };
 }
