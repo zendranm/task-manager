@@ -11,10 +11,10 @@ export async function getAllLists(userId: string) {
     .get()
     .then((querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
-        console.log(item);
-        newList.push({ id: item.data().id, name: item.data().name });
+        newList.push({ id: item.data().id, firestoreId: item.id, name: item.data().name });
       }
     });
+
   return newList;
 }
 
@@ -48,26 +48,20 @@ export function addList(userId: string, newListId: number, newListName: string) 
     });
 }
 
-export function updateList(userId: string, listId: number, newName: string) {
+export function updateList(userId: string, listFirestoreId: string, newName: string) {
   db.collection('Users')
     .doc(userId)
     .collection('Lists')
-    .where('id', '==', listId)
-    .get()
-    .then((querySnapshot: any) => {
-      querySnapshot.docs[0].ref.update({
-        name: newName,
-      });
+    .doc(listFirestoreId)
+    .update({
+      name: newName,
     });
 }
 
-export function deleteList(userId: string, listId: number) {
+export function deleteList(userId: string, listFirestoreId: string) {
   db.collection('Users')
     .doc(userId)
     .collection('Lists')
-    .where('id', '==', listId)
-    .get()
-    .then((querySnapshot: any) => {
-      querySnapshot.docs[0].ref.delete();
-    });
+    .doc(listFirestoreId)
+    .delete();
 }

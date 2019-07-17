@@ -8,7 +8,6 @@ import { ScaleLoader } from 'react-spinners';
 
 interface Props {
   id: string;
-  email: string;
   lists: Array<any>;
   onAddNewList: (value: Array<any>) => void;
   onChangeLastListId: () => void;
@@ -30,7 +29,7 @@ class YourLists extends React.Component<Props, State> {
     let newList: Array<any> = new Array();
     newList = await getAllLists(this.props.id);
     this.props.onAddNewList(newList);
-    await getLastId(this.props.email, this.props.onChangeLastListId);
+    await getLastId(this.props.id, this.props.onChangeLastListId);
     this.setState({ isDataReady: true });
   }
 
@@ -42,7 +41,13 @@ class YourLists extends React.Component<Props, State> {
             <ListIcon listId={-1} isToAdd={true} name="Add New" />
 
             {this.props.lists.map((item: any) => (
-              <ListIcon key={item.id} listId={item.id} isToAdd={false} name={item.name} />
+              <ListIcon
+                key={item.id}
+                listId={item.id}
+                listFirestoreId={item.firestoreId}
+                isToAdd={false}
+                name={item.name}
+              />
             ))}
 
             <div className="listicon empty" />
@@ -62,7 +67,6 @@ class YourLists extends React.Component<Props, State> {
 function mapStateToProps(state: any) {
   return {
     id: state.userReducer.id,
-    email: state.userReducer.email,
     lists: state.userReducer.lists,
     lastListId: state.userReducer.lastListId,
   };
