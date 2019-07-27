@@ -1,41 +1,33 @@
 import * as React from 'react';
-import { getAllTasks, addTask } from '../queries/tasks';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { getAllTasks } from '../queries/tasks';
 import TaskIcon from './TaskIcon';
 import { ScaleLoader } from 'react-spinners';
 
 interface Props {
   match: any;
+  id: string;
 }
 
 interface State {
   taskList: any;
   isDataReady: boolean;
-  lastTaskId: number;
-  taskName: string;
 }
 
 class YourTasks extends React.Component<Props, State> {
-  constructor(props: Props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       taskList: null,
       isDataReady: false,
-      lastTaskId: 0,
-      taskName: '',
     };
-    this.onAddTask = this.onAddTask.bind(this);
   }
 
   async componentDidMount() {
     let newList: any = new Array();
-    newList = await getAllTasks(this.props.match.params.name);
-    this.setState({ taskList: newList, isDataReady: true, lastTaskId: newList[0].id });
-  }
-
-  onAddTask() {
-    let newTask = { ID: this.state.lastTaskId + 1, Name: this.state.taskName, Priority: false, Status: true };
-    addTask(newTask, this.props.match.params.name);
-    this.setState(state => ({ lastTaskId: state.lastTaskId + 1 }));
+    newList = await getAllTasks(this.props.id, this.props.match.params.name);
+    this.setState({ taskList: newList, isDataReady: true });
   }
 
   render() {
@@ -43,21 +35,6 @@ class YourTasks extends React.Component<Props, State> {
       <div>
         {this.state.isDataReady ? (
           <div>
-            <div className="TaskNavBar">
-              <div className="TaskNavOption">Priority</div>
-              <div className="TaskNavOption">To Do</div>
-              <div className="TaskNavOption">Done</div>
-            </div>
-            <div className="AddTaskInput">
-              <input
-                type="text"
-                placeholder="Type your task..."
-                onChange={e => this.setState({ taskName: e.target.value })}
-              />
-              <button id="addbutton" className="confirmbutton" onClick={this.onAddTask}>
-                Add
-              </button>
-            </div>
             <div>
               {this.state.taskList.map((item: any) => (
                 <TaskIcon key={item.id} id={item.id} name={item.name} status={true} />
@@ -65,7 +42,7 @@ class YourTasks extends React.Component<Props, State> {
             </div>
           </div>
         ) : (
-          <div className="loader">
+          <div className="spinner">
             <ScaleLoader height={135} width={10} margin={'10px'} radius={2} color={'#333333'} loading={true} />
           </div>
         )}
@@ -74,4 +51,12 @@ class YourTasks extends React.Component<Props, State> {
   }
 }
 
-export default YourTasks;
+function mapStateToProps(state: any) {
+  return {
+    id: state.userReducer.id,
+    lists: state.userReducer.lists,
+    lastListId: state.userReducer.lastListId,
+  };
+}
+
+export default connect(mapStateToProps)(withRouter(YourTasks));

@@ -1,22 +1,22 @@
 import { db } from '../firebase';
 
-export async function getAllTasks(name: string) {
+export async function getAllTasks(userId: string, listName: string) {
   let newList: any = new Array();
-  // let db = fire.firestore();
 
   await db
+    .collection('Users')
+    .doc(userId)
     .collection('Lists')
-    .where('Name', '==', name)
+    .where('name', '==', listName)
     .get()
     .then(async (querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
         await item.ref
           .collection('Tasks')
-          .orderBy('ID', 'desc')
           .get()
           .then((querySnapshot: any) => {
             for (const item of querySnapshot.docs) {
-              newList.push({ id: item.data().ID, name: item.data().Name });
+              newList.push({ id: item.id, name: item.data().name });
             }
           });
       }
