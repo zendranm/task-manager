@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import TaskIcon from './TaskIcon';
 
 interface Props {
   id: string;
+  droppableId: string;
   name: string;
   tasks: Array<any>;
 }
@@ -12,7 +14,7 @@ class TaskColumn extends React.Component<Props> {
     return (
       <div className="taskcolumn-column">
         {this.props.name}
-        <Droppable droppableId="droppable-1">
+        <Droppable droppableId={this.props.droppableId}>
           {(provided: any, snapshot: any) => (
             <div
               className="taskcolumn-list"
@@ -21,7 +23,7 @@ class TaskColumn extends React.Component<Props> {
               {...provided.dragHandleProps}
             >
               {this.props.tasks.map((item: any) => (
-                <div key={item.id}>{item.name}</div>
+                <TaskIcon key={item.firebaseId} id={item.taskId} name={item.name} />
               ))}
             </div>
           )}

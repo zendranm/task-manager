@@ -16,7 +16,12 @@ export async function getAllTasks(userId: string, listName: string) {
           .get()
           .then((querySnapshot: any) => {
             for (const item of querySnapshot.docs) {
-              newList.push({ id: item.id, name: item.data().name });
+              newList.push({
+                firebaseId: item.id,
+                taskId: item.data().id,
+                name: item.data().name,
+                status: item.data().status,
+              });
             }
           });
       }

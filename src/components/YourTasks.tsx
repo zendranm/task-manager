@@ -5,7 +5,7 @@ import { getAllTasks } from '../queries/tasks';
 // import TaskIcon from './TaskIcon';
 import { ScaleLoader } from 'react-spinners';
 import TaskColumn from './TaskColumn';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 interface Props {
   match: any;
@@ -13,7 +13,8 @@ interface Props {
 }
 
 interface State {
-  taskList: any;
+  taskListTodo: Array<any>;
+  taskListDone: Array<any>;
   isDataReady: boolean;
 }
 
@@ -21,19 +22,46 @@ class YourTasks extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      taskList: null,
+      taskListTodo: [],
+      taskListDone: [],
       isDataReady: false,
     };
     this.onDragEnd = this.onDragEnd.bind(this);
+    this.separateTasks = this.separateTasks.bind(this);
   }
 
   async componentDidMount() {
     let newList: any = new Array();
     newList = await getAllTasks(this.props.id, this.props.match.params.name);
-    this.setState({ taskList: newList, isDataReady: true });
+    this.separateTasks(newList);
+    this.setState({ isDataReady: true });
   }
 
-  onDragEnd = (result: any) => {};
+  separateTasks(taskList: Array<any>) {
+    let todoList: any = new Array();
+    let doneList: any = new Array();
+
+    taskList.map((task: any) => {
+      if (task.status == 'todo') {
+        todoList.push(task);
+      } else {
+        doneList.push(task);
+      }
+    });
+    this.setState({ taskListTodo: todoList, taskListDone: doneList });
+  }
+
+  onDragEnd = (result: DropResult) => {
+    const { destination, source } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+  };
 
   render() {
     return (
@@ -41,8 +69,8 @@ class YourTasks extends React.Component<Props, State> {
         {this.state.isDataReady ? (
           <DragDropContext onDragEnd={this.onDragEnd}>
             <div className="taskcolumn-container">
-              <TaskColumn id="column1" name="To Do" tasks={this.state.taskList} />
-              <TaskColumn id="column2" name="Done" tasks={this.state.taskList} />
+              <TaskColumn id="column1" droppableId={'droppableId-1'} name="To Do" tasks={this.state.taskListTodo} />
+              <TaskColumn id="column2" droppableId={'droppableId-2'} name="Done" tasks={this.state.taskListDone} />
             </div>
           </DragDropContext>
         ) : (
