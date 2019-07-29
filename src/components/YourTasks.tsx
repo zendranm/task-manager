@@ -2,8 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { getAllTasks } from '../queries/tasks';
-import TaskIcon from './TaskIcon';
+// import TaskIcon from './TaskIcon';
 import { ScaleLoader } from 'react-spinners';
+import TaskColumn from './TaskColumn';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 interface Props {
   match: any;
@@ -22,6 +24,7 @@ class YourTasks extends React.Component<Props, State> {
       taskList: null,
       isDataReady: false,
     };
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   async componentDidMount() {
@@ -30,17 +33,18 @@ class YourTasks extends React.Component<Props, State> {
     this.setState({ taskList: newList, isDataReady: true });
   }
 
+  onDragEnd = (result: any) => {};
+
   render() {
     return (
       <div>
         {this.state.isDataReady ? (
-          <div>
-            <div>
-              {this.state.taskList.map((item: any) => (
-                <TaskIcon key={item.id} id={item.id} name={item.name} status={true} />
-              ))}
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <div className="taskcolumn-container">
+              <TaskColumn id="column1" name="To Do" tasks={this.state.taskList} />
+              <TaskColumn id="column2" name="Done" tasks={this.state.taskList} />
             </div>
-          </div>
+          </DragDropContext>
         ) : (
           <div className="spinner">
             <ScaleLoader height={135} width={10} margin={'10px'} radius={2} color={'#333333'} loading={true} />
