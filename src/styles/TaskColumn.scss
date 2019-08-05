@@ -14,14 +14,40 @@
     background: linear-gradient(20deg, $normal-purple 15%, $normal-blue);
     margin: 20px;
     padding: 20px;
+    padding-top: 0px;
     min-width: 400px;
-    // max-width: 600px;
     border-radius: 4px;
+    min-height: 85vh;
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+
+  &-title {
+    text-align: center;
+    font-size: 30px;
+    padding: 10px;
+    color: white;
+  }
+
+  &-button {
+    transition: 0.3s ease;
+  }
+
+  &-button:hover {
+    cursor: pointer;
+    transform: scale(1.2, 1.2);
   }
 
   &-list {
     background: $light-gray;
-    padding: 10px;
     border-radius: 4px;
+    height: 100%;
   }
 }

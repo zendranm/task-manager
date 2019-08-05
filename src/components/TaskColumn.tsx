@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
 import TaskIcon from './TaskIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPlus);
 
 interface Props {
   id: string;
@@ -8,13 +13,56 @@ interface Props {
   tasks: Array<any>;
 }
 
-class TaskColumn extends React.Component<Props> {
+interface State {
+  isAddClicked: boolean;
+}
+
+class TaskColumn extends React.Component<Props, State> {
+  node: any;
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      isAddClicked: false,
+    };
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleOutsideClick, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleOutsideClick, false);
+  }
+
+  handleOutsideClick = (e: any) => {
+    if (!this.node.contains(e.target)) {
+      this.setState({ isAddClicked: false });
+    }
+  };
+
   render() {
     return (
-      <div className="taskcolumn-column">
-        {this.props.name}
+      <div className="taskcolumn-column" ref={node => (this.node = node)}>
+        {this.props.name == 'To Do' ? (
+          <div>
+            {!this.state.isAddClicked ? (
+              <div className="taskcolumn-header">
+                <div />
+                <div className="taskcolumn-title">{this.props.name}</div>
+                <div className="taskcolumn-button" onClick={() => this.setState({ isAddClicked: true })}>
+                  <FontAwesomeIcon icon="plus" size="2x" />
+                </div>
+              </div>
+            ) : (
+              <div>BBB</div>
+            )}
+          </div>
+        ) : (
+          <div className="taskcolumn-title">{this.props.name}</div>
+        )}
+
         <Droppable droppableId={this.props.id}>
-          {(provided: any, snapshot: any) => (
+          {(provided: any) => (
             <div
               className="taskcolumn-list"
               ref={provided.innerRef}
