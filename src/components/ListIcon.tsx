@@ -21,6 +21,7 @@ interface Props {
   onAddNewList: (value: Array<any>) => void;
   onChangeLastListId: (value: number) => void;
   history: any;
+  percentage: number;
 }
 
 interface State {
@@ -159,7 +160,7 @@ class ListIcon extends React.Component<Props, State> {
                   }}
                 >
                   <div className="listicon-listname">{this.props.name}</div>
-                  <ProgressBar percentage={75} />
+                  <ProgressBar percentage={this.props.percentage} />
                 </div>
                 <div className="listicon-rightbox">
                   <div

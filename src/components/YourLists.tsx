@@ -47,6 +47,7 @@ class YourLists extends React.Component<Props, State> {
                 listFirestoreId={item.firestoreId}
                 isToAdd={false}
                 name={item.name}
+                percentage={item.percentage}
               />
             ))}
 

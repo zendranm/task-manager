@@ -2,7 +2,7 @@ import { db } from '../firebase';
 
 export async function getAllLists(userId: string) {
   let newList: any = new Array();
-
+  let percentage: number;
   await db
     .collection('Users')
     .doc(userId)
@@ -11,7 +11,15 @@ export async function getAllLists(userId: string) {
     .get()
     .then((querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
-        newList.push({ id: item.data().id, firestoreId: item.id, name: item.data().name });
+        if (item.data().todoTasksOrder.length == 0 && item.data().doneTasksOrder.length == 0) {
+          percentage = 0;
+        } else {
+          percentage =
+            (item.data().doneTasksOrder.length /
+              (item.data().todoTasksOrder.length + item.data().doneTasksOrder.length)) *
+            100;
+        }
+        newList.push({ id: item.data().id, firestoreId: item.id, name: item.data().name, percentage: percentage });
       }
     });
 
