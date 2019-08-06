@@ -1,14 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import {
-  getListFirestoreId,
-  getAllTasks,
-  getTodoTasksOrder,
-  getDoneTasksOrder,
-  saveNewOrders,
-  updateTask,
-} from '../queries/tasks';
+import { getListFirestoreId, getAllTasks, getTodoTasksOrder, getDoneTasksOrder, saveNewOrders } from '../queries/tasks';
 import { ScaleLoader } from 'react-spinners';
 import TaskColumn from './TaskColumn';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
@@ -44,24 +37,24 @@ class YourTasks extends React.Component<Props, State> {
     const newTaskList: any = await getAllTasks(this.props.id, this.state.listFirestoreId);
     const todoTasksOrder = await getTodoTasksOrder(this.props.id, this.state.listFirestoreId);
     const doneTasksOrder = await getDoneTasksOrder(this.props.id, this.state.listFirestoreId);
-    this.setState({ tasks: newTaskList });
     this.separateTasks(newTaskList, todoTasksOrder, doneTasksOrder);
-    this.setState({ isDataReady: true });
+    this.setState({ isDataReady: true, tasks: newTaskList });
   }
 
   separateTasks(taskList: Array<any>, todoTasksOrder: Array<any>, doneTasksOrder: Array<any>) {
     let todoList: any = [];
     let doneList: any = new Array();
 
-    taskList.map((task: any) => {
-      if (task.status == 'todo') {
-        const index = todoTasksOrder.indexOf(task.taskId);
-        todoList.splice(index, 0, task);
-      } else {
-        const index = doneTasksOrder.indexOf(task.taskId);
-        doneList.splice(index, 0, task);
-      }
+    todoTasksOrder.map((index: number) => {
+      const taskToPush = taskList.find(task => task.taskId == index);
+      todoList.push(taskToPush);
     });
+
+    doneTasksOrder.map((index: number) => {
+      const taskToPush = taskList.find(task => task.taskId == index);
+      doneList.push(taskToPush);
+    });
+
     this.setState({
       columns: [
         { id: 'column1', name: 'To Do', tasks: todoList, order: todoTasksOrder },
@@ -121,14 +114,6 @@ class YourTasks extends React.Component<Props, State> {
 
       const finishTasks = Array.from(finishColumn.tasks);
       let draggedTask = startColumn.tasks.find((task: any) => task.taskId == draggableId);
-
-      if (draggedTask.status == 'todo') {
-        draggedTask.status = 'done';
-        updateTask(this.props.id, this.state.listFirestoreId, draggedTask.firebaseId, 'done');
-      } else {
-        draggedTask.status = 'todo';
-        updateTask(this.props.id, this.state.listFirestoreId, draggedTask.firebaseId, 'todo');
-      }
 
       finishTasks.splice(destination.index, 0, draggedTask);
       const newFinishOrder = Array.from(finishColumn.order);

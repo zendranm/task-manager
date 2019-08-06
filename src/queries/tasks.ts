@@ -31,7 +31,6 @@ export async function getAllTasks(userId: string, listFirestoreId: string) {
           firebaseId: item.id,
           taskId: item.data().id,
           name: item.data().name,
-          status: item.data().status,
         });
       }
     });
@@ -105,19 +104,6 @@ export async function saveNewOrders(
   } else {
     console.log('impossible');
   }
-}
-
-export async function updateTask(userId: string, listFirestoreId: string, taskFirestoreId: string, newStatus: string) {
-  await db
-    .collection('Users')
-    .doc(userId)
-    .collection('Lists')
-    .doc(listFirestoreId)
-    .collection('Tasks')
-    .doc(taskFirestoreId)
-    .update({
-      status: newStatus,
-    });
 }
 
 export function addTask(newTask: any, ListName: string) {
