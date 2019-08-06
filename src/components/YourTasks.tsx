@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { getAllTasks } from '../queries/tasks';
+import { getListFirestoreId, getAllTasks, getTodoTasksOrder, getDoneTasksOrder, saveNewOrders } from '../queries/tasks';
 import { ScaleLoader } from 'react-spinners';
 import TaskColumn from './TaskColumn';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
@@ -12,41 +12,58 @@ interface Props {
 }
 
 interface State {
+  listFirestoreId: string;
   isDataReady: boolean;
   columns: Array<any>;
+  tasks: Array<any>;
+  todoTasksOrder: Array<any>;
+  doneTasksOrder: Array<any>;
 }
 
 class YourTasks extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
+      listFirestoreId: '',
       isDataReady: false,
       columns: [],
+      tasks: [],
+      todoTasksOrder: [],
+      doneTasksOrder: [],
     };
     this.onDragEnd = this.onDragEnd.bind(this);
     this.separateTasks = this.separateTasks.bind(this);
   }
 
   async componentDidMount() {
-    let newList: any = new Array();
-    newList = await getAllTasks(this.props.id, this.props.match.params.name);
-    this.separateTasks(newList);
+    const newListFirestoreId: any = await getListFirestoreId(this.props.id, this.props.match.params.name);
+    this.setState({ listFirestoreId: newListFirestoreId });
+    const newTaskList: any = await getAllTasks(this.props.id, this.state.listFirestoreId);
+    const todoTasksOrder = await getTodoTasksOrder(this.props.id, this.state.listFirestoreId);
+    const doneTasksOrder = await getDoneTasksOrder(this.props.id, this.state.listFirestoreId);
+    this.setState({ tasks: newTaskList, todoTasksOrder: todoTasksOrder, doneTasksOrder: doneTasksOrder });
+    this.separateTasks(newTaskList);
     this.setState({ isDataReady: true });
   }
 
   separateTasks(taskList: Array<any>) {
-    let todoList: any = new Array();
+    let todoList: any = [];
     let doneList: any = new Array();
 
     taskList.map((task: any) => {
       if (task.status == 'todo') {
-        todoList.push(task);
+        const index = this.state.todoTasksOrder.indexOf(task.taskId);
+        todoList.splice(index, 0, task);
       } else {
-        doneList.push(task);
+        const index = this.state.doneTasksOrder.indexOf(task.taskId);
+        doneList.splice(index, 0, task);
       }
     });
     this.setState({
-      columns: [{ id: 'column1', name: 'To Do', tasks: todoList }, { id: 'column2', name: 'Done', tasks: doneList }],
+      columns: [
+        { id: 'column1', name: 'To Do', tasks: todoList, order: this.state.todoTasksOrder },
+        { id: 'column2', name: 'Done', tasks: doneList, order: this.state.doneTasksOrder },
+      ],
     });
   }
 
@@ -61,48 +78,71 @@ class YourTasks extends React.Component<Props, State> {
       return;
     }
 
-    const start = this.state.columns.find(column => column.id == source.droppableId);
-    const finish = this.state.columns.find(column => column.id == destination.droppableId);
+    const startColumn = this.state.columns.find(column => column.id == source.droppableId);
+    const finishColumn = this.state.columns.find(column => column.id == destination.droppableId);
 
-    if (start.id == finish.id) {
-      const newTasks = Array.from(start.tasks);
+    if (startColumn.id == finishColumn.id) {
+      const newTasks = Array.from(startColumn.tasks);
       newTasks.splice(source.index, 1);
-      newTasks.splice(destination.index, 0, start.tasks.find((task: any) => task.taskId == draggableId));
+      newTasks.splice(destination.index, 0, startColumn.tasks.find((task: any) => task.taskId == draggableId));
+      const newOrder = Array.from(startColumn.order);
+      newOrder.splice(source.index, 1);
+      newOrder.splice(destination.index, 0, Number(draggableId));
+
+      if (startColumn.id == 'column1') {
+        this.setState({ todoTasksOrder: newOrder });
+        saveNewOrders(this.props.id, this.state.listFirestoreId, newOrder, this.state.doneTasksOrder);
+      } else {
+        this.setState({ doneTasksOrder: newOrder });
+        saveNewOrders(this.props.id, this.state.listFirestoreId, this.state.todoTasksOrder, newOrder);
+      }
 
       const newColumn = {
-        ...start,
+        ...startColumn,
         tasks: newTasks,
+        order: newOrder,
       };
 
       let newColumns = this.state.columns;
-      const index = this.state.columns.indexOf(finish);
+      const index = this.state.columns.indexOf(finishColumn);
       newColumns[index] = newColumn;
       this.setState({ columns: newColumns });
-
-      return;
     } else {
-      const startTasks = Array.from(start.tasks);
+      const startTasks = Array.from(startColumn.tasks);
       startTasks.splice(source.index, 1);
+      const newStartOrder = Array.from(startColumn.order);
+      newStartOrder.splice(source.index, 1);
       const newStartColumn = {
-        ...start,
+        ...startColumn,
         tasks: startTasks,
+        order: newStartOrder,
       };
 
-      const finishTasks = Array.from(finish.tasks);
-      finishTasks.splice(destination.index, 0, start.tasks.find((task: any) => task.taskId == draggableId));
+      const finishTasks = Array.from(finishColumn.tasks);
+      finishTasks.splice(destination.index, 0, startColumn.tasks.find((task: any) => task.taskId == draggableId));
+      const newFinishOrder = Array.from(finishColumn.order);
+      newFinishOrder.splice(destination.index, 0, Number(draggableId));
       const newFinishColumn = {
-        ...finish,
+        ...finishColumn,
         tasks: finishTasks,
       };
 
+      if (startColumn.id == 'column1') {
+        this.setState({ todoTasksOrder: newStartOrder });
+        this.setState({ doneTasksOrder: newFinishOrder });
+        saveNewOrders(this.props.id, this.state.listFirestoreId, newStartOrder, newFinishOrder);
+      } else {
+        this.setState({ todoTasksOrder: newFinishOrder });
+        this.setState({ doneTasksOrder: newStartOrder });
+        saveNewOrders(this.props.id, this.state.listFirestoreId, newFinishOrder, newStartOrder);
+      }
+
       let newColumns = this.state.columns;
-      const indexStart = this.state.columns.indexOf(start);
-      const indexFinish = this.state.columns.indexOf(finish);
+      const indexStart = this.state.columns.indexOf(startColumn);
+      const indexFinish = this.state.columns.indexOf(finishColumn);
       newColumns[indexStart] = newStartColumn;
       newColumns[indexFinish] = newFinishColumn;
       this.setState({ columns: newColumns });
-
-      return;
     }
   };
 
