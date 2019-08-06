@@ -121,6 +121,7 @@ class YourTasks extends React.Component<Props, State> {
       const newFinishColumn = {
         ...finishColumn,
         tasks: finishTasks,
+        order: newFinishOrder,
       };
 
       if (startColumn.id == 'column1') {
