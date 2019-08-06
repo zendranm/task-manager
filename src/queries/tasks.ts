@@ -71,18 +71,40 @@ export async function getDoneTasksOrder(userId: string, listFirestoreId: string)
 export async function saveNewOrders(
   userId: string,
   listFirestoreId: string,
-  todoTasksOrder: Array<any>,
-  doneTasksOrder: Array<any>
+  todoTasksOrder?: Array<any>,
+  doneTasksOrder?: Array<any>
 ) {
-  await db
-    .collection('Users')
-    .doc(userId)
-    .collection('Lists')
-    .doc(listFirestoreId)
-    .update({
-      todoTasksOrder: todoTasksOrder,
-      doneTasksOrder: doneTasksOrder,
-    });
+  if (todoTasksOrder != undefined && doneTasksOrder != undefined) {
+    await db
+      .collection('Users')
+      .doc(userId)
+      .collection('Lists')
+      .doc(listFirestoreId)
+      .update({
+        todoTasksOrder: todoTasksOrder,
+        doneTasksOrder: doneTasksOrder,
+      });
+  } else if (todoTasksOrder == undefined && doneTasksOrder != undefined) {
+    await db
+      .collection('Users')
+      .doc(userId)
+      .collection('Lists')
+      .doc(listFirestoreId)
+      .update({
+        doneTasksOrder: doneTasksOrder,
+      });
+  } else if (todoTasksOrder != undefined && doneTasksOrder == undefined) {
+    await db
+      .collection('Users')
+      .doc(userId)
+      .collection('Lists')
+      .doc(listFirestoreId)
+      .update({
+        todoTasksOrder: todoTasksOrder,
+      });
+  } else {
+    console.log('impossible');
+  }
 }
 
 export async function updateTask(userId: string, listFirestoreId: string, taskFirestoreId: string, newStatus: string) {
