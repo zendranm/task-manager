@@ -28,6 +28,7 @@ interface State {
   isBeingCreated: boolean;
   isBeingModified: boolean;
   newListName: string;
+  newFirestoreId: string;
 }
 
 class ListIcon extends React.Component<Props, State> {
@@ -38,6 +39,7 @@ class ListIcon extends React.Component<Props, State> {
       isBeingCreated: false,
       isBeingModified: false,
       newListName: 'List name...',
+      newFirestoreId: '',
     };
     this.onAddList = this.onAddList.bind(this);
     this.onRenameList = this.onRenameList.bind(this);
@@ -59,9 +61,11 @@ class ListIcon extends React.Component<Props, State> {
     }
   };
 
-  onAddList() {
-    addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
-    const newItem = { id: this.props.lastListId + 1, name: this.state.newListName };
+  async onAddList() {
+    console.log('onAddList fired');
+    await addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
+    console.log('Done');
+    const newItem = { id: this.props.lastListId + 1, name: this.state.newListName, percentage: 0 };
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
     this.props.onAddNewList(newList);
@@ -83,7 +87,11 @@ class ListIcon extends React.Component<Props, State> {
     const ref = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);
     this.props.onAddNewList(newList);
-    deleteList(this.props.id, this.props.listFirestoreId);
+    if (this.props.listFirestoreId == undefined) {
+      deleteList(this.props.id, this.state.newFirestoreId);
+    } else {
+      deleteList(this.props.id, this.props.listFirestoreId);
+    }
   }
 
   onEnterClick(input: any, button: any) {

@@ -46,13 +46,20 @@ export async function getLastId(userId: string, onChangeLastListId: any) {
   }
 }
 
-export function addList(userId: string, newListId: number, newListName: string) {
-  db.collection('Users')
+export async function addList(userId: string, newListId: number, newListName: string) {
+  await db
+    .collection('Users')
     .doc(userId)
     .collection('Lists')
     .add({
       id: newListId,
       name: newListName,
+      todoTasksOrder: [],
+      doneTasksOrder: [],
+    })
+    .then((response: any) => {
+      console.log(response.id);
+      return response.id;
     });
 }
 
