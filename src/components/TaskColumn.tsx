@@ -4,6 +4,7 @@ import TaskIcon from './TaskIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { addTask } from '../queries/tasks';
 
 library.add(faPlus);
 
@@ -11,10 +12,15 @@ interface Props {
   id: string;
   name: string;
   tasks: Array<any>;
+  userId: string;
+  listFirestoreId: string;
+  lastTaskId: number;
+  afterNewTaskAdded: (newTask: any) => void;
 }
 
 interface State {
   isAddClicked: boolean;
+  newTask: object;
 }
 
 class TaskColumn extends React.Component<Props, State> {
@@ -23,7 +29,9 @@ class TaskColumn extends React.Component<Props, State> {
     super(props);
     this.state = {
       isAddClicked: false,
+      newTask: { taskId: this.props.lastTaskId, name: 'Unnamed task' },
     };
+    this.onAddTaskClick = this.onAddTaskClick.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +40,11 @@ class TaskColumn extends React.Component<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleOutsideClick, false);
+  }
+
+  onAddTaskClick() {
+    addTask(this.props.userId, this.props.listFirestoreId, this.state.newTask);
+    this.props.afterNewTaskAdded(this.state.newTask);
   }
 
   handleOutsideClick = (e: any) => {
@@ -54,7 +67,18 @@ class TaskColumn extends React.Component<Props, State> {
                 </div>
               </div>
             ) : (
-              <div>BBB</div>
+              <div className="taskcolumn-new-task">
+                <input
+                  id="task-name"
+                  type="text"
+                  onChange={e => this.setState({ newTask: { id: this.props.lastTaskId, name: e.target.value } })}
+                  placeholder="New task..."
+                  autoFocus
+                />
+                <button id="addbutton" className="listicon-button-add" onClick={this.onAddTaskClick}>
+                  Add
+                </button>
+              </div>
             )}
           </div>
         ) : (

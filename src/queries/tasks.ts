@@ -106,19 +106,19 @@ export async function saveNewOrders(
   }
 }
 
-export function addTask(newTask: any, ListName: string) {
-  // let db = fire.firestore();
-  db.collection('Lists')
-    .where('Name', '==', ListName)
-    .get()
-    .then(async (querySnapshot: any) => {
-      for (const item of querySnapshot.docs) {
-        await item.ref.collection('Tasks').add({
-          ID: newTask.ID,
-          Name: newTask.Name,
-          Priority: newTask.Priority,
-          Status: newTask.Status,
-        });
-      }
+export async function addTask(userId: string, listFirestoreId: string, newTask: any) {
+  await db
+    .collection('Users')
+    .doc(userId)
+    .collection('Lists')
+    .doc(listFirestoreId)
+    .collection('Tasks')
+    .add({
+      id: newTask.id,
+      name: newTask.name,
+    })
+    .then((response: any) => {
+      console.log(response);
+      return response.id;
     });
 }

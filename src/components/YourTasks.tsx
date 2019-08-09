@@ -16,6 +16,7 @@ interface State {
   isDataReady: boolean;
   columns: Array<any>;
   tasks: Array<any>;
+  lastTaskId: number;
 }
 
 class YourTasks extends React.Component<Props, State> {
@@ -26,9 +27,11 @@ class YourTasks extends React.Component<Props, State> {
       isDataReady: false,
       columns: [],
       tasks: [],
+      lastTaskId: 0,
     };
     this.onDragEnd = this.onDragEnd.bind(this);
     this.separateTasks = this.separateTasks.bind(this);
+    this.afterNewTaskAdded = this.afterNewTaskAdded.bind(this);
   }
 
   async componentDidMount() {
@@ -37,8 +40,9 @@ class YourTasks extends React.Component<Props, State> {
     const newTaskList: any = await getAllTasks(this.props.id, this.state.listFirestoreId);
     const todoTasksOrder = await getTodoTasksOrder(this.props.id, this.state.listFirestoreId);
     const doneTasksOrder = await getDoneTasksOrder(this.props.id, this.state.listFirestoreId);
+    const newLastTaskId = Math.max.apply(null, todoTasksOrder.concat(doneTasksOrder));
     this.separateTasks(newTaskList, todoTasksOrder, doneTasksOrder);
-    this.setState({ isDataReady: true, tasks: newTaskList });
+    this.setState({ isDataReady: true, tasks: newTaskList, lastTaskId: newLastTaskId + 1 });
   }
 
   separateTasks(taskList: Array<any>, todoTasksOrder: Array<any>, doneTasksOrder: Array<any>) {
@@ -61,6 +65,28 @@ class YourTasks extends React.Component<Props, State> {
         { id: 'column2', name: 'Done', tasks: doneList, order: doneTasksOrder },
       ],
     });
+  }
+
+  afterNewTaskAdded(newTask: any) {
+    const todoColumn = this.state.columns.find(column => column.id == 'column1');
+    let newOrder = Array.from(todoColumn.order);
+    newOrder.unshift(this.state.lastTaskId);
+    saveNewOrders(this.props.id, this.state.listFirestoreId, newOrder, undefined);
+
+    const newTasks = Array.from(todoColumn.tasks);
+    newTasks.unshift(newTask);
+
+    const newColumn = {
+      ...todoColumn,
+      tasks: newTasks,
+      order: newOrder,
+    };
+
+    let newColumns = this.state.columns;
+    const index = this.state.columns.indexOf(todoColumn);
+    newColumns[index] = newColumn;
+    this.setState({ columns: newColumns });
+    console.log(this.state);
   }
 
   onDragEnd = (result: DropResult) => {
@@ -146,7 +172,16 @@ class YourTasks extends React.Component<Props, State> {
           <DragDropContext onDragEnd={this.onDragEnd}>
             <div className="taskcolumn-container">
               {this.state.columns.map((column: any) => (
-                <TaskColumn key={column.id} id={column.id} name={column.name} tasks={column.tasks} />
+                <TaskColumn
+                  key={column.id}
+                  id={column.id}
+                  name={column.name}
+                  tasks={column.tasks}
+                  userId={this.props.id}
+                  listFirestoreId={this.state.listFirestoreId}
+                  lastTaskId={this.state.lastTaskId}
+                  afterNewTaskAdded={this.afterNewTaskAdded}
+                />
               ))}
             </div>
           </DragDropContext>
