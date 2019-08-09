@@ -40,7 +40,13 @@ class YourTasks extends React.Component<Props, State> {
     const newTaskList: any = await getAllTasks(this.props.id, this.state.listFirestoreId);
     const todoTasksOrder = await getTodoTasksOrder(this.props.id, this.state.listFirestoreId);
     const doneTasksOrder = await getDoneTasksOrder(this.props.id, this.state.listFirestoreId);
-    const newLastTaskId = Math.max.apply(null, todoTasksOrder.concat(doneTasksOrder));
+    let newLastTaskId;
+    if (todoTasksOrder.length == 0 && doneTasksOrder.length == 0) {
+      newLastTaskId = 0;
+    } else {
+      newLastTaskId = Math.max.apply(null, todoTasksOrder.concat(doneTasksOrder));
+    }
+    console.log(newLastTaskId);
     this.separateTasks(newTaskList, todoTasksOrder, doneTasksOrder);
     this.setState({ isDataReady: true, tasks: newTaskList, lastTaskId: newLastTaskId + 1 });
   }
@@ -86,7 +92,6 @@ class YourTasks extends React.Component<Props, State> {
     const index = this.state.columns.indexOf(todoColumn);
     newColumns[index] = newColumn;
     this.setState({ columns: newColumns });
-    console.log(this.state);
   }
 
   onDragEnd = (result: DropResult) => {

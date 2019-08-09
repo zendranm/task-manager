@@ -29,7 +29,7 @@ class TaskColumn extends React.Component<Props, State> {
     super(props);
     this.state = {
       isAddClicked: false,
-      newTask: { taskId: this.props.lastTaskId, name: 'Unnamed task' },
+      newTask: { id: '', taskId: this.props.lastTaskId, name: 'Unnamed task' },
     };
     this.onAddTaskClick = this.onAddTaskClick.bind(this);
   }
@@ -42,9 +42,11 @@ class TaskColumn extends React.Component<Props, State> {
     document.removeEventListener('mousedown', this.handleOutsideClick, false);
   }
 
-  onAddTaskClick() {
-    addTask(this.props.userId, this.props.listFirestoreId, this.state.newTask);
-    this.props.afterNewTaskAdded(this.state.newTask);
+  async onAddTaskClick() {
+    const newFirestoreId = await addTask(this.props.userId, this.props.listFirestoreId, this.state.newTask);
+    let taskToAdd: any = this.state.newTask;
+    taskToAdd.id = newFirestoreId;
+    this.props.afterNewTaskAdded(taskToAdd);
   }
 
   handleOutsideClick = (e: any) => {
@@ -71,7 +73,9 @@ class TaskColumn extends React.Component<Props, State> {
                 <input
                   id="task-name"
                   type="text"
-                  onChange={e => this.setState({ newTask: { id: this.props.lastTaskId, name: e.target.value } })}
+                  onChange={e =>
+                    this.setState({ newTask: { id: '', taskId: this.props.lastTaskId, name: e.target.value } })
+                  }
                   placeholder="New task..."
                   autoFocus
                 />
@@ -94,7 +98,7 @@ class TaskColumn extends React.Component<Props, State> {
               {...provided.dragHandleProps}
             >
               {this.props.tasks.map((item: any, index: number) => (
-                <TaskIcon key={item.firebaseId} id={item.taskId} name={item.name} index={index} />
+                <TaskIcon key={item.taskId} id={item.taskId} name={item.name} index={index} />
               ))}
               {provided.placeholder}
             </div>

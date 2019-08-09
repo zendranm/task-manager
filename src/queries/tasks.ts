@@ -107,6 +107,7 @@ export async function saveNewOrders(
 }
 
 export async function addTask(userId: string, listFirestoreId: string, newTask: any) {
+  let firestoreId;
   await db
     .collection('Users')
     .doc(userId)
@@ -114,11 +115,11 @@ export async function addTask(userId: string, listFirestoreId: string, newTask: 
     .doc(listFirestoreId)
     .collection('Tasks')
     .add({
-      id: newTask.id,
+      id: newTask.taskId,
       name: newTask.name,
     })
     .then((response: any) => {
-      console.log(response);
-      return response.id;
+      firestoreId = response.id;
     });
+  return firestoreId;
 }
