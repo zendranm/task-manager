@@ -20,7 +20,7 @@ interface Props {
 
 interface State {
   isAddClicked: boolean;
-  newTask: object;
+  newTask: any;
 }
 
 class TaskColumn extends React.Component<Props, State> {
@@ -29,7 +29,7 @@ class TaskColumn extends React.Component<Props, State> {
     super(props);
     this.state = {
       isAddClicked: false,
-      newTask: { id: '', taskId: this.props.lastTaskId, name: 'Unnamed task' },
+      newTask: { id: '', taskId: this.props.lastTaskId, name: '' },
     };
     this.onAddTaskClick = this.onAddTaskClick.bind(this);
   }
@@ -47,6 +47,7 @@ class TaskColumn extends React.Component<Props, State> {
     let taskToAdd: any = this.state.newTask;
     taskToAdd.id = newFirestoreId;
     this.props.afterNewTaskAdded(taskToAdd);
+    this.setState({ newTask: { id: '', taskId: '', name: '' } });
   }
 
   handleOutsideClick = (e: any) => {
@@ -72,6 +73,7 @@ class TaskColumn extends React.Component<Props, State> {
               <div className="taskcolumn-new-task">
                 <input
                   id="task-name"
+                  value={this.state.newTask.name}
                   type="text"
                   onChange={e =>
                     this.setState({ newTask: { id: '', taskId: this.props.lastTaskId, name: e.target.value } })

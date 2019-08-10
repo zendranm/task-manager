@@ -46,7 +46,6 @@ class YourTasks extends React.Component<Props, State> {
     } else {
       newLastTaskId = Math.max.apply(null, todoTasksOrder.concat(doneTasksOrder));
     }
-    console.log(newLastTaskId);
     this.separateTasks(newTaskList, todoTasksOrder, doneTasksOrder);
     this.setState({ isDataReady: true, tasks: newTaskList, lastTaskId: newLastTaskId + 1 });
   }
@@ -91,7 +90,9 @@ class YourTasks extends React.Component<Props, State> {
     let newColumns = this.state.columns;
     const index = this.state.columns.indexOf(todoColumn);
     newColumns[index] = newColumn;
-    this.setState({ columns: newColumns });
+    this.setState(prevState => {
+      return { columns: newColumns, lastTaskId: prevState.lastTaskId + 1 };
+    });
   }
 
   onDragEnd = (result: DropResult) => {
