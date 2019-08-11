@@ -63,9 +63,9 @@ class ListIcon extends React.Component<Props, State> {
 
   async onAddList() {
     console.log('onAddList fired');
-    addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
-    console.log('Done');
-    const newItem = { id: this.props.lastListId + 1, name: this.state.newListName, percentage: 0 };
+    const ID = await addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
+    console.log('Done' + ID);
+    const newItem = { id: this.props.lastListId + 1, firestoreId: ID, name: this.state.newListName, percentage: 0 };
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
     this.props.onAddNewList(newList);
