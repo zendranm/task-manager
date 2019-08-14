@@ -44,7 +44,6 @@ class ListIcon extends React.Component<Props, State> {
     this.onAddList = this.onAddList.bind(this);
     this.onRenameList = this.onRenameList.bind(this);
     this.onDeleteList = this.onDeleteList.bind(this);
-    this.onEnterClick = this.onEnterClick.bind(this);
   }
 
   componentDidMount() {
@@ -62,10 +61,13 @@ class ListIcon extends React.Component<Props, State> {
   };
 
   async onAddList() {
-    console.log('onAddList fired');
-    const ID = await addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
-    console.log('Done' + ID);
-    const newItem = { id: this.props.lastListId + 1, firestoreId: ID, name: this.state.newListName, percentage: 0 };
+    const newFirestoreId = await addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
+    const newItem = {
+      id: this.props.lastListId + 1,
+      firestoreId: newFirestoreId,
+      name: this.state.newListName,
+      percentage: 0,
+    };
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
     this.props.onAddNewList(newList);
@@ -94,23 +96,7 @@ class ListIcon extends React.Component<Props, State> {
     }
   }
 
-  onEnterClick(input: any, button: any) {
-    input.addEventListener('keyup', function(event: any) {
-      event.preventDefault();
-      if (event.keyCode === 13) {
-        button.click();
-      }
-    });
-  }
-
   render() {
-    var input = document.getElementById('inputtext');
-    var button = document.getElementById('addbutton');
-
-    if (input != null && button != null) {
-      this.onEnterClick(input, button);
-    }
-
     return (
       <div ref={node => (this.node = node)}>
         {this.props.isToAdd ? (
