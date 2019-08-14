@@ -17,7 +17,7 @@
     padding-top: 0px;
     min-width: 400px;
     border-radius: 4px;
-    min-height: 85vh;
+    height: 85vh;
   }
 
   &-header {
@@ -49,6 +49,7 @@
     background: $light-gray;
     border-radius: 4px;
     height: 100%;
+    overflow-y: scroll;
   }
 
   &-new-task {
