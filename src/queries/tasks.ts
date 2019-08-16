@@ -28,7 +28,7 @@ export async function getAllTasks(userId: string, listFirestoreId: string) {
     .then((querySnapshot: any) => {
       for (const item of querySnapshot.docs) {
         newList.push({
-          firebaseId: item.id,
+          firestoreId: item.id,
           taskId: item.data().id,
           name: item.data().name,
         });
@@ -122,4 +122,14 @@ export async function addTask(userId: string, listFirestoreId: string, newTask: 
       firestoreId = response.id;
     });
   return firestoreId;
+}
+
+export function deleteTask(userId: string, listFirestoreId: string, taskFirestoreId: string) {
+  db.collection('Users')
+    .doc(userId)
+    .collection('Lists')
+    .doc(listFirestoreId)
+    .collection('Tasks')
+    .doc(taskFirestoreId)
+    .delete();
 }

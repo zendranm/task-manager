@@ -32,6 +32,7 @@ class YourTasks extends React.Component<Props, State> {
     this.onDragEnd = this.onDragEnd.bind(this);
     this.separateTasks = this.separateTasks.bind(this);
     this.afterNewTaskAdded = this.afterNewTaskAdded.bind(this);
+    this.afterTaskDeleted = this.afterTaskDeleted.bind(this);
   }
 
   async componentDidMount() {
@@ -93,6 +94,48 @@ class YourTasks extends React.Component<Props, State> {
     this.setState(prevState => {
       return { columns: newColumns, lastTaskId: prevState.lastTaskId + 1 };
     });
+  }
+
+  afterTaskDeleted(taskId: number) {
+    const todoColumn = this.state.columns.find(column => column.id == 'column1');
+    const doneColumn = this.state.columns.find(column => column.id == 'column2');
+    if (todoColumn.order.includes(taskId)) {
+      const newOrder = Array.from(todoColumn.order);
+      newOrder.splice(todoColumn.order.indexOf(taskId), 1);
+      saveNewOrders(this.props.id, this.state.listFirestoreId, newOrder, undefined);
+
+      const newTasks = Array.from(todoColumn.tasks);
+      newTasks.splice(todoColumn.order.indexOf(taskId).index, 1);
+
+      const newColumn = {
+        ...todoColumn,
+        tasks: newTasks,
+        order: newOrder,
+      };
+
+      let newColumns = this.state.columns;
+      const index = this.state.columns.indexOf(todoColumn);
+      newColumns[index] = newColumn;
+      this.setState({ columns: newColumns });
+    } else {
+      const newOrder = Array.from(doneColumn.order);
+      newOrder.splice(doneColumn.order.indexOf(taskId), 1);
+      saveNewOrders(this.props.id, this.state.listFirestoreId, undefined, newOrder);
+
+      const newTasks = Array.from(doneColumn.tasks);
+      newTasks.splice(doneColumn.order.indexOf(taskId).index, 1);
+
+      const newColumn = {
+        ...doneColumn,
+        tasks: newTasks,
+        order: newOrder,
+      };
+
+      let newColumns = this.state.columns;
+      const index = this.state.columns.indexOf(doneColumn);
+      newColumns[index] = newColumn;
+      this.setState({ columns: newColumns });
+    }
   }
 
   onDragEnd = (result: DropResult) => {
@@ -187,6 +230,7 @@ class YourTasks extends React.Component<Props, State> {
                   listFirestoreId={this.state.listFirestoreId}
                   lastTaskId={this.state.lastTaskId}
                   afterNewTaskAdded={this.afterNewTaskAdded}
+                  afterTaskDeleted={this.afterTaskDeleted}
                 />
               ))}
             </div>

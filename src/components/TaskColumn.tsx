@@ -16,6 +16,7 @@ interface Props {
   listFirestoreId: string;
   lastTaskId: number;
   afterNewTaskAdded: (newTask: any) => void;
+  afterTaskDeleted: (taskId: number) => void;
 }
 
 interface State {
@@ -100,7 +101,15 @@ class TaskColumn extends React.Component<Props, State> {
               {...provided.dragHandleProps}
             >
               {this.props.tasks.map((item: any, index: number) => (
-                <TaskIcon key={item.taskId} id={item.taskId} name={item.name} index={index} />
+                <TaskIcon
+                  key={item.taskId}
+                  taskId={item.taskId}
+                  firestoreId={item.firestoreId}
+                  listFirestoreId={this.props.listFirestoreId}
+                  name={item.name}
+                  index={index}
+                  afterTaskDeleted={this.props.afterTaskDeleted}
+                />
               ))}
               {provided.placeholder}
             </div>

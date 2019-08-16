@@ -1,7 +1,53 @@
 .taskicon {
-  padding: 20px;
-  min-width: 200px;
-  background-color: white;
-  margin: 10px;
-  border-radius: 4px;
+  &-container {
+    min-width: 200px;
+    background-color: white;
+    margin: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-leftbox {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &-rightbox {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 25px;
+  }
+
+  &-title {
+    padding: 20px;
+  }
+
+  &-pencilicon {
+    transition: 0.3s ease;
+    padding: 10px;
+  }
+
+  &-pencilicon:hover {
+    color: $dark-blue;
+    transform: scale(1.2, 1.2);
+    cursor: pointer;
+  }
+
+  &-deleteicon {
+    transition: 0.3s ease;
+    padding: 10px;
+  }
+
+  &-deleteicon:hover {
+    color: $dark-purple;
+    transform: scale(1.2, 1.2);
+    cursor: pointer;
+  }
 }
