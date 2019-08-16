@@ -8,6 +8,7 @@ import YourLists from './YourLists';
 import User from './User';
 import About from './About';
 import YourTasks from './YourTasks';
+import PageNotFound from './PageNotFound';
 
 const withAuth = (
   Component: React.ComponentClass<any, any> | React.StatelessComponent<any>
@@ -35,6 +36,7 @@ class App extends React.Component {
           <Route exact path="/yourlists" component={ProtectedYourLists} />
           <Route exact path="/yourlists/:name" component={ProtectedYourTasks} />
           <Route exact path="/about" component={About} />
+          <Route component={PageNotFound} />
         </Switch>
       </div>
     );
