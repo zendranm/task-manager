@@ -40,7 +40,7 @@ class TaskIcon extends React.Component<Props> {
                 <div className="taskicon-title">{this.props.name}</div>
               </div>
               <div className="taskicon-rightbox">
-                <div
+                {/* <div
                   className="taskicon-pencilicon"
                   onClick={() => {
                     this.setState(() => {
@@ -51,7 +51,7 @@ class TaskIcon extends React.Component<Props> {
                   }}
                 >
                   <FontAwesomeIcon icon="pencil-alt" size="1x" />
-                </div>
+                </div> */}
                 <div className="taskicon-deleteicon" onClick={() => this.onDeleteTask()}>
                   <FontAwesomeIcon icon="trash-alt" size="1x" />
                 </div>
