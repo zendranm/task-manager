@@ -56,7 +56,7 @@ class ListIcon extends React.Component<Props, State> {
 
   handleOutsideClick = (e: any) => {
     if (!this.node.contains(e.target)) {
-      this.setState({ isBeingCreated: false });
+      this.setState({ isBeingCreated: false, isBeingModified: false });
     }
   };
 
