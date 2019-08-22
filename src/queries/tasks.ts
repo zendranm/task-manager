@@ -107,8 +107,7 @@ export async function saveNewOrders(
 }
 
 export async function addTask(userId: string, listFirestoreId: string, newTask: any) {
-  let firestoreId;
-  await db
+  const response = await db
     .collection('Users')
     .doc(userId)
     .collection('Lists')
@@ -117,11 +116,8 @@ export async function addTask(userId: string, listFirestoreId: string, newTask: 
     .add({
       id: newTask.taskId,
       name: newTask.name,
-    })
-    .then((response: any) => {
-      firestoreId = response.id;
     });
-  return firestoreId;
+  return response.id;
 }
 
 export function deleteTask(userId: string, listFirestoreId: string, taskFirestoreId: string) {

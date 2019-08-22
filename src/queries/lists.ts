@@ -47,7 +47,7 @@ export async function getLastId(userId: string, onChangeLastListId: any) {
 }
 
 export async function addList(userId: string, newListId: number, newListName: string) {
-  const res = await db
+  const response = await db
     .collection('Users')
     .doc(userId)
     .collection('Lists')
@@ -57,7 +57,7 @@ export async function addList(userId: string, newListId: number, newListName: st
       todoTasksOrder: [],
       doneTasksOrder: [],
     });
-  return res.id;
+  return response.id;
 }
 
 export function updateList(userId: string, listFirestoreId: string, newName: string) {
