@@ -1,7 +1,8 @@
 import { db } from '../firebase';
+import { listModel } from '../models/MyTypes';
 
 export async function getAllLists(userId: string) {
-  let newList: any = new Array();
+  let newList: Array<listModel> = new Array();
   let percentage: number;
   await db
     .collection('Users')
@@ -19,7 +20,14 @@ export async function getAllLists(userId: string) {
               (item.data().todoTasksOrder.length + item.data().doneTasksOrder.length)) *
             100;
         }
-        newList.push({ id: item.data().id, firestoreId: item.id, name: item.data().name, percentage: percentage });
+        newList.push({
+          id: item.data().id,
+          firestoreId: item.id,
+          name: item.data().name,
+          percentage: percentage,
+          todoTaskOrder: [],
+          doneTaskOrder: [],
+        });
       }
     });
 

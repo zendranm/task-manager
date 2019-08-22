@@ -5,10 +5,11 @@ import { changeLists, changeLastListId } from '../actions/userActions';
 import { getAllLists } from '../queries/lists';
 import { getLastId } from '../queries/lists';
 import { ScaleLoader } from 'react-spinners';
+import { listModel } from '../models/MyTypes';
 
 interface Props {
   id: string;
-  lists: Array<any>;
+  lists: Array<listModel>;
   onAddNewList: (value: Array<any>) => void;
   onChangeLastListId: () => void;
 }
@@ -26,7 +27,7 @@ class YourLists extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    let newList: Array<any> = new Array();
+    let newList: Array<listModel> = new Array();
     newList = await getAllLists(this.props.id);
     this.props.onAddNewList(newList);
     await getLastId(this.props.id, this.props.onChangeLastListId);
@@ -40,7 +41,7 @@ class YourLists extends React.Component<Props, State> {
           <div className="yourlists-container">
             <ListIcon listId={-1} isToAdd={true} name="Add New" />
 
-            {this.props.lists.map((item: any) => (
+            {this.props.lists.map((item: listModel) => (
               <ListIcon
                 key={item.id}
                 listId={item.id}

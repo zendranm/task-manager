@@ -5,6 +5,7 @@ import { getListFirestoreId, getAllTasks, getTodoTasksOrder, getDoneTasksOrder, 
 import { ScaleLoader } from 'react-spinners';
 import TaskColumn from './TaskColumn';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { taskModel } from '../models/MyTypes';
 
 interface Props {
   match: any;
@@ -15,7 +16,7 @@ interface State {
   listFirestoreId: string;
   isDataReady: boolean;
   columns: Array<any>;
-  tasks: Array<any>;
+  tasks: Array<taskModel>;
   lastTaskId: number;
 }
 
@@ -36,9 +37,9 @@ class YourTasks extends React.Component<Props, State> {
   }
 
   async componentDidMount() {
-    const newListFirestoreId: any = await getListFirestoreId(this.props.id, this.props.match.params.name);
+    const newListFirestoreId: string = await getListFirestoreId(this.props.id, this.props.match.params.name);
     this.setState({ listFirestoreId: newListFirestoreId });
-    const newTaskList: any = await getAllTasks(this.props.id, this.state.listFirestoreId);
+    const newTaskList: Array<taskModel> = await getAllTasks(this.props.id, this.state.listFirestoreId);
     const todoTasksOrder = await getTodoTasksOrder(this.props.id, this.state.listFirestoreId);
     const doneTasksOrder = await getDoneTasksOrder(this.props.id, this.state.listFirestoreId);
     let newLastTaskId;
@@ -51,7 +52,7 @@ class YourTasks extends React.Component<Props, State> {
     this.setState({ isDataReady: true, tasks: newTaskList, lastTaskId: newLastTaskId + 1 });
   }
 
-  separateTasks(taskList: Array<any>, todoTasksOrder: Array<any>, doneTasksOrder: Array<any>) {
+  separateTasks(taskList: Array<taskModel>, todoTasksOrder: Array<number>, doneTasksOrder: Array<number>) {
     let todoList: any = [];
     let doneList: any = new Array();
 
@@ -73,9 +74,9 @@ class YourTasks extends React.Component<Props, State> {
     });
   }
 
-  afterNewTaskAdded(newTask: any) {
+  afterNewTaskAdded(newTask: taskModel) {
     const todoColumn = this.state.columns.find(column => column.id == 'column1');
-    let newOrder = Array.from(todoColumn.order);
+    let newOrder: Array<number> = Array.from(todoColumn.order);
     newOrder.unshift(this.state.lastTaskId);
     saveNewOrders(this.props.id, this.state.listFirestoreId, newOrder, undefined);
 
@@ -100,7 +101,7 @@ class YourTasks extends React.Component<Props, State> {
     const todoColumn = this.state.columns.find(column => column.id == 'column1');
     const doneColumn = this.state.columns.find(column => column.id == 'column2');
     if (todoColumn.order.includes(taskId)) {
-      const newOrder = Array.from(todoColumn.order);
+      const newOrder: Array<number> = Array.from(todoColumn.order);
       newOrder.splice(todoColumn.order.indexOf(taskId), 1);
       saveNewOrders(this.props.id, this.state.listFirestoreId, newOrder, undefined);
 
@@ -118,7 +119,7 @@ class YourTasks extends React.Component<Props, State> {
       newColumns[index] = newColumn;
       this.setState({ columns: newColumns });
     } else {
-      const newOrder = Array.from(doneColumn.order);
+      const newOrder: Array<number> = Array.from(doneColumn.order);
       newOrder.splice(doneColumn.order.indexOf(taskId), 1);
       saveNewOrders(this.props.id, this.state.listFirestoreId, undefined, newOrder);
 
@@ -155,8 +156,12 @@ class YourTasks extends React.Component<Props, State> {
     if (startColumn.id == finishColumn.id) {
       const newTasks = Array.from(startColumn.tasks);
       newTasks.splice(source.index, 1);
-      newTasks.splice(destination.index, 0, startColumn.tasks.find((task: any) => task.taskId == draggableId));
-      const newOrder = Array.from(startColumn.order);
+      newTasks.splice(
+        destination.index,
+        0,
+        startColumn.tasks.find((task: taskModel) => task.taskId.toString() == draggableId)
+      );
+      const newOrder: Array<number> = Array.from(startColumn.order);
       newOrder.splice(source.index, 1);
       newOrder.splice(destination.index, 0, Number(draggableId));
 
@@ -179,7 +184,7 @@ class YourTasks extends React.Component<Props, State> {
     } else {
       const startTasks = Array.from(startColumn.tasks);
       startTasks.splice(source.index, 1);
-      const newStartOrder = Array.from(startColumn.order);
+      const newStartOrder: Array<number> = Array.from(startColumn.order);
       newStartOrder.splice(source.index, 1);
       const newStartColumn = {
         ...startColumn,
@@ -188,10 +193,10 @@ class YourTasks extends React.Component<Props, State> {
       };
 
       const finishTasks = Array.from(finishColumn.tasks);
-      let draggedTask = startColumn.tasks.find((task: any) => task.taskId == draggableId);
+      let draggedTask = startColumn.tasks.find((task: taskModel) => task.taskId.toString() == draggableId);
 
       finishTasks.splice(destination.index, 0, draggedTask);
-      const newFinishOrder = Array.from(finishColumn.order);
+      const newFinishOrder: Array<number> = Array.from(finishColumn.order);
       newFinishOrder.splice(destination.index, 0, Number(draggableId));
       const newFinishColumn = {
         ...finishColumn,

@@ -5,23 +5,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { addTask } from '../queries/tasks';
+import { taskModel } from '../models/MyTypes';
 
 library.add(faPlus);
 
 interface Props {
   id: string;
   name: string;
-  tasks: Array<any>;
+  tasks: Array<taskModel>;
   userId: string;
   listFirestoreId: string;
   lastTaskId: number;
-  afterNewTaskAdded: (newTask: any) => void;
+  afterNewTaskAdded: (newTask: taskModel) => void;
   afterTaskDeleted: (taskId: number) => void;
 }
 
 interface State {
   isAddClicked: boolean;
-  newTask: any;
+  newTask: taskModel;
 }
 
 class TaskColumn extends React.Component<Props, State> {
@@ -30,7 +31,7 @@ class TaskColumn extends React.Component<Props, State> {
     super(props);
     this.state = {
       isAddClicked: false,
-      newTask: { id: '', taskId: this.props.lastTaskId, name: '' },
+      newTask: { firestoreId: '', taskId: this.props.lastTaskId, name: '' },
     };
     this.onAddTaskClick = this.onAddTaskClick.bind(this);
   }
@@ -45,10 +46,10 @@ class TaskColumn extends React.Component<Props, State> {
 
   async onAddTaskClick() {
     const newFirestoreId = await addTask(this.props.userId, this.props.listFirestoreId, this.state.newTask);
-    let taskToAdd: any = this.state.newTask;
-    taskToAdd.id = newFirestoreId;
+    let taskToAdd: taskModel = this.state.newTask;
+    taskToAdd.firestoreId = newFirestoreId;
     this.props.afterNewTaskAdded(taskToAdd);
-    this.setState({ newTask: { id: '', taskId: '', name: '' } });
+    this.setState({ newTask: { firestoreId: '', taskId: 0, name: '' } });
   }
 
   handleOutsideClick = (e: any) => {
@@ -77,7 +78,7 @@ class TaskColumn extends React.Component<Props, State> {
                   value={this.state.newTask.name}
                   type="text"
                   onChange={e =>
-                    this.setState({ newTask: { id: '', taskId: this.props.lastTaskId, name: e.target.value } })
+                    this.setState({ newTask: { firestoreId: '', taskId: this.props.lastTaskId, name: e.target.value } })
                   }
                   placeholder="New task..."
                   autoFocus
@@ -100,7 +101,7 @@ class TaskColumn extends React.Component<Props, State> {
               {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
-              {this.props.tasks.map((item: any, index: number) => (
+              {this.props.tasks.map((item: taskModel, index: number) => (
                 <TaskIcon
                   key={item.taskId}
                   taskId={item.taskId}

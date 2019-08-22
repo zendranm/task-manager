@@ -1,4 +1,5 @@
 import { db } from '../firebase';
+import { taskModel } from '../models/MyTypes';
 
 export async function getListFirestoreId(userId: string, listName: string) {
   let firestoreId: string = '';
@@ -16,7 +17,7 @@ export async function getListFirestoreId(userId: string, listName: string) {
 }
 
 export async function getAllTasks(userId: string, listFirestoreId: string) {
-  let newList: any = new Array();
+  let newList: Array<taskModel> = new Array();
 
   await db
     .collection('Users')
@@ -38,7 +39,7 @@ export async function getAllTasks(userId: string, listFirestoreId: string) {
 }
 
 export async function getTodoTasksOrder(userId: string, listFirestoreId: string) {
-  let order: Array<any> = [];
+  let order: Array<number> = [];
 
   await db
     .collection('Users')
@@ -53,7 +54,7 @@ export async function getTodoTasksOrder(userId: string, listFirestoreId: string)
 }
 
 export async function getDoneTasksOrder(userId: string, listFirestoreId: string) {
-  let order: Array<any> = [];
+  let order: Array<number> = [];
 
   await db
     .collection('Users')
@@ -70,8 +71,8 @@ export async function getDoneTasksOrder(userId: string, listFirestoreId: string)
 export async function saveNewOrders(
   userId: string,
   listFirestoreId: string,
-  todoTasksOrder?: Array<any>,
-  doneTasksOrder?: Array<any>
+  todoTasksOrder?: Array<number>,
+  doneTasksOrder?: Array<number>
 ) {
   if (todoTasksOrder != undefined && doneTasksOrder != undefined) {
     await db
@@ -106,7 +107,7 @@ export async function saveNewOrders(
   }
 }
 
-export async function addTask(userId: string, listFirestoreId: string, newTask: any) {
+export async function addTask(userId: string, listFirestoreId: string, newTask: taskModel) {
   const response = await db
     .collection('Users')
     .doc(userId)

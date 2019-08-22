@@ -7,6 +7,7 @@ import { faTrashAlt, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-ico
 import { addList, deleteList, updateList } from '../queries/lists';
 import { withRouter } from 'react-router';
 import ProgressBar from './ProgressBar';
+import { listModel } from '../models/MyTypes';
 
 library.add(faTrashAlt, faPencilAlt, faPlus);
 
@@ -16,9 +17,9 @@ interface Props {
   isToAdd: boolean;
   name: string;
   id: string;
-  lists: Array<any>;
+  lists: Array<listModel>;
   lastListId: number;
-  onAddNewList: (value: Array<any>) => void;
+  onAddNewList: (value: Array<listModel>) => void;
   onChangeLastListId: (value: number) => void;
   history: any;
   percentage: number;
@@ -62,11 +63,13 @@ class ListIcon extends React.Component<Props, State> {
 
   async onAddList() {
     const newFirestoreId = await addList(this.props.id, this.props.lastListId + 1, this.state.newListName);
-    const newItem = {
+    const newItem: listModel = {
       id: this.props.lastListId + 1,
       firestoreId: newFirestoreId,
       name: this.state.newListName,
       percentage: 0,
+      todoTaskOrder: [],
+      doneTaskOrder: [],
     };
     let newList = this.props.lists.slice();
     newList.unshift(newItem);
@@ -78,7 +81,7 @@ class ListIcon extends React.Component<Props, State> {
   onRenameList() {
     updateList(this.props.id, this.props.listFirestoreId, this.state.newListName);
     let newList = this.props.lists.slice();
-    let ref = newList.find(item => item.id === this.props.listId);
+    let ref: any = newList.find(item => item.id === this.props.listId);
     ref.name = this.state.newListName;
     this.props.onAddNewList(newList);
     this.setState({ isBeingModified: false, newListName: 'List name...' });
@@ -86,7 +89,7 @@ class ListIcon extends React.Component<Props, State> {
 
   onDeleteList() {
     let newList = this.props.lists.slice();
-    const ref = newList.find(item => item.id === this.props.listId);
+    const ref: any = newList.find(item => item.id === this.props.listId);
     newList.splice(newList.indexOf(ref), 1);
     this.props.onAddNewList(newList);
     if (this.props.listFirestoreId == undefined) {
@@ -192,7 +195,7 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    onAddNewList: (value: Array<any>) => {
+    onAddNewList: (value: Array<listModel>) => {
       dispatch(changeLists(value));
     },
     onChangeLastListId: (value: number) => {
