@@ -3,7 +3,7 @@ import * as React from 'react';
 class About extends React.Component {
   render() {
     return (
-      <div>
+      <div className="about-container">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet, purus id luctus facilisis, arcu
         nibh congue mauris, et mollis quam dui ut libero. Pellentesque non purus id nisl mollis sagittis. Quisque
         eleifend ligula non leo rutrum ultrices. Vestibulum dapibus est at turpis luctus rutrum. Fusce in nisl tellus.
