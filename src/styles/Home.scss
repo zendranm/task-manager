@@ -1,4 +1,7 @@
 .home {
+  &-test {
+    color: red;
+  }
   &-container {
     display: flex;
     flex-direction: row;

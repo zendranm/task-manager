@@ -18,6 +18,7 @@ interface State {
   username: string;
   email: string;
   password: string;
+  errors: {};
 }
 
 class Home extends React.Component<Props, State> {
@@ -32,21 +33,94 @@ class Home extends React.Component<Props, State> {
       username: '',
       email: '',
       password: '',
+      errors: {},
     };
     this.onSubmitClick = this.onSubmitClick.bind(this);
+    this.handleValidation = this.handleValidation.bind(this);
+  }
+
+  handleValidation() {
+    let errors = {};
+    let formIsValid = true;
+
+    //username
+    if (typeof this.state.username !== 'undefined') {
+      if (!this.state.username.match(/^[a-zA-Z0-9][a-zA-Z0-9_]+$/)) {
+        formIsValid = false;
+        errors['username'] = 'Only letters';
+      }
+    }
+
+    if (this.state.username.length < 6) {
+      formIsValid = false;
+      errors['username'] = 'At least 6 characters';
+    }
+
+    if (this.state.username == '') {
+      formIsValid = false;
+      errors['username'] = 'Cannot be empty';
+    }
+
+    //email
+    if (typeof this.state.email !== 'undefined') {
+      let lastAtPos = this.state.email.lastIndexOf('@');
+      let lastDotPos = this.state.email.lastIndexOf('.');
+
+      if (
+        !(
+          lastAtPos < lastDotPos &&
+          lastAtPos > 0 &&
+          this.state.email.indexOf('@@') == -1 &&
+          lastDotPos > 2 &&
+          this.state.email.length - lastDotPos > 2
+        )
+      ) {
+        formIsValid = false;
+        errors['email'] = 'Email is not valid';
+      }
+    }
+
+    if (this.state.email == '') {
+      formIsValid = false;
+      errors['email'] = 'Cannot be empty';
+    }
+
+    //password
+    if (typeof this.state.password !== 'undefined') {
+      if (!this.state.password.match(/^[a-zA-Z0-9][a-zA-Z0-9_]+$/)) {
+        formIsValid = false;
+        errors['password'] = 'Only alphanumeric characters';
+      }
+    }
+
+    if (this.state.password.length < 6) {
+      formIsValid = false;
+      errors['password'] = 'At least 6 characters';
+    }
+
+    if (this.state.password == '') {
+      formIsValid = false;
+      errors['password'] = 'Cannot be empty';
+    }
+
+    this.setState({ errors: errors });
+    return formIsValid;
   }
 
   async onSubmitClick() {
-    const confirmation = await createUser(this.state.email, this.state.password);
+    const isValid = this.handleValidation();
+    if (isValid == true) {
+      const confirmation = await createUser(this.state.email, this.state.password);
 
-    if (confirmation == null) {
-      console.log('error');
-    } else {
-      const userInfo = await createNewUser(this.state.username, this.state.email);
-      this.props.onChangeId(userInfo.id);
-      this.props.onChangeEmail(this.state.email);
-      this.props.onChangeUsername(this.state.username);
-      this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
+      if (confirmation == null) {
+        console.log('error');
+      } else {
+        const userInfo = await createNewUser(this.state.username, this.state.email);
+        this.props.onChangeId(userInfo.id);
+        this.props.onChangeEmail(this.state.email);
+        this.props.onChangeUsername(this.state.username);
+        this.setState({ username: '', email: '', password: '' }, () => this.props.history.push('/yourlists'));
+      }
     }
   }
 
@@ -59,11 +133,17 @@ class Home extends React.Component<Props, State> {
           ipsum elit. Aliquam sed urna a orci convallis pellentesque at sed est.{' '}
         </div>
         <div className="home-right-box">
-          <div className="home-label">Username</div>
+          <div className="home-label">
+            Username <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['username']}</span>
+          </div>
           <input type="text" name="username-form" onChange={(e: any) => this.setState({ username: e.target.value })} />
-          <div className="home-label">Email</div>
+          <div className="home-label">
+            Email <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['email']}</span>
+          </div>
           <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
-          <div className="home-label">Password</div>
+          <div className="home-label">
+            Password <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['password']}</span>
+          </div>
           <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
           <button className="home-button-submit" onClick={this.onSubmitClick}>
             Sign Up
