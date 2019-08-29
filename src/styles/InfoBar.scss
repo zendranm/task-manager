@@ -1,0 +1,10 @@
+.infobar {
+  position: fixed;
+  top: 45.6px;
+  width: 100%;
+  color: white;
+  &-error {
+    padding: 10px;
+    background-color: red;
+  }
+}

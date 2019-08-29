@@ -4,6 +4,7 @@ import { createUser } from '../queries/auth';
 import { withRouter } from 'react-router';
 import { createNewUser } from '../queries/users';
 import { changeUsername, changeId, changeEmail } from '../actions/userActions';
+import InfoBar from './InfoBar';
 
 interface Props {
   id: string;
@@ -19,6 +20,7 @@ interface State {
   email: string;
   password: string;
   errors: {};
+  showErrorBar: boolean;
 }
 
 class Home extends React.Component<Props, State> {
@@ -34,6 +36,7 @@ class Home extends React.Component<Props, State> {
       email: '',
       password: '',
       errors: {},
+      showErrorBar: false,
     };
     this.onSubmitClick = this.onSubmitClick.bind(this);
     this.handleValidation = this.handleValidation.bind(this);
@@ -108,12 +111,15 @@ class Home extends React.Component<Props, State> {
   }
 
   async onSubmitClick() {
+    this.setState({ showErrorBar: false });
     const isValid = this.handleValidation();
     if (isValid == true) {
-      const confirmation = await createUser(this.state.email, this.state.password);
-
-      if (confirmation == null) {
-        console.log('error');
+      const confirmation: any = await createUser(this.state.email, this.state.password);
+      if (confirmation.error != '') {
+        console.log(confirmation.error);
+        let errors = {};
+        errors['query'] = confirmation.error;
+        this.setState({ showErrorBar: true, errors: errors });
       } else {
         const userInfo = await createNewUser(this.state.username, this.state.email);
         this.props.onChangeId(userInfo.id);
@@ -126,30 +132,37 @@ class Home extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="home-container">
-        <div className="home-left-box">
-          <h2>Lorem ipsum dolor sit amet</h2>Consectetur adipiscing elit. Suspendisse faucibus enim magna, quis
-          vestibulum sem pharetra at. Integer posuere lectus eget lobortis facilisis. Aenean a blandit quam. Etiam in
-          ipsum elit. Aliquam sed urna a orci convallis pellentesque at sed est.{' '}
-        </div>
-        <div className="home-right-box">
-          <div className="home-label">
-            Username <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['username']}</span>
+      <div>
+        {this.state.showErrorBar ? <InfoBar type="error" content={this.state.errors['query']} /> : <div />}
+        <div className="home-container">
+          <div className="home-left-box">
+            <h2>Lorem ipsum dolor sit amet</h2>Consectetur adipiscing elit. Suspendisse faucibus enim magna, quis
+            vestibulum sem pharetra at. Integer posuere lectus eget lobortis facilisis. Aenean a blandit quam. Etiam in
+            ipsum elit. Aliquam sed urna a orci convallis pellentesque at sed est.{' '}
           </div>
-          <input type="text" name="username-form" onChange={(e: any) => this.setState({ username: e.target.value })} />
-          <div className="home-label">
-            Email <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['email']}</span>
-          </div>
-          <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
-          <div className="home-label">
-            Password <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['password']}</span>
-          </div>
-          <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
-          <button className="home-button-submit" onClick={this.onSubmitClick}>
-            Sign Up
-          </button>
-          <div className="home-terms-label">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus enim magna.
+          <div className="home-right-box">
+            <div className="home-label">
+              Username <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['username']}</span>
+            </div>
+            <input
+              type="text"
+              name="username-form"
+              onChange={(e: any) => this.setState({ username: e.target.value })}
+            />
+            <div className="home-label">
+              Email <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['email']}</span>
+            </div>
+            <input type="email" name="email-form" onChange={(e: any) => this.setState({ email: e.target.value })} />
+            <div className="home-label">
+              Password <span style={{ color: 'red', fontSize: 15 }}>{this.state.errors['password']}</span>
+            </div>
+            <input type="password" onChange={(e: any) => this.setState({ password: e.target.value })} />
+            <button className="home-button-submit" onClick={this.onSubmitClick}>
+              Sign Up
+            </button>
+            <div className="home-terms-label">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus enim magna.
+            </div>
           </div>
         </div>
       </div>

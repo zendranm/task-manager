@@ -2,14 +2,14 @@ import { auth } from '../firebase';
 import { db } from '../firebase';
 
 export async function createUser(email: string, password: string) {
-  let resp = null;
+  let resp = { email: '', error: '' };
   try {
     await auth
       .createUserWithEmailAndPassword(email, password)
       .then(async (response: any) => {
-        resp = response.user.email;
+        resp.email = response.user.email;
       })
-      .catch((error: any) => console.log('createUser error: ' + error));
+      .catch((error: any) => (resp.error = error.message));
     return resp;
   } catch {
     return null;
@@ -35,15 +35,14 @@ export async function getUserData(email: string) {
 }
 
 export async function signIn(email: string, password: string) {
-  let resp = null;
-
+  let resp = { userData: null, error: '' };
   try {
     await auth
       .signInWithEmailAndPassword(email, password)
       .then(async (response: any) => {
-        resp = await getUserData(response.user.email);
+        resp.userData = await getUserData(response.user.email);
       })
-      .catch((error: any) => console.log('signIn error: ' + error));
+      .catch((error: any) => (resp.error = error.message));
     return resp;
   } catch {
     return null;
