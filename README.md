@@ -1,10 +1,10 @@
 ### Task manager
 This project was created as a part of my portfolio to present my programming skills in React.
 
-##Live demo 
+## Live demo 
 You cen access working version here: https://demo-task-manager.netlify.com/#/
 
-##Technologies
+## Technologies
 Project is created with:
 * React + Redux
 * Typescript
