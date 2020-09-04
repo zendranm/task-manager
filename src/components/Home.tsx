@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import { createNewUser } from '../queries/users';
 import { changeUsername, changeId, changeEmail } from '../actions/userActions';
 import InfoBar from './InfoBar';
+import main_picture from '../styles/main_picture.svg';
 
 interface Props {
   id: string;
@@ -136,9 +137,8 @@ class Home extends React.Component<Props, State> {
         {this.state.showErrorBar ? <InfoBar type="error" content={this.state.errors['query']} /> : <div />}
         <div className="home-container">
           <div className="home-left-box">
-            <h2>Lorem ipsum dolor sit amet</h2>Consectetur adipiscing elit. Suspendisse faucibus enim magna, quis
-            vestibulum sem pharetra at. Integer posuere lectus eget lobortis facilisis. Aenean a blandit quam. Etiam in
-            ipsum elit. Aliquam sed urna a orci convallis pellentesque at sed est.{' '}
+            <h2>Manage your tasks in a convenient way!</h2>
+            <img src={main_picture} className="mainImage" />
           </div>
           <div className="home-right-box">
             <div className="home-label">
@@ -161,7 +161,7 @@ class Home extends React.Component<Props, State> {
               Sign Up
             </button>
             <div className="home-terms-label">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus enim magna.
+              Don't worry. You're not going to receive any emails from us. There is no terms either!
             </div>
           </div>
         </div>
@@ -191,7 +191,4 @@ function mapDispatchToProps(dispatch: any) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Home));

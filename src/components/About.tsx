@@ -1,21 +1,22 @@
 import * as React from 'react';
+import secondary_picture from '../styles/secondary_picture.svg';
 
 class About extends React.Component {
   render() {
     return (
       <div className="about-container">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet, purus id luctus facilisis, arcu
-        nibh congue mauris, et mollis quam dui ut libero. Pellentesque non purus id nisl mollis sagittis. Quisque
-        eleifend ligula non leo rutrum ultrices. Vestibulum dapibus est at turpis luctus rutrum. Fusce in nisl tellus.
-        Fusce in enim quis ligula pellentesque vulputate id eget erat. Praesent mi dolor, vehicula quis dui eget,
-        pellentesque vulputate urna. <br />
-        Donec at porttitor est. Maecenas elementum cursus nunc id ultrices. Vivamus consectetur feugiat congue. Donec
-        ullamcorper ipsum erat, vitae mattis erat rutrum vel. Curabitur a vulputate lacus, sit amet tempor dolor. Sed a
-        tristique quam. Aliquam tempor luctus sollicitudin. In et blandit felis. Integer imperdiet venenatis vulputate.
-        Nunc rhoncus dolor leo, at lobortis risus aliquet quis. Sed tincidunt odio finibus arcu cursus hendrerit. Ut
-        lacus lorem, dapibus ac sagittis eu, tincidunt ut nulla. Duis tellus elit, semper quis ullamcorper nec, ultrices
-        at nisl. Quisque iaculis velit ut lacus euismod, id gravida sapien imperdiet. Ut arcu odio, pharetra id urna
-        sed, finibus efficitur tellus.
+        <div className="abutText">
+          <h1>Hi! I'm very glad you came here</h1>
+        </div>
+        <div className="abutText">
+          <h3>
+            This ToDo application was developed simply for learning and fun purposes. It was one of my first steps
+            toward becoming becoming Frontend developer and getting to know React framework. It allowed me to put my
+            hands on many different technologies and tools and present my skills which right now are on higher level
+            than this app shows.
+          </h3>
+        </div>
+        <img src={secondary_picture} className="mainImage" />
       </div>
     );
   }
